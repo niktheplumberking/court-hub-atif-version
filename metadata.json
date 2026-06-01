@@ -1,0 +1,6 @@
+{
+  "name": "Court Hub",
+  "description": "A premium padel court booking and community platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
