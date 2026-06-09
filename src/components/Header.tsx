@@ -43,7 +43,7 @@ export default function Header() {
         return;
       }
 
-      const sections = ['about', 'shop', 'story', 'construction', 'faq'];
+      const sections = ['about', 'shop', 'story', 'construction', 'faq', 'footer'];
       const scrollPos = window.scrollY + window.innerHeight * 0.35; // 35% viewport trigger offset
 
       let matchedSection = '';
@@ -82,7 +82,7 @@ export default function Header() {
               <nav className="mx-auto flex items-center justify-between">
                 {/* Links */}
                 <div className="flex items-center gap-10">
-                  {['About', 'Shop', 'Our Story', 'Construction', 'FAQ'].map((item) => {
+                  {['About', 'Shop', 'Our Story', 'Construction', 'FAQ', 'Footer'].map((item) => {
                     const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
                     const isActive = activeSection === sectionId;
                     return (
@@ -155,7 +155,7 @@ export default function Header() {
 
               {/* Vertical Links (Rotated via CSS writing-mode) */}
               <div className="flex flex-col gap-10 items-center">
-                {['About', 'Shop', 'Our Story', 'Construction', 'FAQ'].map((item) => {
+                {['About', 'Shop', 'Our Story', 'Construction', 'FAQ', 'Footer'].map((item) => {
                   const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
                   const isActive = activeSection === sectionId;
                   return (
@@ -254,7 +254,7 @@ export default function Header() {
               className="fixed inset-0 z-40 bg-black pt-28 pb-10 px-8 overflow-y-auto flex flex-col justify-between"
             >
               <div className="flex flex-col gap-6">
-                {['About', 'Shop', 'Our Story', 'Construction', 'FAQ'].map((item) => {
+                {['About', 'Shop', 'Our Story', 'Construction', 'FAQ', 'Footer'].map((item) => {
                   const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
                   const isActive = activeSection === sectionId;
                   return (
