@@ -43,7 +43,8 @@ export default function AboutSection() {
               Premium courts, expert coaching, and a community built for players who want to grow and play with passion.
             </p>
             <motion.button 
-              whileHover={{ x: 5 }}
+              whileHover={{ scale: 1.05, x: 5 }}
+              whileTap={{ scale: 0.95 }}
               className="group flex items-center bg-white rounded-full p-1 pr-6 gap-3 w-fit transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:bg-lime"
             >
               <div className="bg-court-blue rounded-full p-2 text-white">
@@ -111,9 +112,9 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="space-y-6 md:space-y-8"
           >
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 text-[10px] md:text-xs font-medium tracking-[0.1em] text-white/60 uppercase">
-              <span>Play Faster. Aim Sharper. Win Bigger.</span>
-              <span>Where Passion Meets Precision</span>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 text-[10px] md:text-xs font-semibold tracking-[0.15em] text-[#D4FF3F] uppercase">
+              <span>Precision Engineering. Elite Performance.</span>
+              <span>Built for the Padel Obsessed</span>
             </div>
 
             <div className="space-y-4">

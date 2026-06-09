@@ -153,12 +153,14 @@ function FAQSupportBox() {
         <h4 className="text-ink font-display font-bold text-lg md:text-xl uppercase italic">Still have questions?</h4>
         <p className="text-ink/60 text-xs md:text-sm mt-1">Our support team is ready to assist you anytime.</p>
       </div>
-      <a 
+      <motion.a 
         href="#construction"
-        className="px-6 py-3 bg-court-blue text-white rounded-2xl font-bold uppercase tracking-wider text-[11px] hover:bg-lime hover:text-ink transition-all shadow-md"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="px-6 py-3 bg-court-blue text-white rounded-2xl font-bold uppercase tracking-wider text-[11px] hover:bg-lime hover:text-ink transition-all shadow-md cursor-pointer"
       >
         Contact Support
-      </a>
+      </motion.a>
     </motion.div>
   );
 }
@@ -188,7 +190,7 @@ export default function FAQSection() {
           </div>
           <div className="md:col-span-4">
             <p className="text-ink/60 text-base md:text-lg font-medium leading-snug md:text-right max-w-xs md:ml-auto">
-              Stories from members who found confidence, progress, and connection here.
+              Everything you need to know about booking, academy coaching, and court construction.
             </p>
           </div>
         </div>

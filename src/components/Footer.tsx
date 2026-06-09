@@ -33,10 +33,10 @@ export default function Footer() {
         <div className="md:col-span-2 space-y-4 md:space-y-6">
           <h4 className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/20 font-bold">Menu</h4>
           <nav className="flex flex-col gap-3 md:gap-4">
-            {['About', 'Shop', 'Construction', 'Tournaments', 'FAQ'].map((item) => (
+            {['About', 'Shop', 'Construction', 'Our Story', 'FAQ'].map((item) => (
               <motion.a 
                 key={item} 
-                href={`#${item.toLowerCase()}`} 
+                href={`#${item === 'Our Story' ? 'story' : item.toLowerCase()}`} 
                 whileHover={{ scale: 1.08, originX: 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 className="text-white font-display font-bold md:text-lg hover:text-lime transition-colors w-fit block"

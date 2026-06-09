@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 import { ShoppingBag, Star, ArrowRight, Heart } from 'lucide-react';
 
 const PRODUCTS = [
@@ -33,20 +32,6 @@ const PRODUCTS = [
 ];
 
 export default function ShopSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 95%", "end 5%"]
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.95, 1, 1.02, 1, 0.95]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const blur = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.8, 1],
-    ["blur(10px)", "blur(0px)", "blur(0px)", "blur(10px)"]
-  );
 
   const BRANDS = ['STEALTH', 'DOPADEL', 'MUSA', 'WILSON', 'HEAD', 'BULLPADEL'];
   const duplicatedBrands = [...BRANDS, ...BRANDS, ...BRANDS, ...BRANDS];
@@ -140,7 +125,7 @@ export default function ShopSection() {
             <div className="z-10 flex justify-between items-start">
                <div className="space-y-1">
                  <span className="text-2xl md:text-3xl font-display font-bold italic">$420</span>
-                 <p className="text-white/40 text-[10px] md:text-xs max-w-[150px]">Finder Pro Limited Edition x Ale Cervellati</p>
+                 <p className="text-white/40 text-[10px] md:text-xs max-w-[180px]">Finder Pro Limited Edition x Ale Cervellati. Tour-proven carbon face.</p>
                </div>
                <div className="flex items-center gap-1 bg-white/5 backdrop-blur-md px-2 py-1 md:px-3 md:py-1 rounded-full group-hover:bg-lime/20 transition-all duration-300">
                   <Star className="w-3 h-3 text-lime fill-lime group-hover:scale-110 transition-transform" />
@@ -160,10 +145,14 @@ export default function ShopSection() {
                <button className="p-4 bg-white/5 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-colors border border-white/10 shrink-0">
                  <Heart className="w-5 h-5 text-white hover:text-red-500 hover:fill-red-500 transition-colors" />
                </button>
-               <button className="flex-1 py-4 bg-white text-ink rounded-2xl font-bold uppercase tracking-widest text-[10px] md:text-xs flex items-center justify-center gap-2 hover:bg-lime transition-colors duration-300">
+               <motion.button 
+                 whileHover={{ scale: 1.03, backgroundColor: "#C8FF3D" }}
+                 whileTap={{ scale: 0.97 }}
+                 className="flex-1 py-4 bg-white text-ink rounded-2xl font-bold uppercase tracking-widest text-[10px] md:text-xs flex items-center justify-center gap-2 transition-colors duration-300 cursor-pointer"
+               >
                   <ShoppingBag className="w-4 h-4" />
                   Add to bag
-               </button>
+               </motion.button>
             </div>
           </motion.div>
 
@@ -186,13 +175,17 @@ export default function ShopSection() {
 
               <div className="flex flex-col gap-6 md:gap-8 z-10">
                 <h3 className="text-2xl md:text-4xl font-display font-extrabold italic text-white leading-none">
-                  Great Value <br className="hidden md:block" /> Deals
+                  Elite Outlet
                 </h3>
-                <p className="text-white/40 text-[10px] md:text-xs">Find items on sale with 30 - 70% off</p>
-                <button className="self-start flex items-center gap-2 md:gap-3 bg-white text-ink px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase group-hover:bg-lime transition-colors duration-300">
+                <p className="text-white/40 text-[10px] md:text-xs max-w-[200px]">Acquire past-season frames and tournament-certified rackets at up to 70% off.</p>
+                <motion.button 
+                  whileHover={{ scale: 1.03, backgroundColor: "#C8FF3D" }}
+                  whileTap={{ scale: 0.97 }}
+                  className="self-start flex items-center gap-2 md:gap-3 bg-white text-ink px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase transition-colors duration-300 cursor-pointer"
+                >
                   Shop Now
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </button>
+                  <ArrowRight className="w-4 h-4 transition-transform" />
+                </motion.button>
               </div>
 
               <div className="absolute -right-8 top-1/2 -translate-y-1/2 z-10 w-[45%] h-[110%] flex items-center justify-center pointer-events-none overflow-visible">
@@ -224,9 +217,9 @@ export default function ShopSection() {
 
               <div className="z-10 space-y-3 md:space-y-4">
                  <span className="bg-white text-court-blue px-2.5 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest">Exclusive</span>
-                 <h4 className="text-xl md:text-2xl font-display font-bold italic">Stealth Racket</h4>
+                 <h4 className="text-xl md:text-2xl font-display font-bold italic">Stealth Series</h4>
                  <div className="text-[9px] md:text-[10px] text-white/60 space-y-0.5 md:space-y-1 font-mono uppercase tracking-widest">
-                    <p>Premium Line</p>
+                    <p>Carbon Precision</p>
                     <p>Pro Line</p>
                  </div>
               </div>
@@ -260,8 +253,8 @@ export default function ShopSection() {
                </div>
 
                <div className="space-y-3 md:space-y-4 z-10">
-                  <h4 className="text-xl md:text-2xl font-display font-bold text-white italic leading-tight">Super Sale!</h4>
-                  <p className="text-white/60 text-[9px] md:text-[10px] font-medium">Get 50% off. Limited time offer!</p>
+                  <h4 className="text-xl md:text-2xl font-display font-bold text-white italic leading-tight">Speed Motion</h4>
+                  <p className="text-white/60 text-[9px] md:text-[10px] font-medium">Carbon core. 50% off limited allocation.</p>
                </div>
 
                <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center overflow-visible">
@@ -284,7 +277,7 @@ export default function ShopSection() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
             {PRODUCTS.map((prod, idx) => {
               const isBlue = prod.color === 'court-blue';
               const racketSrc = isBlue ? "/images/racket_blue_nobg.webp?v=6" : "/images/racket_lime_nobg.webp?v=6";
@@ -297,7 +290,7 @@ export default function ShopSection() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  className="group relative bg-[#121210] rounded-[30px] md:rounded-[48px] p-6 md:p-8 flex flex-col items-center gap-6 md:gap-8 border border-white/5 hover:border-lime/20 transition-all duration-500"
+                  className="group relative bg-[#121210] rounded-[24px] md:rounded-[48px] p-4 md:p-8 flex flex-col items-center gap-4 md:gap-8 border border-white/5 hover:border-lime/20 transition-all duration-500"
                 >
                   {/* Product Image Container with Gradient Background */}
                   <div className="relative w-full aspect-square rounded-[24px] md:rounded-[32px] overflow-hidden flex items-center justify-center bg-gradient-to-br from-transparent to-black/40">
@@ -347,18 +340,22 @@ export default function ShopSection() {
                     <div className="flex justify-between items-start">
                       <div className="space-y-1">
                         <p className="text-[9px] md:text-[10px] font-mono text-white/40 uppercase tracking-[0.2em]">{prod.brand}</p>
-                        <h4 className="text-lg md:text-xl font-display font-bold">{prod.name}</h4>
+                        <h4 className="text-sm md:text-xl font-display font-bold">{prod.name}</h4>
                       </div>
                       <div className="text-right">
                          <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest">AED</p>
-                         <p className="text-lg md:text-xl font-display font-bold text-lime">{prod.price}</p>
+                         <p className="text-sm md:text-xl font-display font-bold text-lime">{prod.price}</p>
                       </div>
                     </div>
                     
-                    <button className="w-full py-4 bg-white/5 group-hover:bg-lime group-hover:text-ink rounded-xl md:rounded-2xl flex items-center justify-center gap-2 md:gap-3 transition-all duration-300">
+                    <motion.button 
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="w-full py-4 bg-white/5 group-hover:bg-lime group-hover:text-ink rounded-xl md:rounded-2xl flex items-center justify-center gap-2 md:gap-3 transition-all duration-300 cursor-pointer"
+                    >
                       <ShoppingBag className="w-4 h-4 md:w-5 md:h-5" />
                       <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.15em]">Add to cart</span>
-                    </button>
+                    </motion.button>
                   </div>
                 </motion.div>
               );
@@ -367,13 +364,9 @@ export default function ShopSection() {
         </div>
 
         {/* Brands Ticker (Scrolling & Fading at Grid Boundaries) */}
-        <motion.div 
-          ref={containerRef}
+        <div 
           className="pt-16 md:pt-24 border-t border-white/5 w-full overflow-hidden relative"
           style={{
-            scale,
-            opacity,
-            filter: blur,
             maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
           }}
@@ -382,10 +375,10 @@ export default function ShopSection() {
             animate={{ x: ["-50%", "0%"] }}
             transition={{
               ease: "linear",
-              duration: 22,
+              duration: 44,
               repeat: Infinity
             }}
-            className="flex items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all duration-500 whitespace-nowrap w-max"
+            className="flex items-center gap-12 md:gap-24 opacity-30 whitespace-nowrap w-max"
           >
              {duplicatedBrands.map((brand, idx) => (
                <span key={`${brand}-${idx}`} className="text-xl md:text-3xl font-display font-black tracking-tighter italic select-none">
@@ -393,7 +386,7 @@ export default function ShopSection() {
                </span>
              ))}
           </motion.div>
-        </motion.div>
+        </div>
 
       </div>
     </section>

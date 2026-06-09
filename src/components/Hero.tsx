@@ -6,7 +6,12 @@ import { ArrowUpRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Hero() {
+interface HeroProps {
+  isLoaded: boolean;
+  onProgress: (progress: number) => void;
+}
+
+export default function Hero({ isLoaded, onProgress }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
@@ -14,8 +19,6 @@ export default function Hero() {
   const outroRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
-  const [loadingProgress, setLoadingProgress] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [viewportHeight, setViewportHeight] = useState('100vh');
   const imagesRef = useRef<HTMLImageElement[]>([]);
 
@@ -35,9 +38,9 @@ export default function Hero() {
 
   // 1. Preload images (Hybrid Loading Strategy: load critical frames first, then load remaining in background)
   useEffect(() => {
+    let active = true;
     const isMobile = window.innerWidth < 768;
     const frameCount = isMobile ? 60 : 120;
-    const criticalCount = isMobile ? 20 : 30;
     const folderPath = isMobile ? '/court-hub-heroframes-mobile' : '/frames';
 
     let loadedCount = 0;
@@ -49,19 +52,19 @@ export default function Hero() {
       const frameNum = String(i).padStart(3, '0');
       
       const handleLoad = () => {
+        if (!active) return;
         loadedCount++;
-        // Progress reaches 100% when critical frames are loaded
-        const progress = Math.min(100, Math.round((loadedCount / criticalCount) * 100));
-        setLoadingProgress(progress);
-        
-        if (loadedCount === criticalCount) {
-          setTimeout(() => setIsLoaded(true), 350); // fast transitional delay
-        }
+        const progress = Math.round((loadedCount / frameCount) * 100);
+        onProgress(progress);
       };
 
       img.onload = () => {
         if ('decode' in img) {
-          img.decode().then(handleLoad).catch(handleLoad);
+          img.decode().then(() => {
+            if (active) handleLoad();
+          }).catch(() => {
+            if (active) handleLoad();
+          });
         } else {
           handleLoad();
         }
@@ -76,21 +79,13 @@ export default function Hero() {
       images.push(img);
     }
     imagesRef.current = images;
+
+    return () => {
+      active = false;
+    };
   }, []);
 
-  // 2. Disable body scroll while loading
-  useEffect(() => {
-    if (!isLoaded) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isLoaded]);
-
-  // 3. Setup GSAP ScrollTrigger Canvas Sequence
+  // 2. Setup GSAP ScrollTrigger Canvas Sequence
   useEffect(() => {
     if (!isLoaded || !canvasRef.current || !containerRef.current) return;
 
@@ -105,8 +100,9 @@ export default function Hero() {
 
     // Function to draw a specific frame
     const drawFrame = (index: number) => {
-      const img = imagesRef.current[index];
-      if (img && img.complete) {
+      const roundedIndex = Math.round(index);
+      const img = imagesRef.current[roundedIndex];
+      if (img && img.complete && img.naturalWidth !== 0) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, 0, 0, canvas.width, canvas.height);
       }
@@ -133,7 +129,7 @@ export default function Hero() {
       const frameCount = isMobile ? 60 : 120;
       tl.to(playhead, {
         frame: frameCount - 1,
-        snap: 'frame',
+        snap: { frame: 1 },
         ease: 'none',
         duration: 3, // Duration relative to timeline beats
         onUpdate: () => {
@@ -205,43 +201,6 @@ export default function Hero() {
 
   return (
     <div className="relative">
-      {/* 1. Elegant Preloader Screen */}
-      <AnimatePresence>
-        {!isLoaded && (
-          <motion.div 
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center px-6 touch-none"
-          >
-            <div className="text-center space-y-6 max-w-md w-full">
-              <motion.h2 
-                animate={{ opacity: [0.5, 1, 0.5] }} 
-                transition={{ duration: 2, repeat: Infinity }}
-                className="text-white text-2xl md:text-4xl font-display font-semibold tracking-[0.15em] uppercase"
-              >
-                Court Hub
-              </motion.h2>
-              <p className="text-white/40 text-[10px] md:text-sm font-mono tracking-widest uppercase">
-                Loading High-Res Assets...
-              </p>
-              
-              {/* Progress Bar Container */}
-              <div className="relative w-full h-[2px] bg-white/10 rounded-full overflow-hidden">
-                <div 
-                  className="absolute top-0 left-0 h-full bg-lime transition-all duration-300 ease-out shadow-[0_0_10px_#C8FF3D]"
-                  style={{ width: `${loadingProgress}%` }}
-                />
-              </div>
-              
-              {/* Percentage Indicator */}
-              <div className="text-lime font-mono text-sm md:text-base font-semibold">
-                {loadingProgress}%
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* 2. Hero Scroll Container (400% viewport height for optimal scroll distance) */}
       <motion.section 
@@ -277,7 +236,7 @@ export default function Hero() {
             <div className="max-w-[1800px] mx-auto w-full space-y-6 md:space-y-8">
               <div>
                 <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/5 text-white/50 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.25em]">
-                  Sport center
+                  Elite Padel Engineering
                 </span>
               </div>
               <h1 className="text-white text-[10vw] md:text-[100px] font-display font-medium leading-[1] md:leading-[0.92] tracking-[-0.035em]">
@@ -327,7 +286,7 @@ export default function Hero() {
             <div className="text-center md:text-right space-y-6 max-w-xl pointer-events-auto select-none float-effect">
               <div className="flex justify-center md:justify-end">
                 <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-md text-lime text-[10px] md:text-[11px] font-bold uppercase tracking-[0.25em] rounded-full border border-lime/20 shadow-[0_0_15px_rgba(200,255,61,0.15)]">
-                  Ready to Play
+                  Tour-Ready Arenas
                 </span>
               </div>
               <h2 className="text-4xl md:text-8xl font-display font-extrabold uppercase italic leading-[1] md:leading-[0.9] tracking-tighter text-white">
@@ -335,7 +294,7 @@ export default function Hero() {
                 <span className="text-lime">The Court</span>
               </h2>
               <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-md mx-auto md:ml-auto">
-                Scroll further to explore our professional court builds, join active tourneys, or book a match.
+                Scroll down to experience our world-class court builds, engineered surfaces, and pro-level academies.
               </p>
               <div className="flex justify-center md:justify-end pt-4">
                 <motion.a
@@ -359,9 +318,9 @@ export default function Hero() {
             ref={scrollIndicatorRef}
             className="w-full z-20 pb-8 flex flex-col items-center justify-center gap-2 text-white/40 pointer-events-none select-none"
           >
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase">Scroll to Orbit</span>
-            <div className="w-6 h-10 border border-white/20 rounded-full p-1 flex justify-center">
-              <div className="w-1 h-2 bg-lime rounded-full animate-bounce mt-1" />
+            <span className="text-[11px] font-mono tracking-[0.2em] uppercase font-semibold">Scroll to Orbit</span>
+            <div className="w-7 h-12 border border-white/20 rounded-full p-1.5 flex justify-center">
+              <div className="w-1.5 h-3 bg-lime rounded-full animate-bounce mt-1" />
             </div>
           </div>
 

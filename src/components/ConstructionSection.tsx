@@ -1,174 +1,223 @@
-import { motion, useScroll, useTransform } from 'motion/react';
-import { Clock, MapPin, ChevronDown } from 'lucide-react';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion, AnimatePresence } from 'motion/react';
+import { MessageSquare, ChevronDown } from 'lucide-react';
 
-export default function ConstructionSection() {
+gsap.registerPlugin(ScrollTrigger);
+
+interface ConstructionSectionProps {
+  isLoaded: boolean;
+  onProgress: (progress: number) => void;
+}
+
+export default function ConstructionSection({ isLoaded, onProgress }: ConstructionSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const formRef = useRef<HTMLDivElement>(null);
+  
+  const [contact, setContact] = useState('');
+  const [location, setLocation] = useState('Dubai');
 
-  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "5%"]);
+  const handleWhatsAppSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const message = `Hello Court Hub, I'd like to request a proposal for padel court construction.\n\nContact: ${contact}\nLocation: ${location}`;
+    const whatsappUrl = `https://wa.me/971500000000?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  // 1. Preload construction frames
+  useEffect(() => {
+    let active = true;
+    const frameCount = 150;
+    const folderPath = '/construction-frames';
+    let loadedCount = 0;
+    const images: HTMLImageElement[] = [];
+
+    for (let i = 1; i <= frameCount; i++) {
+      const img = new Image();
+      const frameNum = String(i).padStart(3, '0');
+      
+      const handleLoad = () => {
+        if (!active) return;
+        loadedCount++;
+        const progress = Math.round((loadedCount / frameCount) * 100);
+        onProgress(progress);
+      };
+
+      img.onload = () => {
+        if ('decode' in img) {
+          img.decode().then(() => {
+            if (active) handleLoad();
+          }).catch(() => {
+            if (active) handleLoad();
+          });
+        } else {
+          handleLoad();
+        }
+      };
+
+      img.onerror = () => {
+        console.error(`Failed to load construction frame: ${frameNum}`);
+        handleLoad();
+      };
+
+      img.src = `${folderPath}/ezgif-frame-${frameNum}.webp`;
+      images.push(img);
+    }
+    imagesRef.current = images;
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // 2. Setup GSAP ScrollTrigger Sequence
+  useEffect(() => {
+    if (!isLoaded || !canvasRef.current || !containerRef.current) return;
+
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    // Set canvas dimensions to 1920x1080 for 1:1 hardware acceleration
+    canvas.width = 1920;
+    canvas.height = 1080;
+
+    const drawFrame = (index: number) => {
+      const roundedIndex = Math.round(index);
+      const img = imagesRef.current[roundedIndex];
+      if (img && img.complete && img.naturalWidth !== 0) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+    };
+
+    // Draw first frame initially
+    drawFrame(0);
+
+    const ctx = gsap.context(() => {
+      const playhead = { frame: 0 };
+      const isMobile = window.innerWidth < 768;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: isMobile ? 0.3 : 0.8,
+        }
+      });
+
+      // Frame scrubbing animation
+      tl.to(playhead, {
+        frame: 149,
+        snap: { frame: 1 },
+        ease: 'none',
+        duration: 3,
+        onUpdate: () => {
+          drawFrame(playhead.frame);
+        }
+      }, 0);
+
+      // Form fade-in animation during the final reserve phase
+      tl.fromTo(formRef.current,
+        { opacity: 0, x: 50, pointerEvents: 'none' },
+        { opacity: 1, x: 0, pointerEvents: 'auto', duration: 1.0, ease: 'power2.out' },
+        3.2
+      );
+
+      // Final reserve phase for visual completion
+      tl.to({}, { duration: 1.5 }, 3.0);
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, [isLoaded]);
 
   return (
-    <section id="construction" ref={containerRef} className="bg-ink min-h-screen py-20 md:py-32 px-6 md:px-8 overflow-x-hidden lg:overflow-x-visible">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-start">
-          
-          {/* Left Column: Copy & Visual */}
-          <div className="space-y-8 md:space-y-12">
-            <motion.div 
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="space-y-4 md:space-y-6"
-            >
-              <div className="flex items-center gap-4">
-                <div className="h-[1px] w-12 bg-lime" />
-                <span className="font-mono text-xs tracking-widest text-lime uppercase font-bold">Build a Court</span>
-              </div>
-              <h2 className="text-4xl md:text-8xl font-display font-extrabold leading-[1] md:leading-[0.9] tracking-tighter uppercase">
-                Your <br />
-                <span className="text-white">courts.</span> <br className="hidden md:block" />
-                <span className="text-lime italic">Engineer <br className="hidden md:block" /> to win.</span>
-              </h2>
-              <p className="max-w-md text-white/50 text-base md:text-lg leading-relaxed font-normal">
-                Full turnkey construction — from soil survey to glass install to floodlights tuned for night play. We've built across Dubai, Abu Dhabi, and Sharjah for clubs, hotels, and private estates.
-              </p>
-            </motion.div>
+    <div className="relative">
 
-            {/* Visual Card */}
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="relative aspect-[4/3] rounded-[30px] md:rounded-[40px] overflow-hidden border border-white/10 shadow-2xl group"
-            >
-              <motion.img 
-                style={{ y }}
-                src="/images/dubai_court_night_construction_1779706759259.webp" 
-                alt="Dubai Court" 
-                className="absolute top-0 left-0 w-full h-[120%] object-cover"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-gradient-to-t from-black/80 to-transparent flex justify-between items-center z-10">
-                <div className="flex items-center gap-3">
-                  <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-lime animate-pulse" />
-                  <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-lime/80 italic">Live 3D · Drag to inspect</span>
+      {/* 2. Main Scroll Container */}
+      <section 
+        ref={containerRef}
+        id="construction"
+        className="relative w-full h-[400vh] bg-sand"
+      >
+        {/* Top Gradient Transition from Shop Section (Dark Ink to Transparent) */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-ink to-transparent z-10 pointer-events-none" />
+
+        {/* Bottom Gradient Transition to Story Section (Transparent to Sand) */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-sand to-transparent z-10 pointer-events-none" />
+
+        {/* Sticky Viewport Frame Wrapper */}
+        <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center">
+          
+          {/* Background Canvas Sequence */}
+          <canvas 
+            ref={canvasRef} 
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+
+          {/* WhatsApp Request Panel Overlay (Appears on the right side once court finishes building) */}
+          <div 
+            ref={formRef}
+            className="absolute right-6 left-6 md:left-auto md:right-16 lg:right-24 top-1/2 -translate-y-1/2 max-w-sm md:max-w-md w-auto md:w-full bg-black/40 backdrop-blur-xl border border-white/10 rounded-[30px] md:rounded-[40px] p-6 md:p-8 space-y-6 z-20 opacity-0 shadow-2xl pointer-events-auto"
+          >
+            <div className="space-y-2">
+              <span className="font-mono text-[10px] tracking-[0.2em] text-lime uppercase font-bold">/// Builder Proposal ///</span>
+              <h3 className="text-2xl md:text-4xl font-display font-black text-white uppercase italic leading-none">Build Your <br /> Padel Court</h3>
+              <p className="text-[11px] md:text-xs text-white/50 leading-relaxed">
+                From premium shock-absorbing glass structures to professional turf. Send us your requirements to receive a customized WhatsApp estimate.
+              </p>
+            </div>
+
+            <form onSubmit={handleWhatsAppSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-[9px] md:text-[10px] font-mono text-white/40 uppercase tracking-widest font-bold">Contact Info</label>
+                <input 
+                  type="text" 
+                  required
+                  value={contact}
+                  onChange={(e) => setContact(e.target.value)}
+                  placeholder="Email or Phone Number"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 text-xs md:text-sm text-white placeholder:text-white/20 focus:border-lime/40 outline-none transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[9px] md:text-[10px] font-mono text-white/40 uppercase tracking-widest font-bold">Court Location</label>
+                <div className="relative">
+                  <select 
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 text-xs md:text-sm text-white appearance-none focus:border-lime/40 outline-none transition-all cursor-pointer"
+                  >
+                    <option value="Dubai" className="bg-ink">Dubai</option>
+                    <option value="Abu Dhabi" className="bg-ink">Abu Dhabi</option>
+                    <option value="Sharjah" className="bg-ink">Sharjah</option>
+                    <option value="Ras Al Khaimah" className="bg-ink">Ras Al Khaimah</option>
+                    <option value="Fujairah" className="bg-ink">Fujairah</option>
+                    <option value="Ajman" className="bg-ink">Ajman</option>
+                    <option value="Umm Al Quwain" className="bg-ink">Umm Al Quwain</option>
+                  </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
                 </div>
               </div>
-            </motion.div>
 
-            {/* Trust Badge */}
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-4 p-5 md:p-6 bg-lime/5 border border-lime/20 rounded-[24px] md:rounded-3xl"
-            >
-              <div className="bg-lime/10 p-2.5 md:p-3 rounded-xl md:rounded-2xl">
-                <Clock className="w-5 h-5 md:w-6 md:h-6 text-lime" />
-              </div>
-              <div className="space-y-0.5 md:space-y-1">
-                <h4 className="text-[13px] md:text-sm font-bold text-white uppercase tracking-wider">24-hour response, guaranteed.</h4>
-                <p className="text-[11px] md:text-xs text-white/40 leading-snug">Send your details and we'll come back with a tailored scope.</p>
-              </div>
-            </motion.div>
+              <button 
+                type="submit"
+                className="w-full py-4 bg-lime text-ink rounded-xl md:rounded-2xl font-bold uppercase tracking-widest text-[10px] md:text-xs flex items-center justify-center gap-2 hover:bg-white hover:shadow-lg transition-all duration-300"
+              >
+                <MessageSquare className="w-4 h-4" />
+                Chat on WhatsApp
+              </button>
+            </form>
           </div>
 
-          {/* Right Column: Lead Form */}
-          <motion.div 
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="lg:sticky lg:top-32 h-fit bg-ink-2 p-8 md:p-12 rounded-[30px] md:rounded-[48px] border border-white/5 space-y-8 md:space-y-10 shadow-3xl"
-          >
-            <div className="space-y-1 md:space-y-2">
-              <h3 className="text-xl md:text-2xl font-display font-bold italic tracking-tight uppercase">Request a proposal</h3>
-              <p className="text-white/40 text-xs md:text-sm">Our engineering team will get in touch shortly.</p>
-            </div>
-
-            <form className="space-y-6 md:space-y-8" onSubmit={(e) => e.preventDefault()}>
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-[9px] md:text-[10px] font-mono text-white/40 uppercase tracking-widest">
-                  Full name <span className="text-lime text-[14px]">*</span>
-                </label>
-                <input 
-                  type="text" 
-                  placeholder="Your name"
-                  className="w-full bg-ink border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base text-white placeholder:text-white/20 focus:border-lime/50 outline-none transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-[9px] md:text-[10px] font-mono text-white/40 uppercase tracking-widest">
-                  Phone or email <span className="text-lime text-[14px]">*</span>
-                </label>
-                <input 
-                  type="text" 
-                  placeholder="+971 50 000 0000 or hello@you.com"
-                  className="w-full bg-ink border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base text-white placeholder:text-white/20 focus:border-lime/50 outline-none transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-[9px] md:text-[10px] font-mono text-white/40 uppercase tracking-widest">
-                  Court location
-                </label>
-                <div className="relative">
-                  <select className="w-full bg-ink border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base text-white appearance-none focus:border-lime/50 outline-none transition-all cursor-pointer">
-                    <option>Select emirate</option>
-                    <option>Dubai</option>
-                    <option>Abu Dhabi</option>
-                    <option>Sharjah</option>
-                    <option>Ras Al Khaimah</option>
-                    <option>Fujairah</option>
-                    <option>Ajman</option>
-                    <option>Umm Al Quwain</option>
-                  </select>
-                  <ChevronDown className="absolute right-4 md:right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
-                </div>
-              </div>
-
-              <div className="relative w-full">
-                {/* Ambient glow light */}
-                <motion.div 
-                  animate={{
-                    scale: [1, 1.08, 1],
-                    opacity: [0.35, 0.7, 0.35]
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0 bg-lime rounded-xl md:rounded-2xl filter blur-xl pointer-events-none"
-                />
-                
-                {/* Button itself */}
-                <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="relative w-full py-4 md:py-5 bg-lime text-ink font-bold uppercase tracking-[0.2em] rounded-xl md:rounded-2xl transition-all hover:bg-white text-[11px] md:text-sm z-10"
-                >
-                  Request a proposal
-                </motion.button>
-              </div>
-            </form>
-            
-            <div className="pt-6 md:pt-8 border-t border-white/5 flex items-center gap-3 text-white/20">
-               <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4" />
-               <span className="text-[9px] uppercase tracking-widest font-bold">HQ: Al Quoz, Dubai, UAE</span>
-            </div>
-          </motion.div>
-
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

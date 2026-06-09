@@ -43,7 +43,7 @@ export default function Header() {
         return;
       }
 
-      const sections = ['about', 'shop', 'construction', 'tournaments', 'faq'];
+      const sections = ['about', 'shop', 'construction', 'story', 'faq'];
       const scrollPos = window.scrollY + window.innerHeight * 0.35; // 35% viewport trigger offset
 
       let matchedSection = '';
@@ -82,8 +82,8 @@ export default function Header() {
               <nav className="mx-auto flex items-center justify-between">
                 {/* Links */}
                 <div className="flex items-center gap-10">
-                  {['About', 'Shop', 'Construction', 'Tournaments', 'FAQ'].map((item) => {
-                    const sectionId = item.toLowerCase();
+                  {['About', 'Shop', 'Construction', 'Our Story', 'FAQ'].map((item) => {
+                    const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
                     const isActive = activeSection === sectionId;
                     return (
                       <a 
@@ -155,8 +155,8 @@ export default function Header() {
 
               {/* Vertical Links (Rotated via CSS writing-mode) */}
               <div className="flex flex-col gap-10 items-center">
-                {['About', 'Shop', 'Construction', 'Tournaments', 'FAQ'].map((item) => {
-                  const sectionId = item.toLowerCase();
+                {['About', 'Shop', 'Construction', 'Our Story', 'FAQ'].map((item) => {
+                  const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
                   const isActive = activeSection === sectionId;
                   return (
                     <a 
@@ -254,8 +254,8 @@ export default function Header() {
               className="fixed inset-0 z-40 bg-black pt-28 pb-10 px-8 overflow-y-auto flex flex-col justify-between"
             >
               <div className="flex flex-col gap-6">
-                {['About', 'Shop', 'Construction', 'Tournaments', 'FAQ'].map((item) => {
-                  const sectionId = item.toLowerCase();
+                {['About', 'Shop', 'Construction', 'Our Story', 'FAQ'].map((item) => {
+                  const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
                   const isActive = activeSection === sectionId;
                   return (
                     <a 
@@ -271,11 +271,24 @@ export default function Header() {
                   );
                 })}
                 {/* Cart Icon inside Mobile Menu */}
-                <div className="mt-4 pt-6 border-t border-white/10 flex items-center gap-4">
+                <div className="mt-4 pt-6 border-t border-white/10 flex flex-col gap-4">
                   <a href="#shop" onClick={() => setIsMenuOpen(false)} className="text-white/80 hover:text-lime flex items-center gap-2">
                     <ShoppingCart className="w-6 h-6" />
                     <span className="text-white text-base font-semibold">Your Cart (2 items)</span>
                   </a>
+
+                  {/* Book Now Button inside Mobile Menu */}
+                  <div className="mt-4">
+                    <motion.a
+                      href="#construction"
+                      onClick={() => setIsMenuOpen(false)}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-full py-4 bg-lime text-ink rounded-xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:bg-white transition-all duration-300"
+                    >
+                      <span>Book a Court</span>
+                      <ArrowUpRight className="w-4 h-4" />
+                    </motion.a>
+                  </div>
                 </div>
               </div>
 
