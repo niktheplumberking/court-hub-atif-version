@@ -134,8 +134,8 @@ export default function App() {
       <div className="relative z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.8)] bg-court-blue -mt-[100vh] md:pl-24">
         <AboutSection />
         <ShopSection />
-        <ConstructionSection isLoaded={isLoaded} onProgress={setConstructionProgress} />
         <OurStorySection />
+        <ConstructionSection isLoaded={isLoaded} onProgress={setConstructionProgress} />
         <FAQSection />
         <Footer />
       </div>

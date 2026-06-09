@@ -33,7 +33,7 @@ export default function Footer() {
         <div className="md:col-span-2 space-y-4 md:space-y-6">
           <h4 className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/20 font-bold">Menu</h4>
           <nav className="flex flex-col gap-3 md:gap-4">
-            {['About', 'Shop', 'Construction', 'Our Story', 'FAQ'].map((item) => (
+            {['About', 'Shop', 'Our Story', 'Construction', 'FAQ'].map((item) => (
               <motion.a 
                 key={item} 
                 href={`#${item === 'Our Story' ? 'story' : item.toLowerCase()}`} 
