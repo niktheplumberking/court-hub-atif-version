@@ -145,9 +145,6 @@ export default function ConstructionSection({ isLoaded, onProgress }: Constructi
         id="construction"
         className="relative w-full h-[400vh] bg-sand"
       >
-        {/* Top vignette transition from Our Story Section */}
-        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/90 via-black/40 to-transparent z-10 pointer-events-none" />
-
         {/* Bottom Gradient Transition to FAQ Section (Transparent to Sand) */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-sand to-transparent z-10 pointer-events-none" />
 

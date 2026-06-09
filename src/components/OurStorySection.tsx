@@ -4,12 +4,6 @@ export default function OurStorySection() {
       id="story" 
       className="relative min-h-screen py-20 md:py-32 px-6 md:px-8 bg-sand text-ink z-20 flex items-center overflow-hidden"
     >
-      {/* Top Gradient Transition from Shop Section (Dark Ink to Transparent) */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-ink to-transparent z-10 pointer-events-none" />
-
-      {/* Bottom vignette shade transition to Construction Section */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 pointer-events-none" />
-
       {/* HTML5 Loop Video Background */}
       <video 
         src="/kling_20260607_作品_Camera__St_4443_0.mp4"
