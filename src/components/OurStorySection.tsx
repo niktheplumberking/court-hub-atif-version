@@ -58,7 +58,7 @@ export default function OurStorySection() {
   return (
     <section 
       id="story" 
-      className="relative min-h-[115vh] md:min-h-screen pt-20 pb-12 md:py-32 px-4 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
+      className="relative min-h-[115vh] md:min-h-screen pt-14 pb-12 md:py-32 px-4 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
     >
       {/* HTML5 Infinite Loop Video Background */}
       <video 
@@ -94,7 +94,7 @@ export default function OurStorySection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
 
           {/* Left Column: Story & Philosophy - Wrapped in frosted glass card on mobile for contrast and spacing */}
-          <div className="lg:col-span-5 space-y-6 md:space-y-12 bg-white/75 backdrop-blur-md p-5 md:p-0 rounded-[24px] md:rounded-none border border-white/30 md:border-none shadow-lg md:shadow-none">
+          <div className="lg:col-span-5 space-y-6 md:space-y-12 bg-white/75 backdrop-blur-md py-4 px-5 md:p-0 rounded-[24px] md:rounded-none border border-white/30 md:border-none shadow-lg md:shadow-none">
             <div className="space-y-4 md:space-y-6">
               <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-court-blue font-bold">
                 /// Our Story ///
