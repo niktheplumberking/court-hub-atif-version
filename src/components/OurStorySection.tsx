@@ -33,7 +33,7 @@ export default function OurStorySection() {
   return (
     <section 
       id="story" 
-      className="relative min-h-screen pt-20 pb-[42vh] md:py-32 px-6 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
+      className="relative min-h-[140vh] md:min-h-screen pt-28 pb-[52vh] md:py-32 px-6 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
     >
       {/* HTML5 Infinite Loop Video Background (Single instance to guarantee loop and bypass browser block) */}
       <video 
