@@ -6,7 +6,7 @@ export default function OurStorySection() {
   const [videoSrc, setVideoSrc] = useState(storyVideo);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Dynamic responsive video source selection to prevent autoplay blocks
+  // Dynamic responsive video source selection
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -20,14 +20,39 @@ export default function OurStorySection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Bulletproof autoplay and infinite loop handler
+  // Bulletproof autoplay, intersection-based viewport trigger, and visibility recovery
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.play().catch((err) => {
-        console.warn("Video autoplay blocked:", err);
-      });
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Force play on page visibility recovery
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && videoRef.current) {
+        videoRef.current.play().catch(() => {});
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // IntersectionObserver triggers play whenever video enters the viewport to prevent mobile pausing on scroll
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch((err) => {
+              console.log("Autoplay play triggered via intersection observer:", err);
+            });
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(video);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      observer.disconnect();
+    };
   }, [videoSrc]);
 
   return (
@@ -47,6 +72,14 @@ export default function OurStorySection() {
         poster="/images/our_story_racket.jpg"
         onEnded={(e) => {
           e.currentTarget.play().catch(() => {});
+        }}
+        onTimeUpdate={(e) => {
+          const video = e.currentTarget;
+          // Manual loop reset: trigger 200ms before natural end to prevent any native pause gaps
+          if (video.duration && video.currentTime >= video.duration - 0.2) {
+            video.currentTime = 0;
+            video.play().catch(() => {});
+          }
         }}
         className="absolute bottom-0 left-0 right-0 w-full h-[45vh] md:h-full object-cover object-bottom z-0 pointer-events-none"
       />
