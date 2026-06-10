@@ -1,12 +1,23 @@
 import storyVideo from '../../public/infinityloopvideo_edited_done.mp4';
+import storyMobileVideo from '../../public/our_story_mobile_video.mp4';
 
 export default function OurStorySection() {
   return (
     <section 
       id="story" 
-      className="relative min-h-screen py-20 md:py-32 px-6 md:px-8 bg-sand text-ink z-20 flex items-center overflow-hidden"
+      className="relative min-h-screen py-28 md:py-32 px-6 md:px-8 bg-sand text-ink z-20 flex items-center overflow-hidden"
     >
-      {/* HTML5 Loop Video Background */}
+      {/* HTML5 Mobile Loop Video Background */}
+      <video 
+        src={storyMobileVideo}
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none md:hidden"
+      />
+
+      {/* HTML5 Desktop Loop Video Background */}
       <video 
         src={storyVideo}
         autoPlay
@@ -14,7 +25,7 @@ export default function OurStorySection() {
         muted
         playsInline
         poster="/images/our_story_racket.jpg"
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none hidden md:block"
       />
 
       {/* Subtle overlay to ensure high readability of text */}
@@ -23,8 +34,8 @@ export default function OurStorySection() {
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
 
-          {/* Left Column: Story & Philosophy */}
-          <div className="lg:col-span-5 space-y-8 md:space-y-12">
+          {/* Left Column: Story & Philosophy - Wrapped in frosted glass panel on mobile for premium contrast */}
+          <div className="lg:col-span-5 space-y-8 md:space-y-12 bg-white/70 backdrop-blur-md p-6 md:p-0 rounded-[24px] md:rounded-none border border-white/20 md:border-none shadow-xl md:shadow-none">
             <div className="space-y-6">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-court-blue font-bold">
                 /// Our Story ///
