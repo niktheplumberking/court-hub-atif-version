@@ -33,9 +33,9 @@ export default function OurStorySection() {
   return (
     <section 
       id="story" 
-      className="relative min-h-[120vh] md:min-h-screen pt-24 pb-12 md:py-32 px-4 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
+      className="relative min-h-[115vh] md:min-h-screen pt-20 pb-12 md:py-32 px-4 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
     >
-      {/* HTML5 Infinite Loop Video Background (Single instance to guarantee loop and bypass browser block) */}
+      {/* HTML5 Infinite Loop Video Background */}
       <video 
         ref={videoRef}
         key={videoSrc}
@@ -48,11 +48,14 @@ export default function OurStorySection() {
         onEnded={(e) => {
           e.currentTarget.play().catch(() => {});
         }}
-        className="absolute inset-0 w-full h-full object-cover object-bottom z-0 pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 w-full h-[45vh] md:h-full object-cover object-bottom z-0 pointer-events-none"
       />
 
+      {/* Video top seam blending gradient for mobile */}
+      <div className="absolute bottom-[44vh] left-0 right-0 h-16 bg-gradient-to-t from-transparent to-sand pointer-events-none z-1 md:hidden" />
+
       {/* Subtle overlay to ensure high readability of text */}
-      <div className="absolute inset-0 bg-white/15 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-white/10 pointer-events-none z-0" />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
