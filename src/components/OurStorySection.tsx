@@ -1,100 +1,30 @@
-import { useState, useEffect, useRef } from 'react';
 import storyVideo from '../../public/infinityloopvideo_edited_done.mp4';
-import storyMobileVideo from '../../public/our_story_mobile_video.mp4';
 
 export default function OurStorySection() {
-  const [videoSrc, setVideoSrc] = useState(storyVideo);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Dynamic responsive video source selection
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setVideoSrc(storyMobileVideo);
-      } else {
-        setVideoSrc(storyVideo);
-      }
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Bulletproof autoplay, intersection-based viewport trigger, and visibility recovery
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Force play on page visibility recovery
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible' && videoRef.current) {
-        videoRef.current.play().catch(() => {});
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    // IntersectionObserver triggers play whenever video enters the viewport to prevent mobile pausing on scroll
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            video.play().catch((err) => {
-              console.log("Autoplay play triggered via intersection observer:", err);
-            });
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-
-    observer.observe(video);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      observer.disconnect();
-    };
-  }, [videoSrc]);
-
   return (
     <section 
       id="story" 
-      className="relative min-h-[115vh] md:min-h-screen pt-20 pb-12 md:py-32 px-4 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
+      className="relative min-h-screen py-20 md:py-32 px-6 md:px-8 bg-sand text-ink z-20 flex items-center overflow-hidden"
     >
-      {/* HTML5 Infinite Loop Video Background */}
+      {/* HTML5 Loop Video Background */}
       <video 
-        ref={videoRef}
-        key={videoSrc}
-        src={videoSrc}
+        src={storyVideo}
         autoPlay
         loop
         muted
         playsInline
         poster="/images/our_story_racket.jpg"
-        onEnded={(e) => {
-          e.currentTarget.play().catch(() => {});
-        }}
-        onTimeUpdate={(e) => {
-          const video = e.currentTarget;
-          // Manual loop reset: trigger 200ms before natural end to prevent any native pause gaps
-          if (video.duration && video.currentTime >= video.duration - 0.2) {
-            video.currentTime = 0;
-            video.play().catch(() => {});
-          }
-        }}
-        className="absolute bottom-0 left-0 right-0 w-full h-[38vh] md:h-full object-cover object-bottom z-0 pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
       />
 
-      {/* Video top seam blending gradient for mobile */}
-      <div className="absolute bottom-[37vh] left-0 right-0 h-16 bg-gradient-to-t from-transparent to-sand pointer-events-none z-1 md:hidden" />
-
       {/* Subtle overlay to ensure high readability of text */}
-      <div className="absolute inset-0 bg-white/10 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-white/15 pointer-events-none z-0" />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
 
-          {/* Left Column: Story & Philosophy - Absolute positioned at the top on mobile, reverted on desktop */}
-          <div className="lg:col-span-5 space-y-6 md:space-y-12 absolute top-16 left-4 right-4 z-10 bg-white/75 backdrop-blur-md py-4 px-5 rounded-[24px] border border-white/30 shadow-lg md:relative md:top-auto md:left-auto md:right-auto md:z-10 md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none md:border-none md:shadow-none">
+          {/* Left Column: Story & Philosophy */}
+          <div className="lg:col-span-5 space-y-6 md:space-y-12">
             <div className="space-y-4 md:space-y-6">
               <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-court-blue font-bold">
                 /// Our Story ///
