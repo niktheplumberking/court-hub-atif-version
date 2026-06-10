@@ -1,3 +1,5 @@
+import storyVideo from '../../public/infinityloopvideo_edited_done.mp4';
+
 export default function OurStorySection() {
   return (
     <section 
@@ -6,7 +8,7 @@ export default function OurStorySection() {
     >
       {/* HTML5 Loop Video Background */}
       <video 
-        src="/kling_20260607_作品_Camera__St_4443_0.mp4"
+        src={storyVideo}
         autoPlay
         loop
         muted
