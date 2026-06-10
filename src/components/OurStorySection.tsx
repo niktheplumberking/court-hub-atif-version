@@ -58,7 +58,7 @@ export default function OurStorySection() {
   return (
     <section 
       id="story" 
-      className="relative min-h-[115vh] md:min-h-screen pt-14 pb-12 md:py-32 px-4 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
+      className="relative min-h-[115vh] md:min-h-screen pt-20 pb-12 md:py-32 px-4 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
     >
       {/* HTML5 Infinite Loop Video Background */}
       <video 
@@ -81,11 +81,11 @@ export default function OurStorySection() {
             video.play().catch(() => {});
           }
         }}
-        className="absolute bottom-0 left-0 right-0 w-full h-[45vh] md:h-full object-cover object-bottom z-0 pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 w-full h-[38vh] md:h-full object-cover object-bottom z-0 pointer-events-none"
       />
 
       {/* Video top seam blending gradient for mobile */}
-      <div className="absolute bottom-[44vh] left-0 right-0 h-16 bg-gradient-to-t from-transparent to-sand pointer-events-none z-1 md:hidden" />
+      <div className="absolute bottom-[37vh] left-0 right-0 h-16 bg-gradient-to-t from-transparent to-sand pointer-events-none z-1 md:hidden" />
 
       {/* Subtle overlay to ensure high readability of text */}
       <div className="absolute inset-0 bg-white/10 pointer-events-none z-0" />
@@ -93,8 +93,8 @@ export default function OurStorySection() {
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
 
-          {/* Left Column: Story & Philosophy - Wrapped in frosted glass card on mobile for contrast and spacing */}
-          <div className="lg:col-span-5 space-y-6 md:space-y-12 bg-white/75 backdrop-blur-md py-4 px-5 md:p-0 rounded-[24px] md:rounded-none border border-white/30 md:border-none shadow-lg md:shadow-none">
+          {/* Left Column: Story & Philosophy - Absolute positioned at the top on mobile, reverted on desktop */}
+          <div className="lg:col-span-5 space-y-6 md:space-y-12 absolute top-16 left-4 right-4 z-10 bg-white/75 backdrop-blur-md py-4 px-5 rounded-[24px] border border-white/30 shadow-lg md:relative md:top-auto md:left-auto md:right-auto md:z-10 md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none md:border-none md:shadow-none">
             <div className="space-y-4 md:space-y-6">
               <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-court-blue font-bold">
                 /// Our Story ///
