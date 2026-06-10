@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import storyVideo from '../../public/infinityloopvideo_edited_done.mp4';
-import storyMobileVideo from '../../public/our_story_video_new.mp4';
+import storyVideo from '../../public/fulldoneversion.mp4';
+import storyMobileVideo from '../../public/mobileloopvideo.mp4';
 
 export default function OurStorySection() {
   const [videoSrc, setVideoSrc] = useState(storyVideo);
