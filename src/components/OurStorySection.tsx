@@ -33,7 +33,7 @@ export default function OurStorySection() {
   return (
     <section 
       id="story" 
-      className="relative min-h-[140vh] md:min-h-screen pt-28 pb-[52vh] md:py-32 px-6 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
+      className="relative min-h-[120vh] md:min-h-screen pt-24 pb-12 md:py-32 px-4 md:px-8 bg-sand text-ink z-20 flex items-start md:items-center overflow-hidden"
     >
       {/* HTML5 Infinite Loop Video Background (Single instance to guarantee loop and bypass browser block) */}
       <video 
@@ -48,7 +48,7 @@ export default function OurStorySection() {
         onEnded={(e) => {
           e.currentTarget.play().catch(() => {});
         }}
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover object-bottom z-0 pointer-events-none"
       />
 
       {/* Subtle overlay to ensure high readability of text */}
@@ -57,8 +57,8 @@ export default function OurStorySection() {
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">
 
-          {/* Left Column: Story & Philosophy - Scaled down on mobile to fit above elements */}
-          <div className="lg:col-span-5 space-y-6 md:space-y-12">
+          {/* Left Column: Story & Philosophy - Wrapped in frosted glass card on mobile for contrast and spacing */}
+          <div className="lg:col-span-5 space-y-6 md:space-y-12 bg-white/75 backdrop-blur-md p-5 md:p-0 rounded-[24px] md:rounded-none border border-white/30 md:border-none shadow-lg md:shadow-none">
             <div className="space-y-4 md:space-y-6">
               <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-court-blue font-bold">
                 /// Our Story ///
