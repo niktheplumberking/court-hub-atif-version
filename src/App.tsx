@@ -8,8 +8,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import AboutSection from './components/AboutSection';
 import ShopSection from './components/ShopSection';
-import ConstructionSection from './components/ConstructionSection';
-import OurStorySection from './components/OurStorySection';
+import StoryConstructionWrapper from './components/StoryConstructionWrapper';
 import FAQSection from './components/FAQSection';
 import Footer from './components/Footer';
 
@@ -134,8 +133,7 @@ export default function App() {
       <div className="relative z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.8)] bg-court-blue -mt-[100vh] md:pl-24">
         <AboutSection />
         <ShopSection />
-        <OurStorySection />
-        <ConstructionSection isLoaded={isLoaded} onProgress={setConstructionProgress} />
+        <StoryConstructionWrapper isLoaded={isLoaded} onProgress={setConstructionProgress} />
         <FAQSection />
         <Footer />
       </div>
