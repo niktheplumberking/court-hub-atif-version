@@ -13,3 +13,8 @@ coverage/
 assets/
 convert-mobile-webp.mjs
 
+
+.next/
+.env*
+!.env.example
+next-env.d.ts
