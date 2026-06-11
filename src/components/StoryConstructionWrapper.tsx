@@ -208,16 +208,6 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
       {/* 2. Desktop Layout (>= 1024px) - Reverse-direction Scroll Stage */}
       {isDesktop && (
         <>
-          {/* Our Story text copy in normal flow */}
-          <section className="bg-sand text-ink py-20 md:py-32 px-6 md:px-8 relative z-10 w-full overflow-hidden">
-            <div className="max-w-7xl mx-auto w-full">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start w-full">
-                <OurStoryContent isDesktop={true} />
-                <div className="hidden lg:block lg:col-span-7" />
-              </div>
-            </div>
-          </section>
-
           {/* Pin Stage */}
           <div 
             ref={stageRef} 
@@ -240,12 +230,22 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
                 />
               </div>
 
-              {/* Bottom Layer: Our Story video block (100vh) */}
-              <div className="w-full h-screen relative overflow-hidden bg-sand flex-shrink-0">
-                <OurStoryVideoBlock 
-                  videoRef={desktopVideoRef} 
-                  className="w-full h-full object-cover" 
-                />
+              {/* Bottom Layer: Our Story video block (100vh) with overlaid text */}
+              <div id="story" className="w-full h-screen relative overflow-hidden bg-sand flex-shrink-0">
+                <div className="absolute inset-0 w-full h-full z-0">
+                  <OurStoryVideoBlock 
+                    videoRef={desktopVideoRef} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+                <div className="relative z-10 h-full flex items-center px-8 text-ink">
+                  <div className="max-w-7xl mx-auto w-full">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center w-full">
+                      <OurStoryContent isDesktop={true} />
+                      <div className="hidden lg:block lg:col-span-7" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
