@@ -161,3 +161,27 @@ html.lenis body {
   }
 }
 
+/* Film grain — 4% noise on cinematic sections (parent needs position:relative).
+   Pure CSS texture, no network request; sits above media, below content. */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* Giant outlined numerals for editorial rows (ink on sand, white on dark). */
+.numeral-outline-ink {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(14, 14, 12, 0.22);
+}
+
+.numeral-outline-white {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.22);
+}
+

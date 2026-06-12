@@ -19,3 +19,7 @@ convert-mobile-webp.mjs
 !.env.example
 next-env.d.ts
 *.tsbuildinfo
+
+# Local QA artifacts (screenshots, crawl scripts)
+.qa/
+.claude/

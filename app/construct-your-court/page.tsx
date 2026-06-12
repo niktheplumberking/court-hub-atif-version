@@ -3,15 +3,15 @@ import Footer from '@/components/home/Footer';
 import SmoothScroll from '@/components/shared/SmoothScroll';
 import ConstructHero from '@/components/construct/ConstructHero';
 import BuildSequence from '@/components/construct/BuildSequence';
-import Services from '@/components/construct/Services';
-import Process from '@/components/construct/Process';
-import Gallery from '@/components/construct/Gallery';
-import Authority from '@/components/construct/Authority';
-import InquiryForm from '@/components/construct/InquiryForm';
-import FinalCTA from '@/components/construct/FinalCTA';
+import WhatWeBuild from '@/components/construct/WhatWeBuild';
+import SpecSheet from '@/components/construct/SpecSheet';
+import BuildsGallery from '@/components/construct/BuildsGallery';
+import LimeCTA from '@/components/construct/LimeCTA';
+import InquirySection from '@/components/construct/InquirySection';
 
-// Phase B flagship — premium lead-gen page per master plan §Phase B.
-// All copy is placeholder pending client copy (contract §8); see banner constants in each section component.
+// Cinematic rebuild — background rhythm: Ink (hero + build sequence) → Sand
+// (what we build) → Court Blue (spec sheet) → Ink (gallery) → Lime (CTA) → Ink (inquiry).
+// All copy is placeholder pending client copy (contract §8).
 export const metadata = {
   title: 'Construct Your Court — Court Hub',
   description:
@@ -25,12 +25,11 @@ export default function ConstructYourCourtPage() {
       <SmoothScroll>
         <ConstructHero />
         <BuildSequence />
-        <Services />
-        <Process />
-        <Gallery />
-        <Authority />
-        <InquiryForm />
-        <FinalCTA />
+        <WhatWeBuild />
+        <SpecSheet />
+        <BuildsGallery />
+        <LimeCTA />
+        <InquirySection />
         <Footer />
       </SmoothScroll>
     </main>

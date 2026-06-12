@@ -65,7 +65,14 @@ export default function Cursor() {
       const dotY = gsap.quickTo(dot, 'y', { duration: 0.2, ease: 'power3' });
       const ringX = gsap.quickTo(ring, 'x', { duration: 0.55, ease: 'power3' });
       const ringY = gsap.quickTo(ring, 'y', { duration: 0.55, ease: 'power3' });
-      const ringScale = gsap.quickTo(ring, 'scale', { duration: 0.3, ease: 'power2.out' });
+      // quickTo can't resetTo() compound properties like 'scale' (it warns and
+      // re-inits every call) — drive scaleX/scaleY individually instead.
+      const ringScaleX = gsap.quickTo(ring, 'scaleX', { duration: 0.3, ease: 'power2.out' });
+      const ringScaleY = gsap.quickTo(ring, 'scaleY', { duration: 0.3, ease: 'power2.out' });
+      const ringScale = (v: number) => {
+        ringScaleX(v);
+        ringScaleY(v);
+      };
 
       const syncVisibility = () => {
         // Body class follows pointer presence (not hiddenForText: over form

@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, ChevronDown, MessageCircle, ShieldCheck, Clock, MapPin } from 'lucide-react';
+import { CheckCircle2, ChevronDown, MessageCircle, ShieldCheck } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Magnetic from '@/components/shared/Magnetic';
 import { submitInquiry } from '@/lib/actions/inquiries';
 import { waHref } from '@/lib/whatsapp';
 
@@ -12,12 +13,11 @@ gsap.registerPlugin(ScrollTrigger);
 // ─── PLACEHOLDER COPY — replace with client-provided copy (contract §8) ───
 const COPY = {
   kicker: 'Start Your Build',
-  headlinePre: 'Tell Us About ',
-  headlineLime: 'Your Site.',
+  line1: 'Tell Us About',
+  line2: 'Your Site.',
   intro:
     'Fill this in and we continue the conversation on WhatsApp — your details come pre-loaded so you never type them twice. A build consultant replies within one working day.', // placeholder claim — confirm with client
-  formTitle: 'Court Inquiry',
-  formChip: 'Avg. response < 24h', // placeholder figure — confirm with client
+  trustLine: 'Surveys across all seven emirates · Fixed line-item quotes · Replies within one working day', // placeholder claims — confirm with client
   submitIdle: 'Send & Continue on WhatsApp',
   submitLoading: 'Sending…',
   successTitle: 'We got it — continuing in WhatsApp.',
@@ -26,11 +26,7 @@ const COPY = {
   successReopen: 'Open WhatsApp',
   dbFailNote:
     'Heads up: our backup system couldn’t log this one, but your WhatsApp message carries everything we need.',
-  reassurance: [
-    { icon: Clock, text: 'Replies within one working day' }, // placeholder claim — confirm with client
-    { icon: MapPin, text: 'Site surveys across all seven emirates' },
-    { icon: ShieldCheck, text: 'Fixed line-item quotes — no allowances' },
-  ],
+  trustFootnote: 'Sent via WhatsApp — we keep a backup copy',
   fields: {
     name: { label: 'Name *', placeholder: 'Your full name' },
     phone: { label: 'Phone *', placeholder: '+971 50 000 0000' },
@@ -42,7 +38,6 @@ const COPY = {
       placeholder: 'Plot size, timeline, indoor/outdoor — anything that helps us quote faster.',
     },
   },
-  trustFootnote: 'Sent via WhatsApp — we keep a backup copy',
 };
 
 const COURT_TYPES = ['Indoor', 'Outdoor', 'Panoramic', 'Single', 'Not sure yet'] as const;
@@ -57,42 +52,64 @@ const LOCATIONS = [
   'Other',
 ] as const;
 
+// Editorial inputs: a drawn line instead of a box — the line brightens to lime on focus.
 const inputClass =
-  'w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white placeholder:text-white/20 focus:border-lime/50 outline-none transition-all';
+  'w-full bg-transparent border-0 border-b border-white/15 rounded-none px-0 py-3.5 text-base text-white placeholder:text-white/25 focus:border-lime outline-none transition-colors duration-300';
 const labelClass =
-  'font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold block mb-2';
+  'font-mono text-[10px] uppercase tracking-[0.25em] text-white/40 font-bold block mb-1';
 
 type Status = 'idle' | 'loading' | 'done';
 
-export default function InquiryForm() {
+export default function InquirySection() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Restrained by design: header line reveal + a one-time card rise. The form's
-  // inputs, focus order and the submitInquiry/window.open flow are never animated.
   useEffect(() => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const header = gsap.timeline({
-          scrollTrigger: { trigger: '[data-inquiry-pitch]', start: 'top 85%', once: true },
-        });
-        header
-          .from('[data-inquiry-kicker]', { opacity: 0, x: -18, duration: 0.7, ease: 'power3.out' })
-          .from('[data-inquiry-line]', { yPercent: 110, duration: 1, ease: 'power4.out' }, 0.1)
-          .from('[data-inquiry-intro]', { opacity: 0, y: 20, duration: 0.8, ease: 'power3.out' }, 0.35)
-          .from(
-            '[data-inquiry-reassure]',
-            { opacity: 0, y: 16, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
-            0.5
-          );
+        gsap
+          .timeline({
+            scrollTrigger: { trigger: '[data-inq-pitch]', start: 'top 80%', once: true },
+          })
+          .from('[data-inq-kicker]', { opacity: 0, y: 18, duration: 0.7, ease: 'power3.out' }, 0)
+          .from('[data-inq-line]', { yPercent: 110, duration: 0.9, stagger: 0.07, ease: 'power4.out' }, 0.1)
+          .from('[data-inq-intro]', { opacity: 0, y: 24, duration: 0.8, ease: 'power3.out' }, 0.5)
+          .from('[data-inq-trust]', { opacity: 0, y: 18, duration: 0.7, ease: 'power3.out' }, 0.65);
 
-        gsap.from('[data-inquiry-card]', {
+        // Pitch photography: reveal from 1.18 scale inside its mask, then slow drift.
+        gsap.fromTo(
+          '[data-inq-img]',
+          { scale: 1.18 },
+          {
+            scale: 1,
+            duration: 1.4,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: '[data-inq-media]', start: 'top 85%', once: true },
+          }
+        );
+        gsap.fromTo(
+          '[data-inq-img]',
+          { yPercent: -8 },
+          {
+            yPercent: 8,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '[data-inq-media]',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          }
+        );
+
+        // Form fields draw in line by line.
+        gsap.from('[data-inq-field]', {
           opacity: 0,
-          y: 44,
-          duration: 1,
+          y: 24,
+          duration: 0.7,
+          stagger: 0.07,
           ease: 'power3.out',
-          clearProps: 'transform,opacity',
-          scrollTrigger: { trigger: '[data-inquiry-card]', start: 'top 85%', once: true },
+          scrollTrigger: { trigger: '[data-inq-form]', start: 'top 80%', once: true },
         });
       });
     }, sectionRef);
@@ -157,55 +174,57 @@ export default function InquiryForm() {
   };
 
   return (
-    <section ref={sectionRef} id="inquiry" className="px-6 md:px-12 py-20 md:py-32 scroll-mt-24">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-start">
-        {/* Left — pitch */}
-        <div data-inquiry-pitch className="lg:sticky lg:top-32">
-          <p data-inquiry-kicker className="text-lime text-xs tracking-[0.3em] uppercase mb-3">
+    <section
+      ref={sectionRef}
+      id="inquiry"
+      aria-label="Court inquiry form"
+      className="grain relative scroll-mt-24 overflow-hidden bg-ink px-6 py-24 md:px-16 md:py-36"
+    >
+      {/* Lime glow behind the form column */}
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-[60vh] w-[45vw] rounded-full bg-[radial-gradient(closest-side,rgba(200,255,61,0.1),transparent)]" />
+
+      <div className="relative z-10 mx-auto grid max-w-[1800px] grid-cols-1 items-start gap-14 lg:grid-cols-2 lg:gap-24">
+        {/* Left — pitch, pinned alongside the form on desktop */}
+        <div data-inq-pitch className="lg:sticky lg:top-28">
+          <p data-inq-kicker className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-lime">
             {COPY.kicker}
           </p>
-          <h2 className="font-display font-extrabold uppercase text-white text-4xl md:text-6xl leading-[0.95] tracking-tight">
+          <h2 className="font-display font-extrabold uppercase leading-[0.92] tracking-[-0.02em] text-white text-[11vw] md:text-[5.5vw] lg:text-[4.5vw]">
             <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
-              <span data-inquiry-line className="block">
-                {COPY.headlinePre}
-                <span className="text-lime">{COPY.headlineLime}</span>
-              </span>
+              <span data-inq-line className="block">{COPY.line1}</span>
+            </span>
+            <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
+              <span data-inq-line className="block text-lime">{COPY.line2}</span>
             </span>
           </h2>
-          <p data-inquiry-intro className="text-white/50 leading-relaxed mt-5 max-w-md">
+          <p data-inq-intro className="mt-6 max-w-md leading-relaxed text-white/55">
             {COPY.intro}
           </p>
+          <p data-inq-trust className="mt-6 max-w-md font-mono text-[10px] uppercase leading-loose tracking-[0.2em] text-white/35">
+            {COPY.trustLine}
+          </p>
 
-          <div className="mt-10 space-y-4">
-            {COPY.reassurance.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.text}
-                  data-inquiry-reassure
-                  className="flex items-center gap-3 text-white/50 text-sm"
-                >
-                  <Icon className="w-4 h-4 text-lime shrink-0" />
-                  <span>{item.text}</span>
-                </div>
-              );
-            })}
+          {/* Site photography grounds the pitch */}
+          <div data-inq-media className="mt-10 hidden overflow-hidden rounded-[20px] lg:block">
+            <div className="relative aspect-[16/9] overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                data-inq-img
+                src="/images/dubai_court_night_construction_1779706759259.webp"
+                alt="Court Hub site under construction at night"
+                loading="lazy"
+                className="absolute inset-0 h-[116%] w-full -top-[8%] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent" />
+              <span className="absolute bottom-4 left-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/70">
+                Live site · Dubai
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Right — form card */}
-        <div
-          data-inquiry-card
-          className="rounded-[24px] bg-ink-2 border border-white/10 p-6 md:p-10"
-        >
-          <div className="flex items-center justify-between border-b border-white/5 pb-5 mb-7">
-            <h3 className="font-display font-bold text-white text-xl uppercase">{COPY.formTitle}</h3>
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-lime flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-lime animate-pulse" />
-              {COPY.formChip}
-            </span>
-          </div>
-
+        {/* Right — the working form (submit wiring unchanged) */}
+        <div data-inq-form className="border-t border-white/10 pt-10 lg:border-l lg:border-t-0 lg:pl-16 lg:pt-2">
           <AnimatePresence mode="wait">
             {status === 'done' ? (
               <motion.div
@@ -214,15 +233,15 @@ export default function InquiryForm() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className="py-10 flex flex-col items-center text-center gap-5"
+                className="flex flex-col items-start gap-5 py-10"
               >
-                <CheckCircle2 className="w-14 h-14 text-lime" />
-                <p className="font-display font-bold text-white text-2xl leading-tight max-w-sm">
+                <CheckCircle2 className="h-14 w-14 text-lime" />
+                <p className="max-w-sm font-display text-3xl font-extrabold uppercase leading-tight text-white">
                   {COPY.successTitle}
                 </p>
-                <p className="text-white/40 text-sm leading-relaxed max-w-sm">{COPY.successBody}</p>
+                <p className="max-w-sm text-sm leading-relaxed text-white/45">{COPY.successBody}</p>
                 {dbFailed && (
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30 max-w-sm leading-relaxed">
+                  <p className="max-w-sm font-mono text-[10px] uppercase leading-relaxed tracking-[0.2em] text-white/30">
                     {COPY.dbFailNote}
                   </p>
                 )}
@@ -230,9 +249,9 @@ export default function InquiryForm() {
                   href={submittedHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-lime text-ink font-bold tracking-wide hover:brightness-110 transition-all mt-2"
+                  className="mt-2 inline-flex items-center gap-2 rounded-full bg-lime px-8 py-4 font-bold tracking-wide text-ink transition-all hover:brightness-110"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <MessageCircle className="h-4 w-4" />
                   {COPY.successReopen}
                 </a>
               </motion.div>
@@ -242,10 +261,10 @@ export default function InquiryForm() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
                 onSubmit={handleSubmit}
-                className="space-y-5"
+                className="space-y-8"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+                  <div data-inq-field>
                     <label htmlFor="inquiry-name" className={labelClass}>
                       {COPY.fields.name.label}
                     </label>
@@ -259,7 +278,7 @@ export default function InquiryForm() {
                       className={inputClass}
                     />
                   </div>
-                  <div>
+                  <div data-inq-field>
                     <label htmlFor="inquiry-phone" className={labelClass}>
                       {COPY.fields.phone.label}
                     </label>
@@ -275,7 +294,7 @@ export default function InquiryForm() {
                   </div>
                 </div>
 
-                <div>
+                <div data-inq-field>
                   <label htmlFor="inquiry-email" className={labelClass}>
                     {COPY.fields.email.label}
                   </label>
@@ -289,8 +308,8 @@ export default function InquiryForm() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+                  <div data-inq-field>
                     <label htmlFor="inquiry-court-type" className={labelClass}>
                       {COPY.fields.courtType.label}
                     </label>
@@ -299,7 +318,7 @@ export default function InquiryForm() {
                         id="inquiry-court-type"
                         value={courtType}
                         onChange={(e) => setCourtType(e.target.value)}
-                        className={`${inputClass} appearance-none pr-10 cursor-pointer`}
+                        className={`${inputClass} cursor-pointer appearance-none pr-10`}
                       >
                         {COURT_TYPES.map((t) => (
                           <option key={t} value={t} className="bg-ink text-white">
@@ -307,10 +326,10 @@ export default function InquiryForm() {
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+                      <ChevronDown className="pointer-events-none absolute right-1 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     </div>
                   </div>
-                  <div>
+                  <div data-inq-field>
                     <label htmlFor="inquiry-location" className={labelClass}>
                       {COPY.fields.location.label}
                     </label>
@@ -319,7 +338,7 @@ export default function InquiryForm() {
                         id="inquiry-location"
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
-                        className={`${inputClass} appearance-none pr-10 cursor-pointer`}
+                        className={`${inputClass} cursor-pointer appearance-none pr-10`}
                       >
                         {LOCATIONS.map((l) => (
                           <option key={l} value={l} className="bg-ink text-white">
@@ -327,18 +346,18 @@ export default function InquiryForm() {
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+                      <ChevronDown className="pointer-events-none absolute right-1 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
                     </div>
                   </div>
                 </div>
 
-                <div>
+                <div data-inq-field>
                   <label htmlFor="inquiry-message" className={labelClass}>
                     {COPY.fields.message.label}
                   </label>
                   <textarea
                     id="inquiry-message"
-                    rows={4}
+                    rows={3}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder={COPY.fields.message.placeholder}
@@ -346,19 +365,22 @@ export default function InquiryForm() {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-lime text-ink font-bold tracking-wide hover:brightness-110 transition-all disabled:opacity-60 disabled:cursor-wait cursor-pointer"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  {status === 'loading' ? COPY.submitLoading : COPY.submitIdle}
-                </button>
-
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/20 text-center flex items-center justify-center gap-2">
-                  <ShieldCheck className="w-3.5 h-3.5 text-lime" />
-                  {COPY.trustFootnote}
-                </p>
+                <div data-inq-field className="pt-2">
+                  <Magnetic className="block w-full sm:w-auto">
+                    <button
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-lime px-10 py-5 text-[12px] font-bold uppercase tracking-[0.15em] text-ink transition-colors duration-300 hover:bg-white disabled:cursor-wait disabled:opacity-60 sm:w-auto"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      {status === 'loading' ? COPY.submitLoading : COPY.submitIdle}
+                    </button>
+                  </Magnetic>
+                  <p className="mt-5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/25">
+                    <ShieldCheck className="h-3.5 w-3.5 text-lime" />
+                    {COPY.trustFootnote}
+                  </p>
+                </div>
               </motion.form>
             )}
           </AnimatePresence>

@@ -13,7 +13,6 @@ const NAV_LINKS = [
   { label: 'About', href: '/about' },
   { label: 'Shop', href: '/shop' },
   { label: 'Construction', href: '/construct-your-court' },
-  { label: 'FAQ', href: '/contact#faq' },
 ];
 
 // Bible #1 underline reveal: scaleX 0→1 from the left on enter, collapses toward the right on exit.
