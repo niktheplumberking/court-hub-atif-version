@@ -107,7 +107,7 @@ export default function ConstructHero() {
       <div className="pointer-events-none absolute -bottom-40 -left-40 h-[60vh] w-[60vw] rounded-full bg-[radial-gradient(closest-side,rgba(200,255,61,0.14),transparent)]" />
 
       {/* Copy block */}
-      <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-24 md:px-16 md:pb-28">
+      <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-24 md:px-12 md:pb-28">
         <div className="mx-auto w-full max-w-[1800px]">
           <p
             data-hero-kicker

@@ -47,7 +47,7 @@ export default function LimeCTA() {
   }, []);
 
   return (
-    <section ref={sectionRef} aria-label="Start your build" className="grain relative overflow-hidden bg-lime">
+    <section ref={sectionRef} aria-label="Start your build" className="grain relative z-10 overflow-hidden bg-lime">
       {/* Marquee strip along the band's top edge */}
       <div aria-hidden="true" className="relative z-10 select-none overflow-hidden border-b border-ink/10">
         <div data-cta-marquee className="flex w-max">
@@ -69,7 +69,7 @@ export default function LimeCTA() {
         </div>
       </div>
 
-      <div data-cta-body className="relative z-10 px-6 py-20 md:px-16 md:py-28">
+      <div data-cta-body className="relative z-10 px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto flex max-w-[1800px] flex-col gap-10 md:flex-row md:items-center md:justify-between">
           <div>
             <p data-cta-kicker className="font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-ink/50">

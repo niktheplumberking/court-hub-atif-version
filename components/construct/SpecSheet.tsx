@@ -94,7 +94,7 @@ export default function SpecSheet() {
     <section
       ref={sectionRef}
       aria-label="Court specifications"
-      className="relative overflow-hidden bg-court-blue px-6 py-24 text-white md:px-16 md:py-36"
+      className="relative overflow-hidden bg-court-blue px-6 py-24 text-white md:px-12 md:py-36"
     >
       {/* Lime radial glow behind the media column */}
       <div className="pointer-events-none absolute -right-40 top-1/3 h-[70vh] w-[50vw] rounded-full bg-[radial-gradient(closest-side,rgba(200,255,61,0.16),transparent)]" />

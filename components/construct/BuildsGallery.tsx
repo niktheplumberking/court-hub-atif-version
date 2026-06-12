@@ -88,35 +88,42 @@ export default function BuildsGallery() {
         });
       });
 
-      // Desktop: the strip is pinned and scroll drives it sideways.
+      // Desktop: the strip is pinned and scroll drives it sideways. Dwells at
+      // both ends let the strip visibly REST on the gutter before it starts
+      // moving and again before the pin releases — so the gallery chrome is
+      // settled (never mid-flight) when the next section arrives.
       mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
         const track = trackRef.current!;
         const section = sectionRef.current!;
         const distance = () => track.scrollWidth - section.clientWidth;
+        const DWELL = 0.07; // fraction of the scrub held at each end
 
-        const tween = gsap.to(track, {
-          x: () => -distance(),
-          ease: 'none',
+        const stripProgress = (p: number) =>
+          Math.min(1, Math.max(0, (p - DWELL) / (1 - 2 * DWELL)));
+
+        const tween = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: 'top top',
-            end: () => `+=${distance()}`,
+            end: () => `+=${distance() + window.innerHeight * 0.35}`,
             scrub: 1,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              if (railRef.current) railRef.current.style.transform = `scaleX(${self.progress})`;
+              const p = stripProgress(self.progress);
+              if (railRef.current) railRef.current.style.transform = `scaleX(${p})`;
               if (counterRef.current) {
-                const idx = Math.min(
-                  PANELS.length,
-                  Math.floor(self.progress * PANELS.length) + 1
-                );
+                const idx = Math.min(PANELS.length, Math.floor(p * PANELS.length) + 1);
                 counterRef.current.textContent = String(idx).padStart(2, '0');
               }
             },
           },
         });
+        tween
+          .to({}, { duration: DWELL })
+          .to(track, { x: () => -distance(), ease: 'none', duration: 1 - 2 * DWELL })
+          .to({}, { duration: DWELL });
 
         // Counter-drift parallax inside each frame as it crosses the viewport.
         // GSAP moves the wrapper; the img keeps its CSS hover zoom untouched.
@@ -152,7 +159,7 @@ export default function BuildsGallery() {
       <div className="pointer-events-none absolute left-1/4 top-1/2 h-[60vh] w-[60vw] -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(30,90,232,0.18),transparent)]" />
 
       {/* Header */}
-      <div data-rb-header className="relative z-10 px-6 md:px-16 md:pt-20">
+      <div data-rb-header className="relative z-10 px-6 md:px-12 md:pt-20">
         <p data-rb-kicker className="mb-4 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-lime">
           {HEADER.kicker}
         </p>
@@ -167,13 +174,13 @@ export default function BuildsGallery() {
       <div className="relative z-10 mt-10 md:mt-0">
         <div
           ref={trackRef}
-          className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 will-change-transform [scrollbar-width:none] md:snap-none md:gap-6 md:overflow-visible md:px-16 md:pb-0"
+          className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 will-change-transform [scrollbar-width:none] md:snap-none md:gap-6 md:overflow-visible md:px-12 md:pb-0"
         >
           {PANELS.map((p) => (
             <figure
               key={p.src}
               data-rb-panel
-              className="group relative aspect-[4/5] w-[76vw] shrink-0 snap-center overflow-hidden rounded-[20px] sm:w-[52vw] md:aspect-[3/4] md:w-[26vw] md:min-w-[320px]"
+              className="group relative aspect-[4/5] w-[76vw] shrink-0 snap-center overflow-hidden rounded-[20px] sm:w-[52vw] md:aspect-[3/4] md:h-[46vh] md:min-h-[300px] md:w-auto"
             >
               <div data-rb-par className="absolute -left-[8%] top-0 h-full w-[116%] will-change-transform">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -200,7 +207,7 @@ export default function BuildsGallery() {
       </div>
 
       {/* Progress rail (desktop) / swipe hint (mobile) */}
-      <div className="relative z-10 px-6 pt-10 md:px-16 md:pb-16">
+      <div className="relative z-10 px-6 pt-10 md:px-12 md:pb-10">
         <div className="hidden items-end justify-between md:flex">
           <p className="font-display text-2xl font-bold text-white/90">
             <span ref={counterRef}>01</span>

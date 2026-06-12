@@ -178,7 +178,7 @@ export default function InquirySection() {
       ref={sectionRef}
       id="inquiry"
       aria-label="Court inquiry form"
-      className="grain relative scroll-mt-24 overflow-hidden bg-ink px-6 py-24 md:px-16 md:py-36"
+      className="grain relative scroll-mt-24 overflow-hidden bg-ink px-6 py-24 md:px-12 md:py-36"
     >
       {/* Lime glow behind the form column */}
       <div className="pointer-events-none absolute -right-32 bottom-0 h-[60vh] w-[45vw] rounded-full bg-[radial-gradient(closest-side,rgba(200,255,61,0.1),transparent)]" />

@@ -122,7 +122,7 @@ export default function WhatWeBuild() {
     <section
       ref={sectionRef}
       aria-label="What we build"
-      className="relative overflow-hidden bg-sand px-6 py-24 text-ink md:px-16 md:py-36"
+      className="relative overflow-hidden bg-sand px-6 py-24 text-ink md:px-12 md:py-36"
     >
       <div className="mx-auto max-w-[1800px]">
         {/* Header */}

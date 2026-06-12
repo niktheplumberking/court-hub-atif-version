@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -32,21 +32,27 @@ const CHAPTERS = [
 export default function BuildSequence() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const posterRef = useRef<HTMLImageElement>(null);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const progressRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
-  const reduced = useRef(false);
+  // Reduced motion renders a static scene (poster + stacked captions) — state,
+  // not a ref, because the JSX branches on it.
+  const [isReduced, setIsReduced] = useState(false);
 
   useEffect(() => {
-    reduced.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced.current) return; // static fallback rendered in JSX below
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsReduced(true); // poster stays, captions render stacked, no pin
+      return;
+    }
 
     const canvas = canvasRef.current!;
     const ctx2d = canvas.getContext('2d')!;
     const images: HTMLImageElement[] = new Array(FRAME_COUNT);
     let currentFrame = -1;
     let lastDrawn = 0;
+    let posterCleared = false;
 
     // DPR-aware cover draw
     const sizeCanvas = () => {
@@ -68,6 +74,12 @@ export default function BuildSequence() {
       ctx2d.clearRect(0, 0, w, h);
       ctx2d.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
       lastDrawn = idx;
+      // First successful paint: fade the poster out — until this moment the
+      // poster guarantees the section is never a black hole.
+      if (!posterCleared && posterRef.current) {
+        posterCleared = true;
+        posterRef.current.style.opacity = '0';
+      }
       return true;
     };
 
@@ -150,13 +162,18 @@ export default function BuildSequence() {
       aria-label="How we build your court"
       className="relative h-screen w-full overflow-hidden bg-ink"
     >
+      {/* Poster floor: a mid-sequence frame that sits behind the canvas so the
+          section is never pure black — covers slow connections, no-JS, and
+          reduced motion. Fades out the moment the canvas paints its first frame. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={posterRef}
+        src={frameSrc(74)}
+        alt="Padel court mid-construction"
+        className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
+      />
       {/* Frame canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
-      {/* Static fallback for reduced motion / no-JS */}
-      <noscript>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={frameSrc(FRAME_COUNT - 1)} alt="Completed padel court" className="absolute inset-0 h-full w-full object-cover" />
-      </noscript>
 
       {/* Cinematic vignette for text legibility */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_50%,transparent_40%,rgba(14,14,12,0.55)_100%)]" />
@@ -174,37 +191,53 @@ export default function BuildSequence() {
         </h2>
       </div>
 
-      {/* Chapters — fade through in sync with the frames */}
-      <div className="absolute inset-x-0 bottom-[12vh] z-10 px-6 md:bottom-[14vh] md:px-12">
-        <div className="relative mx-auto h-[9.5rem] max-w-3xl md:h-[8.5rem]">
-          {CHAPTERS.map((c, i) => (
-            <div
-              key={c.num}
-              ref={(el) => { chapterRefs.current[i] = el; }}
-              className="absolute inset-0 text-center opacity-0"
-              style={{ visibility: 'hidden' }}
-            >
-              <p className="mb-2 text-[11px] uppercase tracking-[0.3em] text-lime">
+      {isReduced ? (
+        /* Reduced motion: the five phases read as a static stacked list over
+           the poster — no pin, no scrub, nothing hidden. */
+        <div className="absolute inset-x-0 bottom-[8vh] z-10 px-6 md:px-12">
+          <div className="mx-auto max-w-3xl space-y-2 rounded-[20px] bg-ink/60 p-6 text-center backdrop-blur-sm">
+            {CHAPTERS.map((c) => (
+              <p key={c.num} className="text-[11px] uppercase tracking-[0.3em] text-lime">
                 {c.num} — {c.title}
               </p>
-              <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/75 md:text-base">
-                {c.copy}
-              </p>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Chapters — fade through in sync with the frames */}
+          <div className="absolute inset-x-0 bottom-[12vh] z-10 px-6 md:bottom-[14vh] md:px-12">
+            <div className="relative mx-auto h-[9.5rem] max-w-3xl md:h-[8.5rem]">
+              {CHAPTERS.map((c, i) => (
+                <div
+                  key={c.num}
+                  ref={(el) => { chapterRefs.current[i] = el; }}
+                  className="absolute inset-0 text-center opacity-0"
+                  style={{ visibility: 'hidden' }}
+                >
+                  <p className="mb-2 text-[11px] uppercase tracking-[0.3em] text-lime">
+                    {c.num} — {c.title}
+                  </p>
+                  <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/75 md:text-base">
+                    {c.copy}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      {/* Progress rail + chapter counter */}
-      <div className="absolute inset-x-6 bottom-[7vh] z-10 md:inset-x-12">
-        <div className="mb-3 flex items-end justify-between">
-          <span ref={counterRef} className="font-display text-2xl font-bold text-white/90">01</span>
-          <span className="text-[10px] uppercase tracking-[0.3em] text-white/40">/ 05 Build Phases</span>
-        </div>
-        <div className="h-px w-full bg-white/15">
-          <div ref={progressRef} className="h-px w-full origin-left scale-x-0 bg-lime shadow-[0_0_12px_rgba(200,255,61,0.6)]" />
-        </div>
-      </div>
+          {/* Progress rail + chapter counter */}
+          <div className="absolute inset-x-6 bottom-[7vh] z-10 md:inset-x-12">
+            <div className="mb-3 flex items-end justify-between">
+              <span ref={counterRef} className="font-display text-2xl font-bold text-white/90">01</span>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-white/40">/ 05 Build Phases</span>
+            </div>
+            <div className="h-px w-full bg-white/15">
+              <div ref={progressRef} className="h-px w-full origin-left scale-x-0 bg-lime shadow-[0_0_12px_rgba(200,255,61,0.6)]" />
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }
