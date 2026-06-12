@@ -18,6 +18,10 @@ interface StoryConstructionWrapperProps {
 }
 
 export default function StoryConstructionWrapper({ isLoaded, onProgress }: StoryConstructionWrapperProps) {
+  // Plain false initial state: the server always renders the mobile branch, so the
+  // first client render MUST match it (reading matchMedia in the initializer caused a
+  // guaranteed hydration mismatch on desktop). The matchMedia effect below flips this
+  // post-mount; the unified preload no longer depends on isDesktop, so nothing regresses.
   const [isDesktop, setIsDesktop] = useState(false);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -35,12 +39,14 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
     return () => media.removeEventListener('change', listener);
   }, []);
 
-  // 2. Preload construction frames once for both mobile/desktop layouts
+  // 2. Preload construction frames once for both mobile/desktop layouts.
+  // Both branches use the same deployed sequence: /construction-frames, 150 webp.
+  // (The old mobile folder '/construction frames mobile only' never existed → 90x 404 spam.)
   useEffect(() => {
     let active = true;
-    const frameCount = isDesktop ? 150 : 90;
-    const folderPath = isDesktop ? '/construction-frames' : '/construction frames mobile only';
-    const ext = isDesktop ? 'webp' : 'png';
+    const frameCount = 150;
+    const folderPath = '/construction-frames';
+    const ext = 'webp';
     let loadedCount = 0;
     const images: HTMLImageElement[] = [];
 
@@ -68,6 +74,7 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
       };
 
       img.onerror = () => {
+        if (!active) return; // don't spam the console after unmount/cleanup
         console.error(`Failed to load construction frame: ${frameNum}`);
         handleLoad();
       };
@@ -80,7 +87,7 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
     return () => {
       active = false;
     };
-  }, [isDesktop, onProgress]);
+  }, [onProgress]);
 
   // 3. Setup GSAP ScrollTrigger Sequence for Desktop
   useEffect(() => {

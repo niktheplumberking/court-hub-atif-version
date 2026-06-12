@@ -1,14 +1,43 @@
 import ShopNav from '@/components/shop/ShopNav';
+import Footer from '@/components/home/Footer';
+import SmoothScroll from '@/components/shared/SmoothScroll';
+import AboutHero from '@/components/about/AboutHero';
+import FloatingRacket from '@/components/about/FloatingRacket';
+import MissionValues from '@/components/about/MissionValues';
+import WhatWeDo from '@/components/about/WhatWeDo';
+import StatsAndCta from '@/components/about/StatsAndCta';
 
-// Phase B page — structure in place, client copy drops in here.
+// ─── PLACEHOLDER COPY — replace with client-provided copy (contract §8) ───
+const COPY = {
+  metaTitle: 'About — Court Hub',
+  metaDescription:
+    'The Court Hub story: from re-homing pre-owned padel rackets on Instagram to building championship-grade courts across the UAE. Built by players, for players.',
+};
+// ─── End placeholder copy ───
+
+export const metadata = {
+  title: COPY.metaTitle,
+  description: COPY.metaDescription,
+};
+
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-ink">
       <ShopNav />
-      <section className="px-6 md:px-12 py-24 max-w-3xl mx-auto space-y-6">
-        <h1 className="font-display font-extrabold text-4xl md:text-6xl text-white capitalize">about</h1>
-        <p className="text-white/40">Content coming with client copy — structure per the master plan, Phase B.</p>
-      </section>
+      <SmoothScroll>
+        {/* Relative corridor the scroll-scrubbed racket drifts down, behind
+            the hero and values content (which paints above in the second div). */}
+        <div className="relative">
+          <FloatingRacket />
+          <div className="relative">
+            <AboutHero />
+            <MissionValues />
+          </div>
+        </div>
+        <WhatWeDo />
+        <StatsAndCta />
+        <Footer />
+      </SmoothScroll>
     </main>
   );
 }

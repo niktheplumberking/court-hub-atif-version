@@ -18,3 +18,4 @@ convert-mobile-webp.mjs
 .env*
 !.env.example
 next-env.d.ts
+*.tsbuildinfo

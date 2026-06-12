@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, ChevronDown, Mail, MapPin, Check, ShieldCheck, Sparkles } from 'lucide-react';
+import { waHref } from '@/lib/whatsapp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -75,8 +76,7 @@ Configuration Details:
 - Court Model: ${modelName}
 - Court Location: ${location}
 - Contact Details: ${contact}`;
-    const whatsappUrl = `https://wa.me/971500000000?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(waHref(message), '_blank');
   };
 
   // 1. Preload construction frames
@@ -117,6 +117,7 @@ Configuration Details:
       };
 
       img.onerror = () => {
+        if (!active) return; // don't spam the console after unmount/cleanup
         console.error(`Failed to load construction frame: ${frameNum}`);
         handleLoad();
       };

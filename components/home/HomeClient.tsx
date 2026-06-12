@@ -4,6 +4,7 @@ import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'motion/react';
+import type { Product } from '@/lib/types';
 
 import Header from './Header';
 import Hero from './Hero';
@@ -15,7 +16,12 @@ import Footer from './Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function App() {
+interface HomeClientProps {
+  /** Real products fetched server-side (app/page.tsx); empty = ShopSection fallback. */
+  products?: Product[];
+}
+
+export default function App({ products = [] }: HomeClientProps) {
   const [heroProgress, setHeroProgress] = useState(0);
   const [constructionProgress, setConstructionProgress] = useState(0);
 
@@ -37,10 +43,12 @@ export default function App() {
   useEffect(() => {
     // Initialize Lenis smooth scroll with luxurious deceleration and responsive multipliers
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.1, // gentle, not slow — page settles ~150-250ms after the wheel stops
+      duration: 1.2, // applies to scrollTo (anchor) animations
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.6, // Enhanced finger-touch scrolling responsiveness
+      touchMultiplier: 1.5,
+      syncTouch: false,
     });
 
     // Connect Lenis scroll event to GSAP ScrollTrigger
@@ -61,7 +69,10 @@ export default function App() {
         e.preventDefault();
         const targetId = anchor.getAttribute('href');
         if (targetId) {
-          lenis.scrollTo(targetId);
+          // force: true — a stopped Lenis (mobile menu open → body overflow:hidden
+          // → observer calls lenis.stop()) silently ignores scrollTo otherwise,
+          // making every section link in the mobile menu a dead tap.
+          lenis.scrollTo(targetId, { force: true });
         }
       }
     };
@@ -133,7 +144,7 @@ export default function App() {
       {/* Blanket wrapper that slides up over the fixed Hero section */}
       <div className="relative z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.8)] bg-court-blue -mt-[100vh] md:pl-24">
         <AboutSection />
-        <ShopSection />
+        <ShopSection products={products} />
         <StoryConstructionWrapper isLoaded={isLoaded} onProgress={setConstructionProgress} />
         <FAQSection />
         <Footer />

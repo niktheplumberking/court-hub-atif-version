@@ -1,8 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { useCart } from '@/lib/cart-context';
 import type { Product } from '@/lib/types';
+
+const LABEL_EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
 export default function AddToCart({ product }: { product: Product }) {
   const { add } = useCart();
@@ -24,7 +27,7 @@ export default function AddToCart({ product }: { product: Product }) {
   const addToCart = () => {
     addItem();
     setAdded(true);
-    setTimeout(() => setAdded(false), 1600);
+    setTimeout(() => setAdded(false), 1200);
   };
 
   /** Buy Now: straight to Stripe checkout with just this item.
@@ -61,20 +64,39 @@ export default function AddToCart({ product }: { product: Product }) {
     );
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3">
-      <button
-        onClick={addToCart}
-        className="flex-1 py-4 rounded-full bg-lime text-ink font-bold tracking-wide hover:brightness-110 transition-all"
-      >
-        {added ? 'ADDED ✓' : 'ADD TO CART'}
-      </button>
-      <button
-        onClick={buyNow}
-        disabled={buying}
-        className="flex-1 py-4 rounded-full bg-court-blue text-white font-bold tracking-wide hover:brightness-110 transition-all disabled:opacity-60"
-      >
-        {buying ? 'OPENING CHECKOUT…' : 'BUY NOW'}
-      </button>
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <motion.button
+          onClick={addToCart}
+          whileTap={{ scale: 0.97 }}
+          className="flex-1 py-4 rounded-full bg-lime text-ink font-bold tracking-wide hover:brightness-110 transition-all"
+        >
+          {/* Label-flip success morph — outgoing copy exits up, incoming rises in.
+              Visual only: the cart add above already happened. */}
+          <span className="relative block overflow-hidden">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={added ? 'added' : 'idle'}
+                initial={{ y: '110%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '-110%' }}
+                transition={{ duration: 0.4, ease: LABEL_EASE }}
+                className="block"
+              >
+                {added ? 'ADDED ✓' : 'ADD TO CART'}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        </motion.button>
+        <motion.button
+          onClick={buyNow}
+          disabled={buying}
+          whileTap={{ scale: 0.97 }}
+          className="flex-1 py-4 rounded-full bg-court-blue text-white font-bold tracking-wide hover:brightness-110 transition-all disabled:opacity-60"
+        >
+          {buying ? 'OPENING CHECKOUT…' : 'BUY NOW'}
+        </motion.button>
+      </div>
+    </MotionConfig>
   );
 }

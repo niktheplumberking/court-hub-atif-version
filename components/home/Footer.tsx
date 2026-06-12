@@ -1,6 +1,19 @@
 'use client';
+import Link from 'next/link';
 import { motion } from 'motion/react';
-import { Instagram, Twitter, Facebook, Mail, MapPin, Phone } from 'lucide-react';
+import { Instagram, Mail, MapPin, Phone, MessageCircle } from 'lucide-react';
+import { waHref } from '@/lib/whatsapp';
+
+const MotionLink = motion.create(Link);
+
+// ─── PLACEHOLDER COPY — replace with client-provided copy (contract §8) ───
+const COMMUNITY = {
+  label: 'Community',
+  blurb: 'Join the circuit — first to hear about exclusive drops, court openings, and community sessions.',
+  cta: 'Join the circuit',
+  waMessage: 'Hi Court Hub — add me to the community list.',
+};
+// ─── END PLACEHOLDER COPY ───
 
 export default function Footer() {
   return (
@@ -17,16 +30,24 @@ export default function Footer() {
             Powers every part of the game. Professional courts, elite equipment, and the championship spirit.
           </p>
           <div className="flex gap-3 md:gap-4">
-            {[Instagram, Twitter, Facebook].map((Icon, i) => (
-              <motion.a 
-                key={i}
-                href="#"
-                whileHover={{ y: -5, color: '#C8FF3D' }}
-                className="p-3 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors"
-              >
-                <Icon className="w-5 h-5" />
-              </motion.a>
-            ))}
+            <motion.a
+              href="https://www.instagram.com/used_rackets" // confirm handle with client
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Court Hub on Instagram"
+              whileHover={{ y: -5, color: '#C8FF3D' }}
+              className="p-3 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors"
+            >
+              <Instagram className="w-5 h-5" />
+            </motion.a>
+            {/* Twitter/Facebook removed — no known accounts. Re-add when the client confirms handles:
+            <motion.a href="https://x.com/..." target="_blank" rel="noopener noreferrer" whileHover={{ y: -5, color: '#C8FF3D' }} className="p-3 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors">
+              <Twitter className="w-5 h-5" />
+            </motion.a>
+            <motion.a href="https://facebook.com/..." target="_blank" rel="noopener noreferrer" whileHover={{ y: -5, color: '#C8FF3D' }} className="p-3 bg-white/5 rounded-2xl hover:bg-white/10 transition-colors">
+              <Facebook className="w-5 h-5" />
+            </motion.a>
+            */}
           </div>
         </div>
 
@@ -34,16 +55,21 @@ export default function Footer() {
         <div className="md:col-span-2 space-y-4 md:space-y-6">
           <h4 className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/20 font-bold">Menu</h4>
           <nav className="flex flex-col gap-3 md:gap-4">
-            {['About', 'Shop', 'Our Story', 'Construction', 'FAQ'].map((item) => (
-              <motion.a 
-                key={item} 
-                href={`#${item === 'Our Story' ? 'story' : item.toLowerCase()}`} 
+            {[
+              { label: 'Shop', href: '/shop' },
+              { label: 'Construct Your Court', href: '/construct-your-court' },
+              { label: 'About', href: '/about' },
+              { label: 'Contact', href: '/contact' },
+            ].map((item) => (
+              <MotionLink
+                key={item.label}
+                href={item.href}
                 whileHover={{ scale: 1.08, originX: 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 className="text-white font-display font-bold md:text-lg hover:text-lime transition-colors w-fit block"
               >
-                {item}
-              </motion.a>
+                {item.label}
+              </MotionLink>
             ))}
           </nav>
         </div>
@@ -51,35 +77,42 @@ export default function Footer() {
         <div className="md:col-span-2 space-y-4 md:space-y-6">
           <h4 className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/20 font-bold">Company</h4>
           <nav className="flex flex-col gap-3 md:gap-4">
-            {['About Us', 'Careers', 'Partner Program', 'Terms', 'Privacy'].map((item) => (
-              <motion.a 
-                key={item} 
-                href="#" 
+            {[
+              { label: 'About Us', href: '/about' },
+              { label: 'Our Story', href: '/about' }, // '/#story' landed inside a GSAP-pinned stage (unreliable) — route to /about instead
+              // { label: 'Careers', href: '#' }, // removed dead link — re-add when the client provides a careers URL
+              { label: 'Terms', href: '/terms' },
+              { label: 'Privacy', href: '/privacy' },
+            ].map((item) => (
+              <MotionLink
+                key={item.label}
+                href={item.href}
                 whileHover={{ scale: 1.08, originX: 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 className="text-white/60 font-medium hover:text-white transition-colors w-fit block"
               >
-                {item}
-              </motion.a>
+                {item.label}
+              </MotionLink>
             ))}
           </nav>
         </div>
 
-        {/* Newsletter / Contact */}
+        {/* Community / Contact — honest WhatsApp CTA (newsletter form had no backend) */}
         <div className="md:col-span-4 space-y-6 md:space-y-8">
-          <h4 className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/20 font-bold">Newsletter</h4>
+          <h4 className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/20 font-bold">{COMMUNITY.label}</h4>
           <div className="space-y-4">
-            <p className="text-xs md:text-sm text-white/60">Join the circuit for exclusive drops and tournament invites.</p>
-            <div className="relative">
-              <input 
-                type="email" 
-                placeholder="hello@courthub.com"
-                className="w-full bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-4 md:p-5 text-sm md:text-base text-white placeholder:text-white/20 focus:border-lime/50 outline-none transition-all"
-              />
-              <button className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 p-2 bg-lime text-ink rounded-lg font-bold text-[10px] md:text-xs uppercase tracking-widest">
-                Join
-              </button>
-            </div>
+            <p className="text-xs md:text-sm text-white/60">{COMMUNITY.blurb}</p>
+            <motion.a
+              href={waHref(COMMUNITY.waMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center justify-center gap-3 w-full bg-lime text-ink rounded-full p-4 md:p-5 font-bold text-xs md:text-sm uppercase tracking-widest hover:bg-white transition-colors duration-300"
+            >
+              <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
+              {COMMUNITY.cta}
+            </motion.a>
           </div>
           <div className="pt-6 md:pt-8 space-y-3 md:space-y-4 border-t border-white/5">
             <div className="flex items-center gap-3 text-white/40 text-[11px] md:text-xs">
@@ -104,7 +137,7 @@ export default function Footer() {
           © 2026 COURT HUB GROUP. ALL RIGHTS RESERVED.
         </p>
         <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-[9px] md:text-[10px] font-mono uppercase tracking-[0.2em] text-white/20">
-          <a href="#" className="hover:text-white transition-colors text-lime font-bold italic">MADE FOR LEADERS</a>
+          <span className="text-lime font-bold italic">MADE FOR LEADERS</span>
           <span className="opacity-10 text-white font-bold hidden md:inline">|</span>
           <span className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-green" />

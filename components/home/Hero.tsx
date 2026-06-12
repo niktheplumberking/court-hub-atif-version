@@ -1,11 +1,15 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Client-side navigation for the outro CTA (a plain motion.a forces a full reload)
+const MotionLink = motion.create(Link);
 
 interface HeroProps {
   isLoaded: boolean;
@@ -298,15 +302,15 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
                 Scroll down to experience our world-class court builds, engineered surfaces, and pro-level academies.
               </p>
               <div className="flex justify-center md:justify-end pt-4">
-                <motion.a
-                  href="#construction"
+                <MotionLink
+                  href="/construct-your-court"
                   whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#0e0e0c", boxShadow: "0 0 25px rgba(255,255,255,0.25)" }}
                   whileTap={{ scale: 0.95 }}
                   className="flex items-center gap-3 px-8 py-4 bg-lime text-ink font-bold uppercase tracking-[0.15em] text-[11px] rounded-full shadow-lg transition-colors duration-300 pointer-events-auto cursor-pointer"
                 >
-                  Book a Session
+                  Build Your Court
                   <ArrowUpRight className="w-4 h-4" />
-                </motion.a>
+                </MotionLink>
               </div>
             </div>
           </div>

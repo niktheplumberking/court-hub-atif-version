@@ -1,12 +1,25 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, ArrowUpRight, Menu, X, ShoppingCart } from 'lucide-react';
+import { ArrowUpRight, Menu, X, ShoppingCart } from 'lucide-react';
+import { useCart } from '@/lib/cart-context';
+
+const MotionLink = motion.create(Link);
+
+// Bible #1 underline reveal: scaleX 0→1 from the left on enter, collapses toward the right on exit.
+const UNDERLINE_REVEAL =
+  'after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-lime/50 after:origin-right after:scale-x-0 after:transition-transform after:duration-[350ms] after:ease-[cubic-bezier(0.65,0,0.35,1)] hover:after:origin-left hover:after:scale-x-100';
+
+// Vertical-writing-mode adaptation of the same reveal for the sidebar links.
+const UNDERLINE_REVEAL_VERTICAL =
+  'after:absolute after:-right-2 after:top-0 after:h-full after:w-[2px] after:rounded-full after:bg-lime/50 after:origin-top after:scale-y-0 after:transition-transform after:duration-[350ms] after:ease-[cubic-bezier(0.65,0,0.35,1)] hover:after:origin-bottom hover:after:scale-y-100';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolledPastHero, setHasScrolledPastHero] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const { count } = useCart();
 
   // Scroll lock when mobile menu is open
   useEffect(() => {
@@ -91,14 +104,14 @@ export default function Header() {
                         key={item} 
                         href={`#${sectionId}`}
                         className={`text-[15px] transition-all duration-300 tracking-tight relative py-1.5 ${
-                          isActive 
-                            ? 'text-lime font-semibold' 
-                            : 'text-white/80 hover:text-white after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-[2px] after:bg-lime/50 after:transition-all after:duration-300 hover:after:w-full hover:after:left-0'
+                          isActive
+                            ? 'text-lime font-semibold'
+                            : `text-white/80 hover:text-white ${UNDERLINE_REVEAL}`
                         }`}
                       >
                         {item}
                         {isActive && (
-                          <motion.span 
+                          <motion.span
                             layoutId="activeHorizontalIndicator"
                             className="absolute left-0 right-0 bottom-0 h-[2px] bg-lime rounded-full shadow-[0_0_8px_#C8FF3D]"
                           />
@@ -106,6 +119,13 @@ export default function Header() {
                       </a>
                     );
                   })}
+                  {/* Real-page link alongside the section anchors */}
+                  <Link
+                    href="/contact"
+                    className={`text-[15px] transition-all duration-300 tracking-tight relative py-1.5 text-white/80 hover:text-white ${UNDERLINE_REVEAL}`}
+                  >
+                    Contact
+                  </Link>
                 </div>
 
                 {/* Center Logo */}
@@ -119,23 +139,25 @@ export default function Header() {
                 {/* Right Actions */}
                 <div className="flex items-center gap-6">
                   {/* Shopping Cart Icon */}
-                  <a href="#shop" className="text-white/80 hover:text-lime transition-all duration-300 relative mr-2 hover:scale-110">
+                  <Link href="/cart" className="text-white/80 hover:text-lime transition-all duration-300 relative mr-2 hover:scale-110">
                     <ShoppingCart className="w-5 h-5" />
-                    <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
-                      2
-                    </span>
-                  </a>
+                    {count > 0 && (
+                      <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
+                        {count}
+                      </span>
+                    )}
+                  </Link>
 
-                  {/* Book Button */}
-                  <motion.a
-                    href="#construction"
+                  {/* Primary CTA — court construction is the conversion path (no bookings) */}
+                  <MotionLink
+                    href="/construct-your-court"
                     whileHover={{ scale: 1.02, boxShadow: "0 0 15px rgba(255,255,255,0.15)" }}
                     whileTap={{ scale: 0.98 }}
                     className="flex items-center gap-2 py-2.5 px-6 border border-white/20 text-white text-[14px] font-medium rounded-full hover:bg-white hover:text-ink transition-all duration-300"
                   >
-                    <span>Book Now</span>
+                    <span>Build Your Court</span>
                     <ArrowUpRight className="w-4 h-4" />
-                  </motion.a>
+                  </MotionLink>
                 </div>
               </nav>
             </motion.header>
@@ -149,10 +171,10 @@ export default function Header() {
               className="fixed top-0 left-0 bottom-0 w-24 bg-black/90 backdrop-blur-xl border-r border-white/10 flex flex-col justify-between py-12 items-center z-50 shadow-[5px_0_30px_rgba(0,0,0,0.5)]"
             >
               {/* Vertical Logo Badge */}
-              <a href="#" className="font-display text-lg tracking-wider text-white flex flex-col items-center select-none hover:text-lime transition-colors">
+              <Link href="/" className="font-display text-lg tracking-wider text-white flex flex-col items-center select-none hover:text-lime transition-colors">
                 <span className="font-bold">C</span>
                 <span className="font-light opacity-80">H</span>
-              </a>
+              </Link>
 
               {/* Vertical Links (Rotated via CSS writing-mode) */}
               <div className="flex flex-col gap-10 items-center">
@@ -164,14 +186,14 @@ export default function Header() {
                       key={item} 
                       href={`#${sectionId}`}
                       className={`text-[13px] font-bold tracking-widest uppercase transition-all duration-300 [writing-mode:vertical-lr] rotate-180 relative py-1.5 ${
-                        isActive 
-                          ? 'text-lime font-black scale-105' 
-                          : 'text-white/60 hover:text-white after:absolute after:-right-2 after:top-1/2 after:-translate-y-1/2 after:w-0 after:h-4 after:bg-lime/30 after:rounded-full after:transition-all after:duration-300 hover:after:w-1 hover:after:h-4'
+                        isActive
+                          ? 'text-lime font-black scale-105'
+                          : `text-white/60 hover:text-white ${UNDERLINE_REVEAL_VERTICAL}`
                       }`}
                     >
                       {item}
                       {isActive && (
-                        <motion.span 
+                        <motion.span
                           initial={{ opacity: 0, scale: 0.4 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ duration: 0.25, ease: "easeOut" }}
@@ -181,28 +203,37 @@ export default function Header() {
                     </a>
                   );
                 })}
+                {/* Real-page link — keeps nav parity with the horizontal variant */}
+                <Link
+                  href="/contact"
+                  className={`text-[13px] font-bold tracking-widest uppercase transition-all duration-300 [writing-mode:vertical-lr] rotate-180 relative py-1.5 text-white/60 hover:text-white ${UNDERLINE_REVEAL_VERTICAL}`}
+                >
+                  Contact
+                </Link>
               </div>
 
               {/* Bottom Actions */}
               <div className="flex flex-col gap-8 items-center">
                 {/* Shopping Cart Icon (No search bar here) */}
-                <a href="#shop" className="text-white/60 hover:text-lime transition-all duration-300 relative hover:scale-110">
+                <Link href="/cart" className="text-white/60 hover:text-lime transition-all duration-300 relative hover:scale-110">
                   <ShoppingCart className="w-5 h-5" />
-                  <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
-                    2
-                  </span>
-                </a>
+                  {count > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
+                      {count}
+                    </span>
+                  )}
+                </Link>
 
-                {/* Compact Book Now Button */}
-                <motion.a
-                  href="#construction"
+                {/* Compact CTA — court construction */}
+                <MotionLink
+                  href="/construct-your-court"
                   whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#0e0e0c" }}
                   whileTap={{ scale: 0.95 }}
                   className="w-12 h-12 bg-lime text-ink rounded-full flex items-center justify-center shadow-lg transition-colors duration-300"
-                  title="Book Now"
+                  title="Build Your Court"
                 >
                   <ArrowUpRight className="w-5 h-5" />
-                </motion.a>
+                </MotionLink>
               </div>
             </motion.aside>
           )}
@@ -235,12 +266,14 @@ export default function Header() {
 
             {/* Cart Icon (Aligned to the right, book button deleted) */}
             <div className="flex items-center p-2">
-              <a href="#shop" className="text-white/80 hover:text-lime transition-colors relative hover:scale-110 block">
+              <Link href="/cart" className="text-white/80 hover:text-lime transition-colors relative hover:scale-110 block">
                 <ShoppingCart className="w-5 h-5" />
-                <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
-                  2
-                </span>
-              </a>
+                {count > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
+                    {count}
+                  </span>
+                )}
+              </Link>
             </div>
           </nav>
         </header>
@@ -271,24 +304,50 @@ export default function Header() {
                     </a>
                   );
                 })}
+                {/* Real-page link alongside the section anchors */}
+                <Link
+                  href="/contact"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-2xl font-display font-medium transition-colors text-white/80 hover:text-lime"
+                >
+                  Contact
+                </Link>
+
+                {/* Compact secondary row: real pages */}
+                <div className="mt-2 flex items-center gap-3 text-[12px] font-mono uppercase tracking-[0.2em] text-white/50">
+                  <Link href="/shop" onClick={() => setIsMenuOpen(false)} className="hover:text-lime transition-colors">
+                    Shop
+                  </Link>
+                  <span className="text-white/20">·</span>
+                  <Link href="/about" onClick={() => setIsMenuOpen(false)} className="hover:text-lime transition-colors">
+                    About
+                  </Link>
+                  <span className="text-white/20">·</span>
+                  <Link href="/contact" onClick={() => setIsMenuOpen(false)} className="hover:text-lime transition-colors">
+                    Contact
+                  </Link>
+                </div>
+
                 {/* Cart Icon inside Mobile Menu */}
                 <div className="mt-4 pt-6 border-t border-white/10 flex flex-col gap-4">
-                  <a href="#shop" onClick={() => setIsMenuOpen(false)} className="text-white/80 hover:text-lime flex items-center gap-2">
+                  <Link href="/cart" onClick={() => setIsMenuOpen(false)} className="text-white/80 hover:text-lime flex items-center gap-2">
                     <ShoppingCart className="w-6 h-6" />
-                    <span className="text-white text-base font-semibold">Your Cart (2 items)</span>
-                  </a>
+                    <span className="text-white text-base font-semibold">
+                      Your Cart{count > 0 ? ` (${count} ${count === 1 ? 'item' : 'items'})` : ''}
+                    </span>
+                  </Link>
 
-                  {/* Book Now Button inside Mobile Menu */}
+                  {/* Construction CTA inside Mobile Menu */}
                   <div className="mt-4">
-                    <motion.a
-                      href="#construction"
+                    <MotionLink
+                      href="/construct-your-court"
                       onClick={() => setIsMenuOpen(false)}
                       whileTap={{ scale: 0.95 }}
-                      className="w-full py-4 bg-lime text-ink rounded-xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:bg-white transition-all duration-300"
+                      className="w-full py-4 bg-lime text-ink rounded-full font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:bg-white transition-all duration-300"
                     >
-                      <span>Book a Court</span>
+                      <span>Build Your Court</span>
                       <ArrowUpRight className="w-4 h-4" />
-                    </motion.a>
+                    </MotionLink>
                   </div>
                 </div>
               </div>

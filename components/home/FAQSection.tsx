@@ -1,7 +1,14 @@
 'use client';
 import { useState, useRef } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+
+const MotionLink = motion.create(Link);
+
+// ─── PLACEHOLDER COPY — replace with client-provided copy (contract §8) ───
+const SUBHEADER =
+  'Everything you need to know about gear, academy coaching, and court construction.';
 
 const FAQS = [
   {
@@ -17,20 +24,20 @@ const FAQS = [
     answer: "Just athletic wear and non-marking court shoes. We provide professional-grade Bullpadel rackets and balls if you don't have your own. As you progress, we can help you choose the right gear from our Pro Shop."
   },
   {
-    question: "Where do training sessions and matches take place?",
-    answer: "We have primary hubs in Al Quoz (Dubai), Yas Island (Abu Dhabi), and Sharjah. Most Academy sessions are based at our Al Quoz HQ, which features 12 indoor, climate-controlled championship courts."
+    question: "Can I try a racket before I buy?",
+    answer: "Yes — message us on WhatsApp to arrange a showroom visit at our Al Quoz space in Dubai. Visits are by appointment, so you get one-on-one time to handle the rackets, compare shapes and weights, and get honest advice before you commit." // placeholder claim (showroom location & appointment model) — confirm with client
   },
   {
-    question: "How do I reserve a court or sign up for training?",
-    answer: "You can book directly via our mobile app (available on iOS and Android) or through the 'Book Now' portal on our website. For Academy programs, we recommend a trial assessment first to find your perfect level."
+    question: "How do I order gear or request a court build?",
+    answer: "Gear is simple — browse the Pro Shop online, add to cart, and check out; we deliver across the UAE. For court construction, share your site details through the Construct Your Court page or message us on WhatsApp, and our team will scope, quote, and schedule your build."
   },
   {
-    question: "Can I rent rackets and buy balls at the court?",
-    answer: "Yes, our Pro Shop rents top-tier Bullpadel and Head rackets for AED 30 per session. We also stock professional tournament balls, grips, and technical sportswear."
+    question: "What happens after I send a court build inquiry?",
+    answer: "A build consultant reviews your site details and replies on WhatsApp within one working day. From there we arrange a site survey, lock in a fixed line-item quote, and schedule your build — you'll know exactly what's happening at every stage." // placeholder claim (response time & process) — confirm with client
   },
   {
-    question: "Is there private parking available at the Al Quoz HQ?",
-    answer: "Yes, we have 50+ dedicated free parking slots directly in front of the arena for all players, coaches, and visitors."
+    question: "Do you deliver outside Dubai — or internationally?",
+    answer: "We deliver gear to all seven emirates via tracked courier, and court construction projects run UAE-wide. International shipping isn't part of standard checkout yet — if you're ordering from abroad, message us on WhatsApp and we'll quote it case by case." // placeholder claim (delivery scope & international policy) — confirm with client
   }
 ];
 
@@ -154,14 +161,14 @@ function FAQSupportBox() {
         <h4 className="text-ink font-display font-bold text-lg md:text-xl uppercase italic">Still have questions?</h4>
         <p className="text-ink/60 text-xs md:text-sm mt-1">Our support team is ready to assist you anytime.</p>
       </div>
-      <motion.a 
-        href="#construction"
+      <MotionLink
+        href="/contact"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="px-6 py-3 bg-court-blue text-white rounded-2xl font-bold uppercase tracking-wider text-[11px] hover:bg-lime hover:text-ink transition-all shadow-md cursor-pointer"
+        className="px-6 py-3 bg-court-blue text-white rounded-full font-bold uppercase tracking-wider text-[11px] hover:bg-lime hover:text-ink transition-all shadow-md cursor-pointer"
       >
         Contact Support
-      </motion.a>
+      </MotionLink>
     </motion.div>
   );
 }
@@ -191,7 +198,7 @@ export default function FAQSection() {
           </div>
           <div className="md:col-span-4">
             <p className="text-ink/60 text-base md:text-lg font-medium leading-snug md:text-right max-w-xs md:ml-auto">
-              Everything you need to know about booking, academy coaching, and court construction.
+              {SUBHEADER}
             </p>
           </div>
         </div>

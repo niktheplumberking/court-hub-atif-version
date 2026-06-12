@@ -1,14 +1,31 @@
 import ShopNav from '@/components/shop/ShopNav';
+import Footer from '@/components/home/Footer';
+import ContactClient from '@/components/contact/ContactClient';
+import FaqSection from '@/components/contact/FaqSection';
+import SmoothScroll from '@/components/shared/SmoothScroll';
 
-// Phase B page — structure in place, client copy drops in here.
+// ─── PLACEHOLDER COPY — replace with client-provided copy (contract §8) ───
+const COPY = {
+  metaTitle: 'Contact — Court Hub',
+  metaDescription:
+    'Reach Court Hub on WhatsApp for rackets, court construction and orders — plus phone, email, showroom details in Al Quoz, Dubai, and answers to common questions.', // placeholder location — confirm with client
+};
+// ─── End placeholder copy ───
+
+export const metadata = {
+  title: COPY.metaTitle,
+  description: COPY.metaDescription,
+};
+
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-ink">
       <ShopNav />
-      <section className="px-6 md:px-12 py-24 max-w-3xl mx-auto space-y-6">
-        <h1 className="font-display font-extrabold text-4xl md:text-6xl text-white capitalize">contact</h1>
-        <p className="text-white/40">Content coming with client copy — structure per the master plan, Phase B.</p>
-      </section>
+      <SmoothScroll>
+        <ContactClient />
+        <FaqSection />
+        <Footer />
+      </SmoothScroll>
     </main>
   );
 }
