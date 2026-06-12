@@ -2,7 +2,7 @@ import { cache } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { supabaseServer } from '@/lib/supabase/server';
-import ShopNav from '@/components/shop/ShopNav';
+import SiteHeader from '@/components/shared/SiteHeader';
 import Gallery from '@/components/shop/Gallery';
 import ProductInfo from '@/components/shop/ProductInfo';
 import SmoothScroll from '@/components/shared/SmoothScroll';
@@ -65,7 +65,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <main className="min-h-screen bg-ink">
-      <ShopNav />
+      <SiteHeader spacer />
       <script
         type="application/ld+json"
         // '<' escaped so user-authored copy can never close the script tag early

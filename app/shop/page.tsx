@@ -1,5 +1,5 @@
 import { supabaseServer } from '@/lib/supabase/server';
-import ShopNav from '@/components/shop/ShopNav';
+import SiteHeader from '@/components/shared/SiteHeader';
 import ShopCatalog from '@/components/shop/ShopCatalog';
 import SmoothScroll from '@/components/shared/SmoothScroll';
 import Footer from '@/components/home/Footer';
@@ -40,7 +40,7 @@ export default async function ShopPage({
 
   return (
     <main className="min-h-screen bg-ink">
-      <ShopNav />
+      <SiteHeader spacer />
       <SmoothScroll>
         {/* Keyed by category so a filter change remounts the catalog and the
             reveal choreography replays instead of leaving stale triggers. */}

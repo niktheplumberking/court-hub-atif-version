@@ -1,4 +1,4 @@
-import ShopNav from '@/components/shop/ShopNav';
+import SiteHeader from '@/components/shared/SiteHeader';
 import Footer from '@/components/home/Footer';
 
 // noindex until real legal copy arrives — placeholder policy must not be
@@ -34,7 +34,7 @@ const COPY = {
 export default function PrivacyPage() {
   return (
     <main className="min-h-screen bg-ink">
-      <ShopNav />
+      <SiteHeader spacer />
       <div className="max-w-3xl mx-auto px-6 md:px-12 py-16">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-lime font-bold mb-8">
           {COPY.draftNotice}

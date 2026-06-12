@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight, Menu, X, ShoppingCart } from 'lucide-react';
@@ -24,9 +25,13 @@ const UNDERLINE_REVEAL_VERTICAL =
   'after:absolute after:-right-2 after:top-0 after:h-full after:w-[2px] after:rounded-full after:bg-lime/50 after:origin-top after:scale-y-0 after:transition-transform after:duration-[350ms] after:ease-[cubic-bezier(0.65,0,0.35,1)] hover:after:origin-bottom hover:after:scale-y-100';
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHome = pathname === '/';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolledPastHero, setHasScrolledPastHero] = useState(false);
+  const [scrolled, setScrolled] = useState(false); // glass bg on subpages
   const [activeSection, setActiveSection] = useState('');
+  const progressRef = useRef<HTMLDivElement>(null);
   const { count } = useCart();
 
   // Scroll lock when mobile menu is open
@@ -45,16 +50,20 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const heroThreshold = window.innerHeight * 3 - 60;
-      if (window.scrollY >= heroThreshold) {
-        setHasScrolledPastHero(true);
-      } else {
-        setHasScrolledPastHero(false);
+      setHasScrolledPastHero(isHome && window.scrollY >= heroThreshold);
+      setScrolled(window.scrollY > 24);
+      // top scroll-progress rail (transform-only, cheap)
+      if (progressRef.current) {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const p = max > 0 ? window.scrollY / max : 0;
+        progressRef.current.style.transform = `scaleX(${p})`;
+        progressRef.current.style.opacity = p > 0.01 ? '1' : '0';
       }
     };
     window.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHome]);
 
   // 2. Scroll Spy for active section highlighting
   useEffect(() => {
@@ -89,6 +98,11 @@ export default function Header() {
 
   return (
     <>
+      {/* Site-wide scroll progress rail */}
+      <div className="fixed top-0 left-0 right-0 z-[70] h-[2px] pointer-events-none">
+        <div ref={progressRef} className="h-full w-full origin-left scale-x-0 bg-lime shadow-[0_0_10px_rgba(200,255,61,0.55)] transition-opacity duration-300 opacity-0" />
+      </div>
+
       {/* 1. DESKTOP NAV WRAPPERS (Transitions with AnimatePresence) */}
       <div className="hidden md:block">
         <AnimatePresence mode="wait">
@@ -99,7 +113,7 @@ export default function Header() {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -50, opacity: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="fixed top-0 left-0 right-0 z-50 px-12 md:px-16 py-6 md:py-10 pointer-events-auto"
+              className={`fixed top-0 left-0 right-0 z-50 px-12 md:px-16 pointer-events-auto transition-all duration-300 ${!isHome && scrolled ? 'py-4 md:py-5 bg-ink/85 backdrop-blur-md border-b border-white/10' : 'py-6 md:py-10'}`}
             >
               <nav className="mx-auto flex items-center justify-between">
                 {/* Links */}
@@ -131,10 +145,10 @@ export default function Header() {
 
                 {/* Center Logo */}
                 <div className="absolute left-1/2 -translate-x-1/2">
-                  <div className="font-display text-[22px] md:text-[26px] tracking-tight text-white flex items-center select-none">
+                  <Link href="/" className="font-display text-[22px] md:text-[26px] tracking-tight text-white flex items-center select-none hover:text-lime transition-colors">
                     <span className="font-bold uppercase tracking-tight">COURT</span>
                     <span className="font-light uppercase ml-2 opacity-80 tracking-tight">HUB</span>
-                  </div>
+                  </Link>
                 </div>
 
                 {/* Right Actions */}
@@ -244,7 +258,7 @@ export default function Header() {
       <div className="md:hidden relative z-[9999]">
         <header
           className={`fixed top-0 left-0 right-0 z-50 px-6 py-5 transition-all duration-300 ${
-            hasScrolledPastHero 
+            (hasScrolledPastHero || (!isHome && scrolled)) 
               ? 'bg-black/90 backdrop-blur-md border-b border-white/10 shadow-lg' 
               : 'bg-transparent'
           }`}
@@ -259,10 +273,10 @@ export default function Header() {
             </button>
 
             {/* Logo (Centered absolutely) */}
-            <div className="absolute left-1/2 -translate-x-1/2 font-display text-[20px] tracking-tight text-white flex items-center select-none">
+            <Link href="/" className="absolute left-1/2 -translate-x-1/2 font-display text-[20px] tracking-tight text-white flex items-center select-none">
               <span className="font-bold uppercase tracking-tight">COURT</span>
               <span className="font-light uppercase ml-1 opacity-80 tracking-tight">HUB</span>
-            </div>
+            </Link>
 
             {/* Cart Icon (Aligned to the right, book button deleted) */}
             <div className="flex items-center p-2">

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Trash2, Minus, Plus } from 'lucide-react';
 import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { gsap } from 'gsap';
-import ShopNav from '@/components/shop/ShopNav';
+import SiteHeader from '@/components/shared/SiteHeader';
 import SmoothScroll from '@/components/shared/SmoothScroll';
 import Footer from '@/components/home/Footer';
 import { useCart } from '@/lib/cart-context';
@@ -76,7 +76,7 @@ export default function CartPage() {
 
   return (
     <main className="min-h-screen bg-ink">
-      <ShopNav />
+      <SiteHeader spacer />
       <SmoothScroll>
         <MotionConfig reducedMotion="user">
           <div className="max-w-3xl mx-auto px-6 py-12 min-h-[60vh]">

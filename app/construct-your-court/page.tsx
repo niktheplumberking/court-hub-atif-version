@@ -1,4 +1,4 @@
-import ShopNav from '@/components/shop/ShopNav';
+import SiteHeader from '@/components/shared/SiteHeader';
 import Footer from '@/components/home/Footer';
 import SmoothScroll from '@/components/shared/SmoothScroll';
 import ConstructHero from '@/components/construct/ConstructHero';
@@ -21,7 +21,7 @@ export const metadata = {
 export default function ConstructYourCourtPage() {
   return (
     <main className="min-h-screen bg-ink">
-      <ShopNav />
+      <SiteHeader />
       <SmoothScroll>
         <ConstructHero />
         <BuildSequence />

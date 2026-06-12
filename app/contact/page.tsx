@@ -1,4 +1,4 @@
-import ShopNav from '@/components/shop/ShopNav';
+import SiteHeader from '@/components/shared/SiteHeader';
 import Footer from '@/components/home/Footer';
 import ContactClient from '@/components/contact/ContactClient';
 import FaqSection from '@/components/contact/FaqSection';
@@ -20,7 +20,7 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-ink">
-      <ShopNav />
+      <SiteHeader />
       <SmoothScroll>
         <ContactClient />
         <FaqSection />

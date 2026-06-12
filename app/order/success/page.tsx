@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { supabaseAdmin } from '@/lib/supabase/admin';
-import ShopNav from '@/components/shop/ShopNav';
+import SiteHeader from '@/components/shared/SiteHeader';
 import SmoothScroll from '@/components/shared/SmoothScroll';
 import Footer from '@/components/home/Footer';
 import SuccessReveal from '@/components/shop/SuccessReveal';
@@ -36,7 +36,7 @@ export default async function OrderSuccess({
 
   return (
     <main className="min-h-screen bg-ink">
-      <ShopNav />
+      <SiteHeader spacer />
       <ClearCart />
       <SmoothScroll>
         <SuccessReveal>

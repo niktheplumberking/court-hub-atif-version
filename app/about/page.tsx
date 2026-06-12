@@ -1,4 +1,4 @@
-import ShopNav from '@/components/shop/ShopNav';
+import SiteHeader from '@/components/shared/SiteHeader';
 import Footer from '@/components/home/Footer';
 import SmoothScroll from '@/components/shared/SmoothScroll';
 import AboutHero from '@/components/about/AboutHero';
@@ -23,7 +23,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-ink">
-      <ShopNav />
+      <SiteHeader />
       <SmoothScroll>
         {/* Relative corridor the scroll-scrubbed racket drifts down, behind
             the hero and values content (which paints above in the second div). */}
