@@ -1,4 +1,5 @@
 'use client';
+import Magnetic from '@/components/shared/Magnetic';
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -127,6 +128,7 @@ export default function FinalCTA() {
           </div>
 
           <div data-cta-button className="shrink-0 self-start md:self-auto">
+            <Magnetic>
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
@@ -138,6 +140,7 @@ export default function FinalCTA() {
               <MessageCircle className="w-5 h-5 text-lime" />
               {COPY.cta}
             </motion.a>
+            </Magnetic>
           </div>
         </div>
       </div>

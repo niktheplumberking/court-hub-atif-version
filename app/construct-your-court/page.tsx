@@ -2,6 +2,7 @@ import ShopNav from '@/components/shop/ShopNav';
 import Footer from '@/components/home/Footer';
 import SmoothScroll from '@/components/shared/SmoothScroll';
 import ConstructHero from '@/components/construct/ConstructHero';
+import BuildSequence from '@/components/construct/BuildSequence';
 import Services from '@/components/construct/Services';
 import Process from '@/components/construct/Process';
 import Gallery from '@/components/construct/Gallery';
@@ -23,6 +24,7 @@ export default function ConstructYourCourtPage() {
       <ShopNav />
       <SmoothScroll>
         <ConstructHero />
+        <BuildSequence />
         <Services />
         <Process />
         <Gallery />

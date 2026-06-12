@@ -15,6 +15,14 @@ Migrated from a Vite SPA — original homepage components live in `components/ho
 - TODO Phase D: Arabic RTL (/ar routes, next-intl) — only after EN approval.
 - TODO Phase E: domain, admin subdomain rewrite, Hostinger/email/security.
 
+## NON-NEGOTIABLE WORKFLOW RULE
+After EVERY completed change set: `git add -A && git commit -m "..." && git push origin nextjs-commerce`. Work that is not pushed DOES NOT EXIST — Vercel previews only build pushed commits. A previous session lost hours of work by never committing.
+
+## Cinematic system (use these, don't reinvent)
+- components/construct/BuildSequence.tsx — scroll-scrubbed 150-frame canvas scene (homepage DNA). REUSABLE: copy the pattern for other pages/sequences (frames live in /public).
+- components/shared/Magnetic.tsx — magnetic CTA wrapper for primary buttons.
+- The premium feel = cinematic MEDIA (frame sequences, parallax imagery), not more text animation. Pages without a media moment read as static.
+
 ## Conventions
 - Brand: Ink #0E0E0C bg, Lime #C8FF3D CTAs, Court Blue #1E5AE8, Sand #EDE8E1. Fonts: Outfit (display), Inter (body). Pill buttons (rounded-full), cards rounded-[20px]. Tokens are in app/globals.css @theme.
 - DB writes go through server actions / API routes using `supabaseAdmin()` (service role) after auth check. Never expose SUPABASE_SECRET_KEY client-side.

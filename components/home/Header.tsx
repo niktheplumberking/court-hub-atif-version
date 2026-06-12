@@ -7,6 +7,14 @@ import { useCart } from '@/lib/cart-context';
 
 const MotionLink = motion.create(Link);
 
+// Site navigation — real routes (the navbar navigates the site, it does not scroll the homepage)
+const NAV_LINKS = [
+  { label: 'About', href: '/about' },
+  { label: 'Shop', href: '/shop' },
+  { label: 'Construction', href: '/construct-your-court' },
+  { label: 'FAQ', href: '/contact#faq' },
+];
+
 // Bible #1 underline reveal: scaleX 0→1 from the left on enter, collapses toward the right on exit.
 const UNDERLINE_REVEAL =
   'after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-lime/50 after:origin-right after:scale-x-0 after:transition-transform after:duration-[350ms] after:ease-[cubic-bezier(0.65,0,0.35,1)] hover:after:origin-left hover:after:scale-x-100';
@@ -96,27 +104,20 @@ export default function Header() {
               <nav className="mx-auto flex items-center justify-between">
                 {/* Links */}
                 <div className="flex items-center gap-10">
-                  {['About', 'Shop', 'Our Story', 'Construction', 'FAQ'].map((item) => {
-                    const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
-                    const isActive = activeSection === sectionId;
+                  {NAV_LINKS.map((item) => {
+                    const isActive = false;
                     return (
-                      <a 
-                        key={item} 
-                        href={`#${sectionId}`}
+                      <Link
+                        key={item.label}
+                        href={item.href}
                         className={`text-[15px] transition-all duration-300 tracking-tight relative py-1.5 ${
                           isActive
                             ? 'text-lime font-semibold'
                             : `text-white/80 hover:text-white ${UNDERLINE_REVEAL}`
                         }`}
                       >
-                        {item}
-                        {isActive && (
-                          <motion.span
-                            layoutId="activeHorizontalIndicator"
-                            className="absolute left-0 right-0 bottom-0 h-[2px] bg-lime rounded-full shadow-[0_0_8px_#C8FF3D]"
-                          />
-                        )}
-                      </a>
+                        {item.label}
+                      </Link>
                     );
                   })}
                   {/* Real-page link alongside the section anchors */}
@@ -178,20 +179,19 @@ export default function Header() {
 
               {/* Vertical Links (Rotated via CSS writing-mode) */}
               <div className="flex flex-col gap-10 items-center">
-                {['About', 'Shop', 'Our Story', 'Construction', 'FAQ'].map((item) => {
-                  const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
-                  const isActive = activeSection === sectionId;
+                {NAV_LINKS.map((item) => {
+                  const isActive = false;
                   return (
-                    <a 
-                      key={item} 
-                      href={`#${sectionId}`}
+                    <Link
+                      key={item.label} 
+                      href={item.href}
                       className={`text-[13px] font-bold tracking-widest uppercase transition-all duration-300 [writing-mode:vertical-lr] rotate-180 relative py-1.5 ${
                         isActive
                           ? 'text-lime font-black scale-105'
                           : `text-white/60 hover:text-white ${UNDERLINE_REVEAL_VERTICAL}`
                       }`}
                     >
-                      {item}
+                      {item.label}
                       {isActive && (
                         <motion.span
                           initial={{ opacity: 0, scale: 0.4 }}
@@ -200,7 +200,7 @@ export default function Header() {
                           className="absolute -right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-lime shadow-[0_0_8px_#C8FF3D]"
                         />
                       )}
-                    </a>
+                    </Link>
                   );
                 })}
                 {/* Real-page link — keeps nav parity with the horizontal variant */}
@@ -288,23 +288,21 @@ export default function Header() {
               className="fixed inset-0 z-40 bg-black pt-28 pb-10 px-8 overflow-y-auto flex flex-col justify-between"
             >
               <div className="flex flex-col gap-6">
-                {['About', 'Shop', 'Our Story', 'Construction', 'FAQ'].map((item) => {
-                  const sectionId = item === 'Our Story' ? 'story' : item.toLowerCase();
-                  const isActive = activeSection === sectionId;
+                {NAV_LINKS.map((item) => {
+                  const isActive = false;
                   return (
-                    <a 
-                      key={item} 
-                      href={`#${sectionId}`}
+                    <Link
+                      key={item.label} 
+                      href={item.href}
                       onClick={() => setIsMenuOpen(false)}
                       className={`text-2xl font-display font-medium transition-colors ${
                         isActive ? 'text-lime font-bold' : 'text-white/80'
                       }`}
                     >
-                      {item}
-                    </a>
+                      {item.label}
+                    </Link>
                   );
                 })}
-                {/* Real-page link alongside the section anchors */}
                 <Link
                   href="/contact"
                   onClick={() => setIsMenuOpen(false)}
