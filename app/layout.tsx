@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { CartProvider } from '@/lib/cart-context';
 import Cursor from '@/components/shared/Cursor';
+import NavigationFlag from '@/components/shared/NavigationFlag';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3005';
 
@@ -41,6 +42,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="bg-ink text-white antialiased">
+        {/* Persists across navigations (above the page) so it can record the
+            first in-app route change — drives the homepage's first-landing-only
+            preloader. Renders nothing. */}
+        <NavigationFlag />
         <CartProvider>{children}</CartProvider>
         {/* Cursor lives in the layout (NOT template.tsx) so it persists across
             route changes instead of remounting and briefly leaving the user

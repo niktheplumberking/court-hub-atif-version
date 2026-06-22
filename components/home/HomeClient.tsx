@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, AnimatePresence } from 'motion/react';
 import type { Product } from '@/lib/types';
 
+import { hasClientNavigated } from '@/components/shared/NavigationFlag';
+
 import Header from './Header';
 import Hero from './Hero';
 import AboutSection from './AboutSection';
@@ -26,11 +28,23 @@ export default function App({ products = [] }: HomeClientProps) {
   const [constructionProgress, setConstructionProgress] = useState(0);
 
   const totalProgress = Math.round((heroProgress + constructionProgress) / 2);
-  const isLoaded = heroProgress === 100 && constructionProgress === 100;
+  const assetsLoaded = heroProgress === 100 && constructionProgress === 100;
 
-  // Lock scroll while preloading
+  // Show the preloader ONLY on a genuine first/external landing on the homepage.
+  // If the user has already navigated within the app this session (e.g. arrived
+  // here from /shop or /about), skip the intro entirely — the loader must not pop
+  // on internal navigation. Computed once at mount (render time) so it's read
+  // after NavigationFlag has recorded the current route; constant thereafter.
+  const [skipIntro] = useState(() => hasClientNavigated());
+
+  // "Ready" gates the overlay, the scroll lock, and the hero/stage GSAP setups.
+  // On internal nav skipIntro short-circuits it true so everything is live
+  // immediately (frames are already in the browser cache from the first visit).
+  const ready = assetsLoaded || skipIntro;
+
+  // Lock scroll only while the (first-landing) preloader is on screen.
   useEffect(() => {
-    if (!isLoaded) {
+    if (!ready) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -38,7 +52,7 @@ export default function App({ products = [] }: HomeClientProps) {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isLoaded]);
+  }, [ready]);
 
   useEffect(() => {
     // Initialize Lenis smooth scroll with luxurious deceleration and responsive multipliers
@@ -101,10 +115,11 @@ export default function App({ products = [] }: HomeClientProps) {
 
   return (
     <main className="relative min-h-screen">
-      {/* Elegant Unified Preloader Screen */}
+      {/* Elegant Unified Preloader Screen — first/external landing only */}
       <AnimatePresence>
-        {!isLoaded && (
-          <motion.div 
+        {!ready && (
+          <motion.div
+            data-preloader
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
@@ -140,12 +155,12 @@ export default function App({ products = [] }: HomeClientProps) {
       </AnimatePresence>
 
       <Header />
-      <Hero isLoaded={isLoaded} onProgress={setHeroProgress} />
+      <Hero isLoaded={ready} onProgress={setHeroProgress} />
       {/* Blanket wrapper that slides up over the fixed Hero section */}
       <div className="relative z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.8)] bg-court-blue -mt-[100vh] md:pl-24">
         <AboutSection />
         <ShopSection products={products} />
-        <StoryConstructionWrapper isLoaded={isLoaded} onProgress={setConstructionProgress} />
+        <StoryConstructionWrapper isLoaded={ready} onProgress={setConstructionProgress} />
         <FAQSection />
         <Footer />
       </div>

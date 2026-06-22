@@ -8,9 +8,23 @@ import ConstructionSection from './ConstructionSection';
 gsap.registerPlugin(ScrollTrigger);
 
 // Constants for tuning
-const SCROLL_LENGTH = '+=350%';
-const CAMERA_TRAVEL_END = 0.55;
+const SCROLL_LENGTH = '+=490%';
 const FRAME_SMOOTHING = 0.5;
+
+// Desktop reverse-scroll timeline phase weights (proportioned across SCROLL_LENGTH;
+// at +=490% each unit ≈ one viewport height of scroll):
+//   DWELL  — Our Story holds full-screen before the reverse scroll begins (so the
+//            user gets breathing room instead of an instant flip).
+//   TRAVEL — camera slides Construction down into view (the reverse scroll). Its
+//            speed is preserved from the original 0.55-of-350% ratio (~0.52 camera
+//            vh per scroll vh) so the motion feels exactly as before.
+//   SCRUB  — construction frames reproduce, and ONLY once Construction is 100% in
+//            view (i.e. after TRAVEL completes).
+//   FORM   — the configurator fades in, and ONLY after the final frame has played.
+const PHASE_DWELL = 0.5;
+const PHASE_TRAVEL = 1.9;
+const PHASE_SCRUB = 2.0;
+const PHASE_FORM = 0.5;
 
 interface StoryConstructionWrapperProps {
   isLoaded: boolean;
@@ -23,6 +37,12 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
   // guaranteed hydration mismatch on desktop). The matchMedia effect below flips this
   // post-mount; the unified preload no longer depends on isDesktop, so nothing regresses.
   const [isDesktop, setIsDesktop] = useState(false);
+  // Reduced motion: false on the server and first client render (SSR parity);
+  // flipped post-mount. When true on desktop we fall back to the stacked,
+  // normal-scroll layout instead of the 490% pinned reverse-scroll stage — the
+  // whole codebase gates motion this way, and this is the heaviest scene on the
+  // page, so honoring the OS preference here matters most.
+  const [reduceMotion, setReduceMotion] = useState(false);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const stageRef = useRef<HTMLDivElement>(null);
   const cameraWorldRef = useRef<HTMLDivElement>(null);
@@ -30,11 +50,26 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
   const desktopFormRef = useRef<HTMLDivElement>(null);
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
 
+  // The cinematic reverse-scroll stage runs only on a real desktop AND only when
+  // the user hasn't asked for reduced motion. Otherwise everyone gets the stacked
+  // layout, which presents the very same Our Story + Construction + configurator
+  // content in a plain, fully scrollable form.
+  const useReverseStage = isDesktop && !reduceMotion;
+
   // 1. Detect screen size (desktop >= 1024px)
   useEffect(() => {
     const media = window.matchMedia('(min-width: 1024px)');
     setIsDesktop(media.matches);
     const listener = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
+  }, []);
+
+  // 1b. Detect reduced-motion preference (and respond if it changes live)
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduceMotion(media.matches);
+    const listener = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
     media.addEventListener('change', listener);
     return () => media.removeEventListener('change', listener);
   }, []);
@@ -91,7 +126,7 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
 
   // 3. Setup GSAP ScrollTrigger Sequence for Desktop
   useEffect(() => {
-    if (!isLoaded || !isDesktop || !stageRef.current || !cameraWorldRef.current || !desktopCanvasRef.current) return;
+    if (!isLoaded || !useReverseStage || !stageRef.current || !cameraWorldRef.current || !desktopCanvasRef.current) return;
 
     const canvas = desktopCanvasRef.current;
     const context = canvas.getContext('2d');
@@ -120,7 +155,13 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
 
     const ctx = gsap.context(() => {
       const playhead = { frame: 0 };
-      
+
+      // Configurator initial state: hidden AND non-interactive. An opacity:0
+      // element still hit-tests, so pointer-events must be off until it actually
+      // appears — otherwise the invisible form would silently intercept clicks
+      // over the canvas during the dwell/travel/scrub phases.
+      gsap.set(desktopFormRef.current, { opacity: 0, x: 50, pointerEvents: 'none' });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: stageRef.current,
@@ -132,31 +173,38 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
         }
       });
 
-      // Phase A: CameraWorld translateY from -100vh to 0 over progress 0 -> 0.55
-      tl.fromTo(cameraWorldRef.current, 
+      // Phase 0 — DWELL: reserve scroll while Our Story stays full-screen, giving
+      // the user a few scrolls of breathing room before the reverse scroll. The
+      // camera fromTo below uses immediateRender (default), so the -100vh start is
+      // applied on creation and simply held through this dwell.
+      tl.to({}, { duration: PHASE_DWELL }, 0);
+
+      // Phase A — TRAVEL: camera slides from Our Story (-100vh) up to Construction
+      // (0). This is the "reverse scroll"; its speed matches the original. fromTo
+      // pins the start value deterministically across forward/backward scrubbing.
+      tl.fromTo(cameraWorldRef.current,
         { y: '-100vh' },
-        { y: '0px', ease: 'none', duration: CAMERA_TRAVEL_END },
-        0
+        { y: '0px', ease: 'none', duration: PHASE_TRAVEL },
+        PHASE_DWELL
       );
 
-      // Phase B: hold CameraWorld at translateY 0 (progress 0.55 -> 1.0)
-      tl.to({}, { duration: 1.0 - CAMERA_TRAVEL_END }, CAMERA_TRAVEL_END);
-
-      // Frame sequence: drive the construction frame index across the FULL 0 -> 1.0 timeline
+      // Phase B — SCRUB: construction frames reproduce, starting ONLY once the
+      // camera has fully arrived (Construction 100% in view). Until then the
+      // canvas holds frame 0, so sliding the section in never animates frames.
       tl.to(playhead, {
         frame: 149,
         ease: 'none',
-        duration: 1.0,
+        duration: PHASE_SCRUB,
         onUpdate: () => {
           drawFrame(playhead.frame);
         }
-      }, 0);
+      }, PHASE_DWELL + PHASE_TRAVEL);
 
-      // Form fade-in on the right side of construction canvas
-      tl.fromTo(desktopFormRef.current,
-        { opacity: 0, x: 50, pointerEvents: 'none' },
-        { opacity: 1, x: 0, pointerEvents: 'auto', ease: 'power2.out', duration: 0.2 },
-        0.75
+      // Phase C — FORM: the configurator fades in, starting ONLY after the last
+      // frame has played (frames 100% reproduced).
+      tl.to(desktopFormRef.current,
+        { opacity: 1, x: 0, pointerEvents: 'auto', ease: 'power2.out', duration: PHASE_FORM },
+        PHASE_DWELL + PHASE_TRAVEL + PHASE_SCRUB
       );
 
     }, stageRef);
@@ -185,11 +233,11 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
         observer.disconnect();
       }
     };
-  }, [isLoaded, isDesktop]);
+  }, [isLoaded, useReverseStage]);
 
   // Trigger ScrollTrigger.refresh() on font load, video metadata load, etc.
   useEffect(() => {
-    if (isLoaded && isDesktop) {
+    if (isLoaded && useReverseStage) {
       const handleLoad = () => ScrollTrigger.refresh();
       window.addEventListener('load', handleLoad);
       document.fonts.ready.then(handleLoad);
@@ -197,24 +245,25 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
         window.removeEventListener('load', handleLoad);
       };
     }
-  }, [isLoaded, isDesktop]);
+  }, [isLoaded, useReverseStage]);
 
   return (
     <>
-      {/* 1. Mobile & Tablet Layout (<1024px) - Completely untouched */}
-      {!isDesktop && (
+      {/* 1. Stacked layout — mobile/tablet (<1024px) AND any reduced-motion user.
+          Same Our Story + Construction content, plain scroll, no pinned stage. */}
+      {!useReverseStage && (
         <>
           <OurStorySection />
-          <ConstructionSection 
-            isLoaded={isLoaded} 
+          <ConstructionSection
+            isLoaded={isLoaded}
             onProgress={() => {}} // progress managed by wrapper
             preloadedImages={imagesRef}
           />
         </>
       )}
 
-      {/* 2. Desktop Layout (>= 1024px) - Reverse-direction Scroll Stage */}
-      {isDesktop && (
+      {/* 2. Desktop Layout (>= 1024px, motion allowed) - Reverse-direction Scroll Stage */}
+      {useReverseStage && (
         <>
           {/* Pin Stage */}
           <div 
@@ -222,8 +271,9 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
             className="relative w-full h-screen overflow-hidden bg-sand z-10 select-none"
           >
             {/* Camera World (200vh tall container stacked vertically) */}
-            <div 
-              ref={cameraWorldRef} 
+            <div
+              ref={cameraWorldRef}
+              data-camera-world
               className="w-full h-[200vh] flex flex-col relative will-change-transform bg-sand"
             >
               {/* Top Layer: ConstructionSection (100vh) */}
