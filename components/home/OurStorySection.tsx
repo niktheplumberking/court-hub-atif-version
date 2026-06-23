@@ -80,7 +80,10 @@ export function OurStoryVideoBlock({ className = '', videoRef }: { className?: s
         }}
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
       />
-      <div className="absolute inset-0 bg-white/15 pointer-events-none z-0" />
+      {/* Sand wash (was bg-white/15, which lightened the sky cooler than the
+          rest of the site). Tints the video's cream sky toward the exact sand
+          used by Construction / FAQ so the sections read as one tone. */}
+      <div className="absolute inset-0 bg-sand/20 pointer-events-none z-0" />
     </div>
   );
 }
@@ -164,7 +167,10 @@ export default function OurStorySection() {
         className="absolute inset-0 w-full h-full object-cover object-bottom md:object-center z-0 pointer-events-none"
       />
 
-      <div className="absolute inset-0 bg-white/15 pointer-events-none z-0" />
+      {/* Sand wash (was bg-white/15, which lightened the sky cooler than the
+          rest of the site). Tints the video's cream sky toward the exact sand
+          used by Construction / FAQ so the sections read as one tone. */}
+      <div className="absolute inset-0 bg-sand/20 pointer-events-none z-0" />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center w-full">

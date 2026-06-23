@@ -67,11 +67,14 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
     return () => media.removeEventListener('change', listener);
   }, []);
 
-  // 2. Preload the device-appropriate construction frame set once the viewport is
-  //    known. Desktop: 150 full-res frames. Mobile: 90 lightweight 540x960 frames
-  //    (the heavy desktop set would OOM-crash mobile Safari). Drives the loader.
+  // 2. Preload the device-appropriate construction frame set. Desktop: 150
+  //    full-res frames. Mobile: 90 lightweight 540x960 frames (the heavy desktop
+  //    set would OOM-crash mobile Safari). Deferred until `isLoaded` (the hero
+  //    has finished and the preloader has lifted) so these ~16MB don't compete
+  //    with the hero for bandwidth during first paint — the user scrolls through
+  //    several sections before reaching construction, so there's ample time.
   useEffect(() => {
-    if (!deviceResolved) return;
+    if (!deviceResolved || !isLoaded) return;
     let active = true;
     const { folder, count } = isDesktop ? DESKTOP_FRAMES : MOBILE_FRAMES;
     let loadedCount = 0;
@@ -117,7 +120,7 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
     return () => {
       active = false;
     };
-  }, [deviceResolved, isDesktop, onProgress]);
+  }, [deviceResolved, isDesktop, isLoaded, onProgress]);
 
   // 3. Setup GSAP ScrollTrigger Sequence for Desktop
   useEffect(() => {
@@ -164,7 +167,10 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
           end: SCROLL_LENGTH,
           pin: true,
           scrub: FRAME_SMOOTHING,
-          anticipatePin: 1,
+          // No anticipatePin: with Lenis driving scroll, its velocity prediction
+          // fires the pin early (mid-deceleration), dumping residual momentum into
+          // the last ~10% as an aggressive "push to lock". Pinning exactly at
+          // 'top top' lets Lenis settle into the lock smoothly instead.
         }
       });
 

@@ -27,8 +27,12 @@ export default function App({ products = [] }: HomeClientProps) {
   const [heroProgress, setHeroProgress] = useState(0);
   const [constructionProgress, setConstructionProgress] = useState(0);
 
-  const totalProgress = Math.round((heroProgress + constructionProgress) / 2);
-  const assetsLoaded = heroProgress === 100 && constructionProgress === 100;
+  // The preloader gates on the HERO only — it's the first thing on screen. The
+  // construction frames load lazily afterwards (the user scrolls through About,
+  // Shop and Our Story before reaching them), so blocking the loader on ~16MB of
+  // construction frames just slowed the first paint for no benefit.
+  const totalProgress = heroProgress;
+  const assetsLoaded = heroProgress === 100;
 
   // Show the preloader ONLY on a genuine first/external landing on the homepage.
   // If the user has already navigated within the app this session (e.g. arrived
@@ -65,12 +69,14 @@ export default function App({ products = [] }: HomeClientProps) {
       syncTouch: false,
     });
 
-    // Connect Lenis scroll event to GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
-
-    // Connect GSAP ticker to Lenis requestAnimationFrame
+    // Drive ScrollTrigger from the same rAF that advances Lenis, AFTER Lenis
+    // updates — this guarantees ScrollTrigger reads the current frame's smoothed
+    // scroll position, not the previous frame's. (Using lenis.on('scroll', …)
+    // instead can leave ScrollTrigger one frame stale at a pin boundary, which
+    // shows up as a jerk when a pinned section locks mid-deceleration.)
     const updateRaf = (time: number) => {
       lenis.raf(time * 1000);
+      ScrollTrigger.update();
     };
     gsap.ticker.add(updateRaf);
     gsap.ticker.lagSmoothing(0);
