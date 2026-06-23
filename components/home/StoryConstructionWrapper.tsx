@@ -11,6 +11,14 @@ gsap.registerPlugin(ScrollTrigger);
 const SCROLL_LENGTH = '+=490%';
 const FRAME_SMOOTHING = 0.5;
 
+// Device-specific construction frame sets. Desktop uses the full-res 2560x1440
+// sequence; mobile uses a dedicated lightweight 540x960 portrait set. This is
+// critical for mobile: decoding 150 desktop frames (~2.2GB of bitmap memory)
+// crashes iOS Safari ("a problem repeatedly occurred"). The mobile set is
+// ~177MB decoded — well within budget.
+const DESKTOP_FRAMES = { folder: '/construction-frames', count: 150 };
+const MOBILE_FRAMES = { folder: '/construction-frames-mobile', count: 90 };
+
 // Desktop reverse-scroll timeline phase weights (proportioned across SCROLL_LENGTH;
 // at +=490% each unit ≈ one viewport height of scroll):
 //   DWELL  — Our Story holds full-screen before the reverse scroll begins (so the
@@ -37,12 +45,10 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
   // guaranteed hydration mismatch on desktop). The matchMedia effect below flips this
   // post-mount; the unified preload no longer depends on isDesktop, so nothing regresses.
   const [isDesktop, setIsDesktop] = useState(false);
-  // Reduced motion: false on the server and first client render (SSR parity);
-  // flipped post-mount. When true on desktop we fall back to the stacked,
-  // normal-scroll layout instead of the 490% pinned reverse-scroll stage — the
-  // whole codebase gates motion this way, and this is the heaviest scene on the
-  // page, so honoring the OS preference here matters most.
-  const [reduceMotion, setReduceMotion] = useState(false);
+  // Gates the frame preload until the viewport size is known, so we load exactly
+  // ONE device-appropriate frame set (no desktop->mobile double-load, no progress
+  // wobble). False on the server and first client render (SSR parity).
+  const [deviceResolved, setDeviceResolved] = useState(false);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const stageRef = useRef<HTMLDivElement>(null);
   const cameraWorldRef = useRef<HTMLDivElement>(null);
@@ -50,49 +56,35 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
   const desktopFormRef = useRef<HTMLDivElement>(null);
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
 
-  // The cinematic reverse-scroll stage runs only on a real desktop AND only when
-  // the user hasn't asked for reduced motion. Otherwise everyone gets the stacked
-  // layout, which presents the very same Our Story + Construction + configurator
-  // content in a plain, fully scrollable form.
-  const useReverseStage = isDesktop && !reduceMotion;
-
-  // 1. Detect screen size (desktop >= 1024px)
+  // 1. Detect screen size (desktop >= 1024px). Resolves device on mount so the
+  //    correct frame set preloads and the right layout renders.
   useEffect(() => {
     const media = window.matchMedia('(min-width: 1024px)');
     setIsDesktop(media.matches);
+    setDeviceResolved(true);
     const listener = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     media.addEventListener('change', listener);
     return () => media.removeEventListener('change', listener);
   }, []);
 
-  // 1b. Detect reduced-motion preference (and respond if it changes live)
+  // 2. Preload the device-appropriate construction frame set once the viewport is
+  //    known. Desktop: 150 full-res frames. Mobile: 90 lightweight 540x960 frames
+  //    (the heavy desktop set would OOM-crash mobile Safari). Drives the loader.
   useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReduceMotion(media.matches);
-    const listener = (e: MediaQueryListEvent) => setReduceMotion(e.matches);
-    media.addEventListener('change', listener);
-    return () => media.removeEventListener('change', listener);
-  }, []);
-
-  // 2. Preload construction frames once for both mobile/desktop layouts.
-  // Both branches use the same deployed sequence: /construction-frames, 150 webp.
-  // (The old mobile folder '/construction frames mobile only' never existed → 90x 404 spam.)
-  useEffect(() => {
+    if (!deviceResolved) return;
     let active = true;
-    const frameCount = 150;
-    const folderPath = '/construction-frames';
-    const ext = 'webp';
+    const { folder, count } = isDesktop ? DESKTOP_FRAMES : MOBILE_FRAMES;
     let loadedCount = 0;
     const images: HTMLImageElement[] = [];
 
-    for (let i = 1; i <= frameCount; i++) {
+    for (let i = 1; i <= count; i++) {
       const img = new Image();
       const frameNum = String(i).padStart(3, '0');
-      
+
       const handleLoad = () => {
         if (!active) return;
         loadedCount++;
-        const progress = Math.round((loadedCount / frameCount) * 100);
+        const progress = Math.round((loadedCount / count) * 100);
         onProgress(progress);
       };
 
@@ -114,7 +106,7 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
         handleLoad();
       };
 
-      img.src = `${folderPath}/ezgif-frame-${frameNum}.${ext}`;
+      img.src = `${folder}/ezgif-frame-${frameNum}.webp`;
       images.push(img);
     }
     imagesRef.current = images;
@@ -122,11 +114,11 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
     return () => {
       active = false;
     };
-  }, [onProgress]);
+  }, [deviceResolved, isDesktop, onProgress]);
 
   // 3. Setup GSAP ScrollTrigger Sequence for Desktop
   useEffect(() => {
-    if (!isLoaded || !useReverseStage || !stageRef.current || !cameraWorldRef.current || !desktopCanvasRef.current) return;
+    if (!isLoaded || !isDesktop || !stageRef.current || !cameraWorldRef.current || !desktopCanvasRef.current) return;
 
     const canvas = desktopCanvasRef.current;
     const context = canvas.getContext('2d');
@@ -233,11 +225,11 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
         observer.disconnect();
       }
     };
-  }, [isLoaded, useReverseStage]);
+  }, [isLoaded, isDesktop]);
 
   // Trigger ScrollTrigger.refresh() on font load, video metadata load, etc.
   useEffect(() => {
-    if (isLoaded && useReverseStage) {
+    if (isLoaded && isDesktop) {
       const handleLoad = () => ScrollTrigger.refresh();
       window.addEventListener('load', handleLoad);
       document.fonts.ready.then(handleLoad);
@@ -245,25 +237,26 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
         window.removeEventListener('load', handleLoad);
       };
     }
-  }, [isLoaded, useReverseStage]);
+  }, [isLoaded, isDesktop]);
 
   return (
     <>
-      {/* 1. Stacked layout — mobile/tablet (<1024px) AND any reduced-motion user.
-          Same Our Story + Construction content, plain scroll, no pinned stage. */}
-      {!useReverseStage && (
+      {/* 1. Mobile & Tablet Layout (<1024px) — stacked, plain scroll. Uses the
+          lightweight mobile frame set (90 @ 540x960) to stay within mobile memory. */}
+      {!isDesktop && (
         <>
           <OurStorySection />
           <ConstructionSection
             isLoaded={isLoaded}
             onProgress={() => {}} // progress managed by wrapper
             preloadedImages={imagesRef}
+            frameCount={MOBILE_FRAMES.count}
           />
         </>
       )}
 
-      {/* 2. Desktop Layout (>= 1024px, motion allowed) - Reverse-direction Scroll Stage */}
-      {useReverseStage && (
+      {/* 2. Desktop Layout (>= 1024px) - Reverse-direction Scroll Stage */}
+      {isDesktop && (
         <>
           {/* Pin Stage */}
           <div 

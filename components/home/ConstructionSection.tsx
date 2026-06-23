@@ -15,15 +15,18 @@ interface ConstructionSectionProps {
   isDesktop?: boolean;
   canvasRef?: React.RefObject<HTMLCanvasElement | null>;
   formRef?: React.RefObject<HTMLDivElement | null>;
+  /** Number of frames in the active sequence (mobile uses 90, desktop 150). */
+  frameCount?: number;
 }
 
-export default function ConstructionSection({ 
-  isLoaded, 
+export default function ConstructionSection({
+  isLoaded,
   onProgress,
   preloadedImages,
   isDesktop = false,
   canvasRef: externalCanvasRef,
-  formRef: externalFormRef
+  formRef: externalFormRef,
+  frameCount = 150
 }: ConstructionSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const internalCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -87,8 +90,10 @@ Configuration Details:
       }
       return;
     }
+    // Standalone fallback only — in the homepage the wrapper always supplies
+    // preloadedImages, so this branch never runs there. Uses the prop frameCount
+    // so a standalone mount stays consistent with whatever set it's pointed at.
     let active = true;
-    const frameCount = 150;
     const folderPath = '/construction-frames';
     let loadedCount = 0;
     const images: HTMLImageElement[] = [];
@@ -96,7 +101,7 @@ Configuration Details:
     for (let i = 1; i <= frameCount; i++) {
       const img = new Image();
       const frameNum = String(i).padStart(3, '0');
-      
+
       const handleLoad = () => {
         if (!active) return;
         loadedCount++;
@@ -130,7 +135,7 @@ Configuration Details:
     return () => {
       active = false;
     };
-  }, [preloadedImages]);
+  }, [preloadedImages, frameCount, onProgress]);
 
   // 2. Setup GSAP ScrollTrigger Sequence
   useEffect(() => {
@@ -141,14 +146,28 @@ Configuration Details:
     const context = canvas.getContext('2d');
     if (!context) return;
 
-    // Set canvas dimensions to 1920x1080 for 1:1 hardware acceleration
-    canvas.width = 1920;
-    canvas.height = 1080;
+    const lastFrame = frameCount - 1;
+    const frames = () => (preloadedImages?.current ?? imagesRef.current);
+
+    // Size the canvas backing store to the actual frame dimensions (mobile frames
+    // are portrait 540x960, not the desktop 1920x1080) so drawImage is 1:1 and the
+    // CSS object-cover crops cleanly to the viewport without distortion.
+    const sizeCanvas = () => {
+      const first = frames().find((im) => im && im.complete && im.naturalWidth !== 0);
+      canvas.width = first ? first.naturalWidth : 540;
+      canvas.height = first ? first.naturalHeight : 960;
+    };
+    sizeCanvas();
 
     const drawFrame = (index: number) => {
       const roundedIndex = Math.round(index);
-      const img = preloadedImages?.current ? preloadedImages.current[roundedIndex] : imagesRef.current[roundedIndex];
+      const img = frames()[roundedIndex];
       if (img && img.complete && img.naturalWidth !== 0) {
+        // First valid frame may arrive after initial sizing — keep canvas matched.
+        if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+        }
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, 0, 0, canvas.width, canvas.height);
       }
@@ -172,7 +191,7 @@ Configuration Details:
 
       // Frame scrubbing animation
       tl.to(playhead, {
-        frame: 149,
+        frame: lastFrame,
         snap: { frame: 1 },
         ease: 'none',
         duration: 3,
@@ -194,7 +213,7 @@ Configuration Details:
     }, containerRef);
 
     return () => ctx.revert();
-  }, [isLoaded, isDesktop, preloadedImages]);
+  }, [isLoaded, isDesktop, preloadedImages, frameCount]);
 
   return (
     <div className="relative w-full h-full">
