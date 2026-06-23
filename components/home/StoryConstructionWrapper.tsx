@@ -79,6 +79,10 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
     const { folder, count } = isDesktop ? DESKTOP_FRAMES : MOBILE_FRAMES;
     let loadedCount = 0;
     const images: HTMLImageElement[] = [];
+    // Desktop: warm decodes sequentially in the background so they're ready for
+    // the reverse-scroll without a concurrent decode storm (which would jank the
+    // page while the user is still on the hero/about/shop above).
+    let decodeChain: Promise<unknown> = Promise.resolve();
 
     for (let i = 1; i <= count; i++) {
       const img = new Image();
@@ -92,17 +96,12 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
       };
 
       img.onload = () => {
-        // Desktop eagerly decodes for the smoothest scrub. Mobile SKIPS eager
-        // decode to avoid the simultaneous decode spike (hero + construction)
-        // that OOM-crashes iOS Safari; mobile frames decode lazily on draw.
+        // Count as ready on download; warm the decode in the background (desktop,
+        // sequential). Mobile SKIPS eager decode entirely — decoding hero +
+        // construction at once OOM-crashes iOS Safari; mobile decodes lazily on draw.
+        handleLoad();
         if (isDesktop && 'decode' in img) {
-          img.decode().then(() => {
-            if (active) handleLoad();
-          }).catch(() => {
-            if (active) handleLoad();
-          });
-        } else {
-          handleLoad();
+          decodeChain = decodeChain.then(() => (active ? img.decode().catch(() => {}) : undefined));
         }
       };
 

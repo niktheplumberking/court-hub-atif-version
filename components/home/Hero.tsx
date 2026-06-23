@@ -50,12 +50,15 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
 
     let loadedCount = 0;
     const images: HTMLImageElement[] = [];
+    // Desktop: warm decodes SEQUENTIALLY in the background (a chained queue) so
+    // frames are ready ahead of the scroll without a concurrent decode storm.
+    let decodeChain: Promise<unknown> = Promise.resolve();
 
     // Preload all frames
     for (let i = 1; i <= frameCount; i++) {
       const img = new Image();
       const frameNum = String(i).padStart(3, '0');
-      
+
       const handleLoad = () => {
         if (!active) return;
         loadedCount++;
@@ -64,19 +67,14 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
       };
 
       img.onload = () => {
-        // Desktop eagerly decodes for the smoothest scrub. Mobile SKIPS eager
-        // decode: decoding 60 hero + 90 construction frames at once produces a
-        // memory spike that OOM-crashes iOS Safari ("a problem repeatedly
-        // occurred"). On mobile the frames decode lazily on first draw — cheap
-        // at the reduced 962x538 resolution — so there is no decode storm.
+        // Gate the loader on DOWNLOAD, not decode. Blocking the preloader on 120
+        // frame-decodes kept it on screen several times longer than the actual
+        // download. Count the frame as ready on load; warm its decode in the
+        // background (desktop only, sequential — see decodeChain). Mobile skips
+        // decode entirely (lazy on first draw) to avoid an iOS-Safari OOM spike.
+        handleLoad();
         if (!isMobile && 'decode' in img) {
-          img.decode().then(() => {
-            if (active) handleLoad();
-          }).catch(() => {
-            if (active) handleLoad();
-          });
-        } else {
-          handleLoad();
+          decodeChain = decodeChain.then(() => (active ? img.decode().catch(() => {}) : undefined));
         }
       };
 
