@@ -64,7 +64,12 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
       };
 
       img.onload = () => {
-        if ('decode' in img) {
+        // Desktop eagerly decodes for the smoothest scrub. Mobile SKIPS eager
+        // decode: decoding 60 hero + 90 construction frames at once produces a
+        // memory spike that OOM-crashes iOS Safari ("a problem repeatedly
+        // occurred"). On mobile the frames decode lazily on first draw — cheap
+        // at the reduced 962x538 resolution — so there is no decode storm.
+        if (!isMobile && 'decode' in img) {
           img.decode().then(() => {
             if (active) handleLoad();
           }).catch(() => {
@@ -76,6 +81,7 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
       };
 
       img.onerror = () => {
+        if (!active) return;
         console.error(`Failed to load frame: ${frameNum}`);
         handleLoad();
       };

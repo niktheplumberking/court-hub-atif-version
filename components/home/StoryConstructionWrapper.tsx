@@ -89,7 +89,10 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
       };
 
       img.onload = () => {
-        if ('decode' in img) {
+        // Desktop eagerly decodes for the smoothest scrub. Mobile SKIPS eager
+        // decode to avoid the simultaneous decode spike (hero + construction)
+        // that OOM-crashes iOS Safari; mobile frames decode lazily on draw.
+        if (isDesktop && 'decode' in img) {
           img.decode().then(() => {
             if (active) handleLoad();
           }).catch(() => {

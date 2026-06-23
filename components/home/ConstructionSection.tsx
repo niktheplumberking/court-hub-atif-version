@@ -239,9 +239,9 @@ Configuration Details:
           />
 
           {/* WhatsApp Request Panel Overlay (Appears on the right side once court finishes building) */}
-          <div 
+          <div
             ref={formRef}
-            className="absolute bottom-2 left-4 right-4 md:bottom-auto md:left-auto md:right-16 lg:right-24 md:top-1/2 md:-translate-y-1/2 max-w-sm md:max-w-md lg:max-w-[480px] w-auto md:w-full bg-ink border border-white/10 rounded-[20px] md:rounded-[40px] p-4 md:p-8 space-y-3 md:space-y-5 z-20 opacity-0 shadow-[0_0_50px_rgba(30,90,232,0.18)] hover:shadow-[0_0_60px_rgba(30,90,232,0.25)] transition-shadow duration-500 pointer-events-auto"
+            className="absolute top-[46vh] bottom-2 left-4 right-4 flex flex-col md:block md:bottom-auto md:left-auto md:right-16 lg:right-24 md:top-1/2 md:-translate-y-1/2 max-w-sm md:max-w-md lg:max-w-[480px] w-auto md:w-full bg-ink border border-white/10 rounded-[20px] md:rounded-[40px] p-5 md:p-8 space-y-4 md:space-y-5 z-20 opacity-0 shadow-[0_0_50px_rgba(30,90,232,0.18)] hover:shadow-[0_0_60px_rgba(30,90,232,0.25)] transition-shadow duration-500 pointer-events-auto"
           >
             {/* System telemetry header - Hidden on mobile to save space */}
             <div className="hidden md:flex items-center justify-between border-b border-white/5 pb-2 md:pb-3">
@@ -267,7 +267,7 @@ Configuration Details:
               </p>
             </div>
 
-            <form onSubmit={handleWhatsAppSubmit} className="space-y-2.5 md:space-y-4">
+            <form onSubmit={handleWhatsAppSubmit} className="flex flex-1 flex-col justify-between space-y-3 md:block md:flex-none md:space-y-4">
               
               {/* Interactive Tabs for Court Model */}
               <div className="space-y-1">
