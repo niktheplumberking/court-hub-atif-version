@@ -32,9 +32,14 @@ const variants: Variants = {
   }),
 };
 
+// Every in-group navigation uses this clean fade — the outgoing page is removed
+// instantly (exit duration 0) so its fixed hero can NEVER flash during the
+// scroll-to-top, and the incoming page fades in already at the top. This kills the
+// "half-second hero-to-hero swipe" the horizontal slide caused when navigating from
+// a scrolled position.
 const fadeVariants: Variants = {
   enter: { opacity: 0 },
-  center: { opacity: 1, transition: { duration: 0.35 } },
+  center: { opacity: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   exit: { opacity: 0, transition: { duration: 0 } },
 };
 
@@ -76,7 +81,7 @@ export default function SwipeLayout({ children }: { children: React.ReactNode })
         <motion.div
           key={pathname}
           custom={dir.current}
-          variants={isProductDrill ? fadeVariants : variants}
+          variants={fadeVariants}
           initial="enter"
           animate="center"
           exit="exit"

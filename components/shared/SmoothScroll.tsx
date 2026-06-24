@@ -11,8 +11,9 @@ gsap.registerPlugin(ScrollTrigger);
 // Honors prefers-reduced-motion by leaving native scrolling untouched.
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
+    // Smooth scroll runs for everyone (the owner wants the buttery Lenis feel
+    // site-wide, matching the Construct cross-slide); we intentionally do NOT
+    // bail under prefers-reduced-motion here.
     const lenis = new Lenis({
       lerp: 0.1, // gentle, not slow — page settles ~150-250ms after the wheel stops
       duration: 1.2, // applies to scrollTo (anchor) animations

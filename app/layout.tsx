@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { CartProvider } from '@/lib/cart-context';
 import CartDrawer from '@/components/cart/CartDrawer';
+import MotionProvider from '@/components/shared/MotionProvider';
 import Cursor from '@/components/shared/Cursor';
 import NavigationFlag from '@/components/shared/NavigationFlag';
 
@@ -47,11 +48,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             first in-app route change — drives the homepage's first-landing-only
             preloader. Renders nothing. */}
         <NavigationFlag />
-        <CartProvider>
-          {children}
-          {/* Global live cart: floating bag button + slide-in drawer, on every page. */}
-          <CartDrawer />
-        </CartProvider>
+        <MotionProvider>
+          <CartProvider>
+            {children}
+            {/* Global live cart: floating bag button + slide-in drawer, on every page. */}
+            <CartDrawer />
+          </CartProvider>
+        </MotionProvider>
         {/* Cursor lives in the layout (NOT template.tsx) so it persists across
             route changes instead of remounting and briefly leaving the user
             with no visible cursor. */}

@@ -532,7 +532,7 @@ export default function ConstructClient() {
         {/* ================= SECTION 3: PROCESS / WORKFLOW ("FOUR WAYS WE MOVE EARTH.") ================= */}
         {/* Sticky Scroll-Locked Header Reveal */}
         <section ref={headerSectionRef} className="relative h-[500vh] bg-sand text-ink border-t border-ink/5">
-          <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center px-6 md:px-12 lg:px-16 xl:px-24 bg-sand select-none">
+          <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center pl-6 pr-6 md:pl-32 md:pr-12 lg:pr-16 xl:pr-24 bg-sand select-none">
 
             {/* Fine grid background mapping aligned to the brand aesthetic */}
             <div className="absolute inset-x-0 top-0 h-full w-full pointer-events-none">
@@ -660,7 +660,7 @@ export default function ConstructClient() {
               className="absolute inset-0 w-full h-full flex flex-col justify-between py-10 md:py-14 z-10 animate-fade-in"
             >
               {/* Header Block exactly like reference */}
-              <div className="px-6 md:px-12 lg:px-16 xl:px-24">
+              <div className="pl-6 pr-6 md:pl-32 md:pr-12 lg:pr-16 xl:pr-24">
                 <span className="font-mono text-xs text-lime uppercase tracking-[0.25em] font-black pb-1 block">
                   RECENT BUILDS
                 </span>
