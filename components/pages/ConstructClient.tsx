@@ -27,6 +27,7 @@ import {
   Check
 } from 'lucide-react';
 import Footer from '@/components/home/Footer';
+import HeroFrameNav from '@/components/swipe/HeroFrameNav';
 import { useMouseParallax } from '@/components/shared/useMouseParallax';
 
 const MotionLink = motion.create(Link);
@@ -405,6 +406,9 @@ export default function ConstructClient() {
                 <ChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-0.5 transition-transform" />
               </MotionLink>
 
+              {/* In-frame hero navbar (the design's integrated sub-header row) */}
+              <HeroFrameNav active="construct" />
+
               {/* 3. Centered Title Blocks: "ENGINEER THE", "BESPOKE ARENA" with organic, breath-like floating motions */}
               <div className="relative my-auto py-6 md:py-10 flex flex-col items-center justify-center min-h-[240px] md:min-h-[300px] z-10 select-none">
                 {/* Text Row 1 */}
@@ -521,7 +525,7 @@ export default function ConstructClient() {
         <div className="relative w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] pointer-events-none z-0" />
 
         {/* ================= BLANKET OVERLAY CONTENT ================= */}
-        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)] md:pl-24">
+        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)]">
 
 
 
@@ -1031,29 +1035,24 @@ export default function ConstructClient() {
             transition={{ ease: "linear", duration: 15, repeat: Infinity }}
             style={{ willChange: 'transform' }}
           >
-            {/* Track 1 */}
-            <div className="flex shrink-0 items-center gap-12 sm:gap-20 pr-12 sm:pr-20">
-              <span>SITE SURVEY</span>
-              <span className="text-black/25">•</span>
-              <span>DESIGN</span>
-              <span className="text-black/25">•</span>
-              <span>BUILD</span>
-              <span className="text-black/25">•</span>
-              <span>HANDOVER</span>
-              <span className="text-black/25">•</span>
-            </div>
-
-            {/* Track 2 (Identical Copy for seamless infinite scroll) */}
-            <div className="flex shrink-0 items-center gap-12 sm:gap-20 pr-12 sm:pr-20">
-              <span>SITE SURVEY</span>
-              <span className="text-black/25">•</span>
-              <span>DESIGN</span>
-              <span className="text-black/25">•</span>
-              <span>BUILD</span>
-              <span className="text-black/25">•</span>
-              <span>HANDOVER</span>
-              <span className="text-black/25">•</span>
-            </div>
+            {/* Two identical halves; each half repeats the phrase enough times to
+                overflow the widest viewport, so x: 0% -> -50% wraps with NO empty gap. */}
+            {[0, 1].map((half) => (
+              <div key={half} className="flex shrink-0 items-center" aria-hidden={half === 1}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="flex shrink-0 items-center gap-12 sm:gap-20 pr-12 sm:pr-20">
+                    <span>SITE SURVEY</span>
+                    <span className="text-black/25">•</span>
+                    <span>DESIGN</span>
+                    <span className="text-black/25">•</span>
+                    <span>BUILD</span>
+                    <span className="text-black/25">•</span>
+                    <span>HANDOVER</span>
+                    <span className="text-black/25">•</span>
+                  </div>
+                ))}
+              </div>
+            ))}
           </motion.div>
         </div>
 

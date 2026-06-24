@@ -16,6 +16,7 @@ import {
   User
 } from 'lucide-react';
 import Footer from '@/components/home/Footer';
+import HeroFrameNav from '@/components/swipe/HeroFrameNav';
 import { useMouseParallax } from '@/components/shared/useMouseParallax';
 
 // Crisp vector Dubai map placeholder (the old dubai_map.png was a corrupt, non-decodable
@@ -244,6 +245,9 @@ export default function ContactClient() {
                 <ChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-0.5 transition-transform" />
               </MotionLink>
 
+              {/* In-frame hero navbar (the design's integrated sub-header row) */}
+              <HeroFrameNav active="contact" />
+
               {/* 3. Centered Title Blocks: "LET'S CO-DESIGN", "GAME CHANNELS" with organic, breath-like floating motions */}
               <div className="relative my-auto py-6 md:py-10 flex flex-col items-center justify-center min-h-[240px] md:min-h-[300px] z-10 select-none">
                 {/* Text Row 1 */}
@@ -353,7 +357,7 @@ export default function ContactClient() {
         <div className="relative w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] pointer-events-none z-0" />
 
         {/* ================= BLANKET OVERLAY CONTENT ================= */}
-        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)] md:pl-24">
+        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)]">
 
         {/* ================= SECTION 2: DYNAMIC ROUTING & WHATSAPP INTEGRATION (Court Blue Backdrop) ================= */}
         <section id="selection" className="py-20 bg-court-blue text-white px-6 md:px-8 relative overflow-hidden">
@@ -943,7 +947,7 @@ export default function ContactClient() {
           </div>
         </section>
 
-        <Footer />
+        <Footer hideTopBorder />
 
 
         </div>

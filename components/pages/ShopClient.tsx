@@ -12,6 +12,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import Footer from '@/components/home/Footer';
+import HeroFrameNav from '@/components/swipe/HeroFrameNav';
 import { useMouseParallax } from '@/components/shared/useMouseParallax';
 import { PRODUCTS } from '@/components/shop/placeholder-products';
 import { useCart } from '@/lib/cart-context';
@@ -172,6 +173,9 @@ export default function ShopClient() {
                 <ChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-0.5 transition-transform" />
               </MotionLink>
 
+              {/* In-frame hero navbar (the design's integrated sub-header row) */}
+              <HeroFrameNav active="shop" />
+
               {/* 3. Centered Title Blocks: "EQUIPMENT", "PRO SHELF" with organic, breath-like floating motions */}
               <div className="relative my-auto py-6 md:py-10 flex flex-col items-center justify-center min-h-[240px] md:min-h-[300px] z-10 select-none">
                 {/* Text Row 1 */}
@@ -281,7 +285,7 @@ export default function ShopClient() {
         <div className="relative w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] pointer-events-none z-0" />
 
         {/* ================= BLANKET OVERLAY CONTENT ================= */}
-        <div ref={blanketRef} className="relative z-10 md:pl-24 bg-sand text-ink shadow-[0_-24px_50px_rgba(0,0,0,0.15)] border-t border-sand-2">
+        <div ref={blanketRef} className="relative z-10 bg-sand text-ink shadow-[0_-24px_50px_rgba(0,0,0,0.15)] border-t border-sand-2">
           {/* Fine spacing grid pattern for balanced quadrants and elegant reduced opacity (0.04) */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,13,24,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,13,24,0.035)_1px,transparent_1px)] bg-[size:5.0rem_5.0rem] pointer-events-none" />
 
@@ -475,7 +479,7 @@ export default function ShopClient() {
 
           {/* Footer inside its own distinct contrast block */}
           <div className="bg-ink text-white relative z-10">
-            <Footer />
+            <Footer hideTopBorder />
           </div>
         </div>
       </main>

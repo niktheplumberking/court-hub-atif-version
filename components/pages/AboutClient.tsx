@@ -13,6 +13,7 @@ import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
 import { useMouseParallax } from '@/components/shared/useMouseParallax';
 import { PRODUCTS } from '@/components/shop/placeholder-products';
 import { useCart } from '@/lib/cart-context';
+import HeroFrameNav from '@/components/swipe/HeroFrameNav';
 
 const MotionLink = motion.create(Link);
 
@@ -199,6 +200,9 @@ export default function AboutClient() {
                 <ChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-0.5 transition-transform" />
               </MotionLink>
 
+              {/* 2. In-frame hero navbar (the design's integrated sub-header row) */}
+              <HeroFrameNav active="about" />
+
               {/* 3. Centered Title Blocks: "EXPERIENCE PADEL", "ELEVATED" with organic, breath-like floating motions */}
               <div className="relative my-auto py-6 md:py-10 flex flex-col items-center justify-center min-h-[240px] md:min-h-[300px] z-10 select-none">
                 {/* Text Row 1 */}
@@ -333,7 +337,7 @@ export default function AboutClient() {
         <div className="relative w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] pointer-events-none z-0" />
 
         {/* ================= BLANKET OVERLAY CONTENT ================= */}
-        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)] md:pl-24">
+        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)]">
 
         {/* ================= SECTION 2: COMPANY STORY (Premium Sand/#EDE8E1 Theme / Editorial Feel) ================= */}
         <section className="min-h-screen flex flex-col justify-center py-20 sm:py-28 md:py-36 px-6 md:px-12 lg:px-16 xl:px-20 bg-sand text-ink relative overflow-hidden">
@@ -872,30 +876,62 @@ export default function AboutClient() {
 
             {/* Ambient lime shadow glow beneath the cards */}
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-4/5 h-[80px] sm:h-[130px] bg-lime/10 blur-3xl rounded-full pointer-events-none z-0" />            {/* Real best-seller product cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5 mt-12 max-w-6xl mx-auto relative z-10">
-              {bestSellers.map((p) => (
-                <div key={p.id} className="bg-white/5 border border-white/10 rounded-[20px] p-4 flex flex-col gap-3">
-                  <div className="bg-white/5 rounded-[14px] aspect-square flex items-center justify-center p-3">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                  </div>
-                  <span className="text-[9px] bg-lime/20 text-lime px-2 py-0.5 rounded font-bold uppercase tracking-wider w-fit">★ Best Seller</span>
-                  <span className="text-[10px] font-mono text-white/40 uppercase">{p.brand}</span>
-                  <h4 className="font-display font-black uppercase text-white text-sm leading-tight line-clamp-1">{p.name}</h4>
-                  <span className="text-lime font-display font-black">AED {p.price}</span>
-                  <button
-                    onClick={() => { add({ id: p.id, slug: p.id, title: p.name, price_aed: p.price, image: p.image, max_qty: 99 }, 1); openDrawer(); }}
-                    className="w-full py-2 rounded-full bg-lime text-ink text-[11px] font-bold uppercase tracking-wider hover:brightness-110 transition"
+            {/* Fanned "rainbow" deck — original arc arrangement, each card now a real
+                best-seller: placeholder image + Add-to-Bag + View-product. Hover lifts
+                and straightens a card to reveal it (matches the original interaction). */}
+            <div className="flex flex-nowrap justify-center items-center -space-x-10 sm:-space-x-16 md:-space-x-24 w-full overflow-visible py-10 relative z-10 select-none">
+              {bestSellers.map((p, index) => {
+                const cfg = [
+                  { rotate: -12, y: 38, zIndex: 10, opacity: 0.7 },
+                  { rotate: -6, y: 14, zIndex: 20, opacity: 0.9 },
+                  { rotate: 0, y: 0, zIndex: 30, opacity: 1 },
+                  { rotate: 6, y: 14, zIndex: 25, opacity: 0.9 },
+                  { rotate: 12, y: 38, zIndex: 10, opacity: 0.7 },
+                ][index] || { rotate: 0, y: 0, zIndex: 20, opacity: 1 };
+                return (
+                  <motion.div
+                    key={p.id}
+                    style={{ rotate: cfg.rotate, y: cfg.y, zIndex: cfg.zIndex, opacity: cfg.opacity }}
+                    whileHover={{ scale: 1.12, rotate: 0, y: -18, zIndex: 100, opacity: 1 }}
+                    transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+                    className="group relative flex-shrink-0 w-[190px] sm:w-[230px] md:w-[260px] rounded-[24px] bg-white border border-ink/10 p-3 shadow-[0_18px_45px_-12px_rgba(14,14,12,0.3)] flex flex-col gap-2.5 cursor-pointer"
                   >
-                    Add to Bag
-                  </button>
-                  <Link
-                    href={`/shop/${p.id}`}
-                    className="w-full py-2 rounded-full border border-white/15 text-white/80 text-[11px] font-bold uppercase tracking-wider text-center hover:bg-white/10 transition"
-                  >
-                    View product
-                  </Link>
-                </div>
-              ))}
+                    <span className="absolute top-4 left-4 z-20 text-[9px] bg-lime text-ink px-2 py-0.5 rounded font-bold uppercase tracking-wider shadow-sm">
+                      ★ Best Seller
+                    </span>
+                    <div className="rounded-[16px] bg-[#F5F4F0] aspect-[4/3] flex items-center justify-center p-3 overflow-hidden">
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <div className="px-1">
+                      <p className="text-[10px] font-mono text-ink/40 uppercase tracking-wide">{p.brand}</p>
+                      <h4 className="font-display font-black uppercase text-ink text-sm leading-tight line-clamp-1">{p.name}</h4>
+                      <span className="font-display font-black text-[#1E5AE8] text-base">AED {p.price}</span>
+                    </div>
+                    <div className="flex flex-col gap-1.5 mt-auto">
+                      <button
+                        onClick={() => {
+                          add({ id: p.id, slug: p.id, title: p.name, price_aed: p.price, image: p.image, max_qty: 99 }, 1);
+                          openDrawer();
+                        }}
+                        className="w-full py-2 rounded-full bg-lime text-ink text-[10px] font-bold uppercase tracking-wider hover:bg-ink hover:text-white transition-colors"
+                      >
+                        Add to Bag
+                      </button>
+                      <Link
+                        href={`/shop/${p.id}`}
+                        className="w-full py-2 rounded-full border border-ink/15 text-ink/70 text-[10px] font-bold uppercase tracking-wider text-center hover:bg-ink/5 transition-colors"
+                      >
+                        View product
+                      </Link>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
 
             {/* Seamless Bottom Gradient Fade into Footers */}
@@ -904,7 +940,7 @@ export default function AboutClient() {
         </section>
 
         {/* Standard Joint Footer */}
-        <Footer />
+        <Footer hideTopBorder />
 
         </div>
       </main>

@@ -41,8 +41,12 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState('');
   const progressRef = useRef<HTMLDivElement>(null);
   const { count, openDrawer } = useCart();
-  // Show the vertical rail whenever it's a swipe page, or on home once past hero.
-  const railActive = hasScrolledPastHero;
+  // Product detail (/shop/<slug>) shows the rail ALWAYS — it has no glass-frame hero
+  // to host an in-frame navbar. The 4 swipe hero pages + home reveal the rail on scroll;
+  // over their hero the global top bar is suppressed (home shows it; swipe pages show
+  // their own in-frame HeroFrameNav instead).
+  const isProductPage = pathname.startsWith('/shop/');
+  const railActive = isProductPage || hasScrolledPastHero;
 
   // Scroll lock when mobile menu is open
   useEffect(() => {
@@ -116,7 +120,7 @@ export default function Header() {
       {/* 1. DESKTOP NAV WRAPPERS (Transitions with AnimatePresence) */}
       <div className="hidden md:block">
         <AnimatePresence mode="wait">
-          {!railActive ? (
+          {(!railActive && isHome) ? (
             <motion.header
               key="desktop-horizontal"
               initial={{ y: -100, opacity: 0 }}
@@ -183,10 +187,12 @@ export default function Header() {
                 </div>
               </nav>
             </motion.header>
-          ) : (
+          ) : railActive ? (
             <motion.aside
               key="desktop-vertical"
-              initial={{ x: -100, opacity: 0 }}
+              // Home keeps its slide-in; on swipe pages the rail appears instantly
+              // visible (initial=false) so it never depends on the enter tween firing.
+              initial={isHome ? { x: -100, opacity: 0 } : false}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -100, opacity: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -254,7 +260,7 @@ export default function Header() {
                 </MotionLink>
               </div>
             </motion.aside>
-          )}
+          ) : null}
         </AnimatePresence>
       </div>
 
