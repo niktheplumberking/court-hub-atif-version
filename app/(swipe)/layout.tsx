@@ -7,6 +7,7 @@ import { AnimatePresence, motion, type Variants } from 'motion/react';
 // instantly, which would kill the exit half of the swipe).
 import { LayoutRouterContext } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { swipeDirection } from '@/components/swipe/pageOrder';
+import { swipeIntent } from '@/components/swipe/swipeIntent';
 import Header from '@/components/home/Header';
 import SmoothScroll from '@/components/shared/SmoothScroll';
 
@@ -17,30 +18,27 @@ function FrozenRouter({ children }: { children: React.ReactNode }) {
   return <LayoutRouterContext.Provider value={frozen}>{children}</LayoutRouterContext.Provider>;
 }
 
-const SPRING = { type: 'spring' as const, stiffness: 320, damping: 32 };
-const variants: Variants = {
-  enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0.95 }),
-  center: {
-    x: 0,
-    opacity: 1,
-    transition: { x: SPRING, opacity: { duration: 0.25 } },
-  },
-  exit: (dir: number) => ({
-    x: dir > 0 ? '-100%' : '100%',
-    opacity: 0.95,
-    transition: { x: SPRING, opacity: { duration: 0.25 } },
-  }),
-};
+type SwipeCustom = { dir: number; swipe: boolean };
 
-// Every in-group navigation uses this clean fade — the outgoing page is removed
-// instantly (exit duration 0) so its fixed hero can NEVER flash during the
-// scroll-to-top, and the incoming page fades in already at the top. This kills the
-// "half-second hero-to-hero swipe" the horizontal slide caused when navigating from
-// a scrolled position.
-const fadeVariants: Variants = {
-  enter: { opacity: 0 },
-  center: { opacity: 1, transition: { duration: 0.3, ease: 'easeOut' } },
-  exit: { opacity: 0, transition: { duration: 0 } },
+const SPRING = { type: 'spring' as const, stiffness: 320, damping: 32 };
+
+// ONE variants set, branched per-navigation on `swipe`:
+//  • swipe === true  → the signature horizontal hero-to-hero SLIDE (only when the
+//    user clicks the in-hero arrows; SwipeArrows set swipeIntent just before nav).
+//  • swipe === false → a clean FADE with an INSTANT exit (exit duration 0) so the
+//    outgoing fixed hero can't flash during the scroll-to-top. Used for every other
+//    navigation (side rail, in-hero navbar, product drill-downs).
+const variants: Variants = {
+  enter: ({ dir, swipe }: SwipeCustom) =>
+    swipe ? { x: dir > 0 ? '100%' : '-100%', opacity: 1 } : { x: 0, opacity: 0 },
+  center: ({ swipe }: SwipeCustom) =>
+    swipe
+      ? { x: 0, opacity: 1, transition: { x: SPRING, opacity: { duration: 0.2 } } }
+      : { x: 0, opacity: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  exit: ({ dir, swipe }: SwipeCustom) =>
+    swipe
+      ? { x: dir > 0 ? '-100%' : '100%', opacity: 1, transition: { x: SPRING } }
+      : { x: 0, opacity: 0, transition: { duration: 0 } },
 };
 
 /**
@@ -56,14 +54,16 @@ export default function SwipeLayout({ children }: { children: React.ReactNode })
   // page already has the right direction.
   const prevPath = useRef(pathname);
   const dir = useRef(1);
-  // Product detail (/shop/<slug>) navigations fade instead of sliding so the
-  // frozen shop page's fixed hero can't flash during the scroll-to-top. Note
-  // '/shop' does NOT match '/shop/', so the shop listing keeps the slide.
-  const isProductDrill = pathname.startsWith('/shop/') || prevPath.current.startsWith('/shop/');
+  // Whether THIS navigation is an arrow swipe — captured from the shared intent flag
+  // the instant the path changes, then reset so the next nav defaults to fade.
+  const swipeMode = useRef(false);
   if (pathname !== prevPath.current) {
     dir.current = swipeDirection(prevPath.current, pathname);
+    swipeMode.current = swipeIntent.current;
+    swipeIntent.current = false;
     prevPath.current = pathname;
   }
+  const custom: SwipeCustom = { dir: dir.current, swipe: swipeMode.current };
 
   return (
     // Lenis smooth-scroll for the whole swipe group — one instance, persists
@@ -77,11 +77,11 @@ export default function SwipeLayout({ children }: { children: React.ReactNode })
           breaks). Navigating between swipe pages via the navbar also triggers
           the swipe. */}
       <Header />
-      <AnimatePresence mode="popLayout" initial={false} custom={dir.current}>
+      <AnimatePresence mode="popLayout" initial={false} custom={custom}>
         <motion.div
           key={pathname}
-          custom={dir.current}
-          variants={fadeVariants}
+          custom={custom}
+          variants={variants}
           initial="enter"
           animate="center"
           exit="exit"

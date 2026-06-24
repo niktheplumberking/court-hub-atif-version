@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { neighbors } from './pageOrder';
+import { swipeIntent } from './swipeIntent';
 
 /**
  * In-hero swipe chevrons (left = previous page, right = next page in PAGE_ORDER).
@@ -27,7 +28,7 @@ export default function SwipeArrows({ className = '' }: { className?: string }) 
         whileHover={{ scale: 1.15, backgroundColor: '#C8FF3D', color: '#0E0E0C', x: -2 }}
         whileTap={{ scale: 0.94 }}
       >
-        <Link href={nb.prev} aria-label="Previous page" className={base}>
+        <Link href={nb.prev} aria-label="Previous page" className={base} onClick={() => { swipeIntent.current = true; }}>
           <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
         </Link>
       </motion.div>
@@ -36,7 +37,7 @@ export default function SwipeArrows({ className = '' }: { className?: string }) 
         whileHover={{ scale: 1.15, backgroundColor: '#C8FF3D', color: '#0E0E0C', x: 2 }}
         whileTap={{ scale: 0.94 }}
       >
-        <Link href={nb.next} aria-label="Next page" className={base}>
+        <Link href={nb.next} aria-label="Next page" className={base} onClick={() => { swipeIntent.current = true; }}>
           <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
         </Link>
       </motion.div>

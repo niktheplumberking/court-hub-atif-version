@@ -19,10 +19,8 @@ import Footer from '@/components/home/Footer';
 import HeroFrameNav from '@/components/swipe/HeroFrameNav';
 import { useMouseParallax } from '@/components/shared/useMouseParallax';
 
-// Real satellite/aerial image of Dubai (Palm Jumeirah, the Marina, World Islands,
-// the coastline + desert) sourced from ESRI World Imagery as a placeholder; the
-// location pins sit over it. Source: Esri, Maxar, Earthstar Geographics.
-const dubaiMapImg = '/assets/images/dubai-map.jpg';
+// Owner-provided Dubai street-map image, used verbatim as the contact-page map.
+const dubaiMapImg = '/assets/images/dubai-map.png';
 
 const MotionLink = motion.create(Link);
 
