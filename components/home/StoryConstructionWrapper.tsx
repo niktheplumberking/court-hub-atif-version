@@ -8,7 +8,10 @@ import ConstructionSection from './ConstructionSection';
 gsap.registerPlugin(ScrollTrigger);
 
 // Constants for tuning
-const SCROLL_LENGTH = '+=490%';
+// Extended from 490% -> 590%: the extra 100% (one viewport) is given entirely to
+// the frame-SCRUB phase below (2.0 -> 3.0), so the construction frames reproduce
+// over more scroll = slower, more readable playback. Other phases are unchanged.
+const SCROLL_LENGTH = '+=590%';
 const FRAME_SMOOTHING = 0.5;
 
 // Device-specific construction frame sets. Desktop uses the full-res 2560x1440
@@ -31,7 +34,7 @@ const MOBILE_FRAMES = { folder: '/construction-frames-mobile', count: 90 };
 //   FORM   — the configurator fades in, and ONLY after the final frame has played.
 const PHASE_DWELL = 0.5;
 const PHASE_TRAVEL = 1.9;
-const PHASE_SCRUB = 2.0;
+const PHASE_SCRUB = 3.0; // was 2.0 — more scroll distance so frames play ~1.5x slower
 const PHASE_FORM = 0.5;
 
 interface StoryConstructionWrapperProps {

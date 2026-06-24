@@ -172,7 +172,6 @@ export default function AboutClient() {
           <div className="w-full h-full max-w-[1720px] mx-auto relative z-10 flex flex-col">
             {/* The Outer Frame simulating the premium mockup panel - thin polished rounded border exactly like reference */}
             <div
-              style={{ contentVisibility: 'auto' }}
               className="w-full h-full border-2 md:border-[3px] border-white/60 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden relative shadow-[0_32px_120px_rgba(0,0,0,0.7)] bg-black/15 backdrop-blur-[1.5px] flex flex-col justify-between p-4 sm:p-8 md:p-10 lg:p-12"
             >
 

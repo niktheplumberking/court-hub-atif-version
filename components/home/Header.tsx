@@ -63,7 +63,9 @@ export default function Header() {
   // 1. Scroll check for layout switch (Hero -> Sidebar)
   useEffect(() => {
     const handleScroll = () => {
-      const heroThreshold = isHome ? window.innerHeight * 3 - 60 : window.innerHeight - 60;
+      // Swipe heroes are exactly one viewport tall — spawn the rail only once the
+      // hero is 100% out of view (full innerHeight), not a hair early. Home keeps its.
+      const heroThreshold = isHome ? window.innerHeight * 3 - 60 : window.innerHeight;
       setHasScrolledPastHero((isHome || isSwipePage) && window.scrollY >= heroThreshold);
       setScrolled(window.scrollY > 24);
       // top scroll-progress rail (transform-only, cheap)
@@ -190,12 +192,12 @@ export default function Header() {
           ) : railActive ? (
             <motion.aside
               key="desktop-vertical"
-              // Home keeps its slide-in; on swipe pages the rail appears instantly
-              // visible (initial=false) so it never depends on the enter tween firing.
-              initial={isHome ? { x: -100, opacity: 0 } : false}
+              // Same smooth slide-in on every page (home's exact effect): glide in
+              // from the left edge once the hero is fully out, never an abrupt pop.
+              initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -100, opacity: 0 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="fixed top-0 left-0 bottom-0 w-24 bg-[#0E0E0C] backdrop-blur-xl border-r border-white/10 flex flex-col justify-between py-12 items-center z-50 shadow-[5px_0_30px_rgba(0,0,0,0.5)]"
             >
               {/* Vertical Logo Badge */}
