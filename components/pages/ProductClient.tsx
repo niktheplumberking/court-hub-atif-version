@@ -227,24 +227,40 @@ export default function ProductClient() {
               className="lg:col-span-6 space-y-6"
             >
 
-              {/* Product Showpiece Container with warm-sand background and rounded-3xl corners */}
-              <div className="relative w-full aspect-[4/5] sm:aspect-square md:aspect-[4/5] bg-white rounded-[32px] overflow-hidden border border-ink/10 shadow-xs flex items-center justify-center p-8 lg:p-12">
+              {/* Wrapper is NOT clipped, so the SALE badge can overhang the top-left corner. */}
+              <div className="relative">
 
-                {/* 1/1 Style Circular SALE Badge */}
-                <motion.div animate={{ rotate: 360 }} transition={{ duration: 14, repeat: Infinity, ease: 'linear' }} className="absolute top-6 left-6 w-[76px] h-[76px] bg-[#1E5AE8] rounded-full flex items-center justify-center select-none z-10 shadow-[0_8px_20px_rgba(20,20,18,0.25)] ring-1 ring-white/15">
-                  <span className="text-[11px] font-sans font-extrabold tracking-[0.25em] text-white uppercase ml-0.5">SALE</span>
-                </motion.div>
+                {/* SALE badge — perched on the top-left corner, NO rotation. Hidden on load, then
+                    pops in after ~2.4s with a springy entrance and a pulsing blue glow halo behind
+                    it (pure CSS, see .ch-badge-pop / .ch-badge-glow in globals.css). */}
+                <div className="ch-badge-pop absolute -top-6 -left-6 z-20 pointer-events-none">
+                  <span aria-hidden className="ch-badge-glow absolute inset-0 rounded-full bg-[#1E5AE8] blur-xl" />
+                  <div className="relative w-[76px] h-[76px] bg-[#1E5AE8] rounded-full flex items-center justify-center select-none shadow-[0_8px_24px_rgba(30,90,232,0.45)] ring-1 ring-white/15">
+                    <span className="text-[11px] font-sans font-extrabold tracking-[0.25em] text-white uppercase ml-0.5">SALE</span>
+                  </div>
+                </div>
 
-                {/* Floating Racket Render - Clean full-size floating effect without background */}
-                <div className="absolute inset-x-8 inset-y-12 flex items-center justify-center select-none pointer-events-none">
-                  <motion.img
-                    src={product.image}
-                    alt={product.name}
-                    animate={{ y: [0, -12, 0] }}
-                    transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="h-full w-auto max-h-[420px] sm:max-h-[500px] object-contain drop-shadow-[0_20px_45px_rgba(20,20,18,0.18)]"
-                    referrerPolicy="no-referrer"
-                  />
+                {/* Product Showpiece Container (`isolate` scopes the image's blend to this card). */}
+                <div className="relative w-full aspect-[4/5] sm:aspect-square md:aspect-[4/5] bg-white rounded-[32px] overflow-hidden border border-ink/10 shadow-xs flex items-center justify-center p-8 lg:p-12 isolate">
+
+                  {/* Soft floating ground shadow beneath the product — keeps the lifted look without
+                      the old rectangular drop-shadow that outlined the image's bounding box. */}
+                  <div className="absolute bottom-[14%] left-1/2 -translate-x-1/2 w-2/5 h-5 bg-black/15 blur-2xl rounded-[50%] pointer-events-none z-0" />
+
+                  {/* Floating Racket Render — mix-blend-multiply melts the image's white studio
+                      background into the white card pixel-for-pixel (white × card = card), so no
+                      rectangle shows; the bob keeps the floating effect. */}
+                  <div className="absolute inset-x-8 inset-y-12 flex items-center justify-center select-none pointer-events-none z-10">
+                    <motion.img
+                      src={product.image}
+                      alt={product.name}
+                      animate={{ y: [0, -12, 0] }}
+                      transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+                      className="h-full w-auto max-h-[420px] sm:max-h-[500px] object-contain mix-blend-multiply"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+
                 </div>
 
               </div>
@@ -255,8 +271,8 @@ export default function ProductClient() {
                 {/* Variant 1: Lime */}
                 <Link
                   href="/shop/finder-pro"
-                  className={`aspect-square rounded-[24px] bg-lime/10 p-4 flex items-center justify-center relative group overflow-hidden border-2 transition-all hover:scale-[1.02] ${
-                    product.id === 'finder-pro' ? 'border-ink bg-lime/20 shadow-sm' : 'border-transparent hover:border-ink/10'
+                  className={`aspect-square rounded-[24px] bg-ink p-4 flex items-center justify-center relative group overflow-hidden border-2 transition-all hover:scale-[1.02] ${
+                    product.id === 'finder-pro' ? 'border-lime shadow-sm' : 'border-white/10 hover:border-white/30'
                   }`}
                 >
                   <img
@@ -270,8 +286,8 @@ export default function ProductClient() {
                 {/* Variant 2: Stealth Blue */}
                 <Link
                   href="/shop/stealth-blue"
-                  className={`aspect-square rounded-[24px] bg-court-blue/10 p-4 flex items-center justify-center relative group overflow-hidden border-2 transition-all hover:scale-[1.02] ${
-                    product.id === 'stealth-blue' ? 'border-ink bg-court-blue/20 shadow-sm' : 'border-transparent hover:border-ink/10'
+                  className={`aspect-square rounded-[24px] bg-ink p-4 flex items-center justify-center relative group overflow-hidden border-2 transition-all hover:scale-[1.02] ${
+                    product.id === 'stealth-blue' ? 'border-court-blue shadow-sm' : 'border-white/10 hover:border-white/30'
                   }`}
                 >
                   <img
@@ -285,8 +301,8 @@ export default function ProductClient() {
                 {/* Variant 3: Propulsion Carbon */}
                 <Link
                   href="/shop/propulsion-carbon"
-                  className={`aspect-square rounded-[24px] bg-ink/5 p-4 flex items-center justify-center relative group overflow-hidden border-2 transition-all hover:scale-[1.02] ${
-                    product.id === 'propulsion-carbon' ? 'border-ink bg-ink/10 shadow-sm' : 'border-transparent hover:border-ink/10'
+                  className={`aspect-square rounded-[24px] bg-ink p-4 flex items-center justify-center relative group overflow-hidden border-2 transition-all hover:scale-[1.02] ${
+                    product.id === 'propulsion-carbon' ? 'border-lime shadow-sm' : 'border-white/10 hover:border-white/30'
                   }`}
                 >
                   <img

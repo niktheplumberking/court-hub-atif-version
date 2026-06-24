@@ -58,94 +58,6 @@ const INQUIRY_ROUTES: ContactRoute[] = [
   }
 ];
 
-interface MapPinData {
-  id: string;
-  name: string;
-  category: 'office' | 'sports' | 'landmark';
-  x: string;
-  y: string;
-  address: string;
-  description: string;
-  phone: string;
-  hours: string;
-  city: string;
-}
-
-const MAP_PINS: MapPinData[] = [
-  {
-    id: "court_hub",
-    name: "CourtHub Operations HQ",
-    category: "office",
-    x: "40%",
-    y: "71.5%",
-    address: "Plot 124-A, Al Quoz 3 Road",
-    city: "Dubai, United Arab Emirates",
-    description: "Our regional studio, client workshop & premium court exhibition hub.",
-    phone: "+971 4 456 7890",
-    hours: "9:00 AM - 6:00 PM"
-  },
-  {
-    id: "burj_khalifa",
-    name: "Burj Khalifa / Downtown",
-    category: "landmark",
-    x: "48%",
-    y: "41.5%",
-    address: "1 Sheikh Mohammed bin Rashid Blvd",
-    city: "Dubai, United Arab Emirates",
-    description: "The world's tallest building, close to our engineering partners at Business Bay.",
-    phone: "Public Site",
-    hours: "24/7 Access"
-  },
-  {
-    id: "palm_jumeirah",
-    name: "Palm Jumeirah Resort",
-    category: "landmark",
-    x: "8.5%",
-    y: "84%",
-    address: "The Crescent, Palm Jumeirah",
-    city: "Dubai, United Arab Emirates",
-    description: "Iconic palm-shaped island with luxury hotel partner complexes.",
-    phone: "Scenic District",
-    hours: "Public Access"
-  },
-  {
-    id: "burj_al_arab",
-    name: "Burj Al Arab Jumeirah",
-    category: "landmark",
-    x: "23%",
-    y: "69.5%",
-    address: "Jumeirah St, Umm Suqeim 3",
-    city: "Dubai, United Arab Emirates",
-    description: "Ultra-luxury sail-shaped hotel. Close to beachfront recreational facilities.",
-    phone: "+971 4 301 7777",
-    hours: "Reservation Only"
-  },
-  {
-    id: "kite_beach",
-    name: "Jumeirah Beach Padel Hub",
-    category: "sports",
-    x: "29%",
-    y: "58%",
-    address: "Kite Beach, Jumeirah 3",
-    city: "Dubai, United Arab Emirates",
-    description: "Public beachside padel and volleyball exhibition matches.",
-    phone: "Public Court",
-    hours: "6:00 AM - 12:00 AM"
-  },
-  {
-    id: "safari_park",
-    name: "Al Warqa Sports Venue",
-    category: "sports",
-    x: "86%",
-    y: "56.5%",
-    address: "Al Warqa 5",
-    city: "Dubai, United Arab Emirates",
-    description: "Multi-court exhibition layout and wild conservatory partner grounds.",
-    phone: "+971 800 900",
-    hours: "9:00 AM - 5:00 PM"
-  }
-];
-
 export default function ContactClient() {
   const { x: parallaxX, y: parallaxY } = useMouseParallax(26);
   const [selectedRouteId, setSelectedRouteId] = useState<string>('construction');
@@ -160,9 +72,6 @@ export default function ContactClient() {
   const [personalMessage, setPersonalMessage] = useState<string>('');
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
-  // States for the interactive map of Dubai
-  const [activeMapPin, setActiveMapPin] = useState<string>('court_hub');
-  const [mapCategory, setMapCategory] = useState<'all' | 'office' | 'sports' | 'landmark'>('all');
 
   const activeRoute = useMemo(() => {
     return INQUIRY_ROUTES.find(r => r.id === selectedRouteId) || INQUIRY_ROUTES[0];
@@ -772,176 +681,23 @@ export default function ContactClient() {
               </div>
             </div>
 
-            {/* Map Filter Controls */}
-            <div className="space-y-4 pb-4 border-b border-ink/10 text-left">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-court-blue animate-pulse" />
-                  <p className="font-display font-black text-xs uppercase tracking-wider text-ink/50 font-sans">
-                    INTERACTIVE PLOTS OF INTEREST (DUBAI METROPOLITAN AREA)
-                  </p>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  {(['all', 'office', 'sports', 'landmark'] as const).map((cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => {
-                        setMapCategory(cat);
-                        const filtered = cat === 'all' ? MAP_PINS : MAP_PINS.filter(p => p.category === cat);
-                        // Auto-select first of class if active pin isn't in filtered set
-                        if (!filtered.some(p => p.id === activeMapPin)) {
-                          setActiveMapPin(filtered[0]?.id || 'court_hub');
-                        }
-                      }}
-                      className={`px-4 py-1.5 rounded-xl font-sans text-[10px] font-extrabold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
-                        mapCategory === cat
-                          ? 'bg-court-blue text-white shadow-md shadow-court-blue/20'
-                          : 'bg-white text-ink/75 hover:bg-slate-50 border border-slate-200 hover:border-slate-300'
-                      }`}
-                    >
-                      {cat === 'all' && 'Show All'}
-                      {cat === 'office' && 'HQ & Offices'}
-                      {cat === 'sports' && 'Padel & Play'}
-                      {cat === 'landmark' && 'Iconic Landmarks'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+            {/* Dubai street map — mouse-parallax background only (owner request: no pins,
+                no filters, no overlays — just the map drifting with the cursor like the heroes). */}
+            <div className="relative w-full aspect-[21/10] min-h-[380px] max-h-[580px] rounded-[32px] border border-slate-200/60 overflow-hidden shadow-sm bg-[#FAF9F6] select-none">
 
-            {/* Stylized premium Dubai map with filters, custom pins, and detailed vector layout */}
-            <div className="relative w-full aspect-[21/10] min-h-[380px] max-h-[580px] rounded-[32px] border border-slate-200/60 overflow-hidden shadow-sm flex items-center justify-center p-6 bg-[#FAF9F6] select-none">
+              {/* Oversized + offset so it can drift with the cursor without exposing the edges. */}
+              <motion.div
+                style={{ x: parallaxX, y: parallaxY }}
+                className="absolute inset-[-5%] z-0 select-none pointer-events-none overflow-hidden scale-105 origin-center"
+              >
+                <img
+                  src={dubaiMapImg}
+                  alt="Map of Dubai"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </motion.div>
 
-              {/* Real interactive street map background loaded directly as a local asset */}
-              <img
-                src={dubaiMapImg}
-                alt="Dubai Map"
-                className="absolute inset-0 w-full h-full object-cover z-0 opacity-100 pointer-events-none"
-                referrerPolicy="no-referrer"
-              />
-
-              {/* Subtle visual vignette for high premium look */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/5 via-transparent to-black/5 pointer-events-none z-0" />
-
-              {/* Dynamic Map Pins & Interactive Tooltips */}
-              {MAP_PINS.map((pin) => {
-                const isSelected = activeMapPin === pin.id;
-                const isFilteredOut = mapCategory !== 'all' && pin.category !== mapCategory;
-
-                if (isFilteredOut) return null;
-
-                // Configure colors based on category
-                let activeColor = "#1E5AE8"; // office: court blue (aligned with branding)
-                let bgLight = "rgba(30, 90, 232, 0.1)";
-                let pinSymbol = "H";
-
-                if (pin.category === 'sports') {
-                  activeColor = "#07C66A"; // brand green
-                  bgLight = "rgba(7, 198, 106, 0.1)";
-                  pinSymbol = "K";
-                } else if (pin.category === 'landmark') {
-                  activeColor = "#0E0E0C"; // brand ink
-                  bgLight = "#EDE8E1"; // brand sand
-                  if (pin.id === 'burj_khalifa') pinSymbol = "B";
-                  else if (pin.id === 'palm_jumeirah') pinSymbol = "P";
-                  else if (pin.id === 'burj_al_arab') pinSymbol = "A";
-                }
-
-                return (
-                  <div
-                    key={pin.id}
-                    className="absolute z-20 transition-all duration-300"
-                    style={{ left: pin.x, top: pin.y }}
-                  >
-                    {/* Ripple & Anchor Node */}
-                    <div
-                      className="relative flex items-center justify-center cursor-pointer pointer-events-auto"
-                      onClick={() => setActiveMapPin(pin.id)}
-                    >
-                      {/* Radiating concentric pulse rings on the Selected Pin only */}
-                      {isSelected && [0, 1, 2, 3].map((ring) => (
-                        <motion.span
-                          key={ring}
-                          className="absolute rounded-full border pointer-events-none"
-                          style={{
-                            borderColor: `${activeColor}80`,
-                            backgroundColor: `${activeColor}08`,
-                            width: 14 + ring * 24,
-                            height: 14 + ring * 24
-                          }}
-                          initial={{ scale: 0.4, opacity: 0.9 }}
-                          animate={{ scale: 2.2, opacity: 0 }}
-                          transition={{
-                            duration: 2.4,
-                            repeat: Infinity,
-                            delay: ring * 0.5,
-                            ease: "easeOut"
-                          }}
-                        />
-                      ))}
-
-                      {/* Scatter Pin core (Styled to look exact as screenshot) */}
-                      <span className={`absolute inline-flex h-8 w-8 rounded-full animate-ping ${isSelected ? 'opacity-35' : 'opacity-0'}`} style={{ backgroundColor: activeColor }} />
-
-                      <div
-                        className={`w-6 h-6 rounded-full border border-white flex items-center justify-center text-[10px] font-black text-white shadow-xl transition-all duration-300 ${
-                          isSelected ? 'scale-125 z-30' : 'scale-100 hover:scale-115'
-                        }`}
-                        style={{ backgroundColor: activeColor }}
-                      >
-                        {pinSymbol}
-                      </div>
-                    </div>
-
-                    {/* Rich elegant Pop-up Tooltip on active click */}
-                    <AnimatePresence>
-                      {isSelected && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10, scale: 0.9, x: '-50%' }}
-                          animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }}
-                          exit={{ opacity: 0, y: 8, scale: 0.9, x: '-50%' }}
-                          transition={{ duration: 0.25 }}
-                          className="absolute bottom-9 left-1/2 bg-ink text-white p-4.5 rounded-2xl text-left shadow-2xl border border-white/10 w-64 z-40 pointer-events-auto"
-                        >
-                          <div className="space-y-2">
-                            <p className="font-display font-black text-xs uppercase tracking-wider text-white flex items-center justify-between">
-                              <span>{pin.name}</span>
-                              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: activeColor }} />
-                            </p>
-
-                            <p className="font-sans text-[9px] text-white/50 leading-snug">
-                              {pin.address}
-                            </p>
-
-                            <p className="text-white/80 text-[10.5px] leading-relaxed py-1 border-t border-b border-white/5">
-                              {pin.description}
-                            </p>
-
-                            <div className="flex items-center justify-between font-sans text-[8px] uppercase tracking-wider pt-1 text-slate-400">
-                              <span>Tel: {pin.phone}</span>
-                              <span className="text-[#C8FF3D] font-bold">{pin.hours}</span>
-                            </div>
-                          </div>
-
-                          {/* Triangle tooltip carrier */}
-                          <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-ink rotate-45 border-r border-b border-white/10" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-
-              {/* Decorative stamp overlays for architectural precision */}
-              <div className="absolute bottom-5 left-6 text-left font-sans text-[9px] uppercase tracking-[0.2em] text-ink/30 space-y-0.5 pointer-events-none z-10">
-                <p>SCALE: DXB PHYSICAL RADIAL PLOTS</p>
-                <p>GRID COORD: 55.2708° E / 25.1590° N</p>
-              </div>
-
-              <div className="absolute top-5 right-6 text-right font-sans text-[9px] uppercase tracking-[0.15em] text-court-blue/60 pointer-events-none z-10">
-                <span>● NETWORK GRID ACTIVE</span>
-              </div>
             </div>
 
           </div>

@@ -197,6 +197,31 @@ html.lenis body {
   will-change: transform;
 }
 
+/* Product SALE badge — lands a couple seconds after the page, with a springy pop and
+   a pulsing blue glow halo behind it. Pure CSS (NOT Framer) so the 2.5s-delayed reveal,
+   the pop, and the glow ALL play regardless of OS reduce-motion. `both` fill + the 0%
+   opacity keeps the badge invisible during the delay, then it pops in. */
+@keyframes ch-badge-pop {
+  0%   { transform: scale(0);    opacity: 0; }
+  55%  { transform: scale(1.18); opacity: 1; }
+  78%  { transform: scale(0.94); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+.ch-badge-pop {
+  opacity: 0;
+  animation: ch-badge-pop 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) 2.4s both;
+}
+
+@keyframes ch-badge-glow {
+  0%, 100% { opacity: 0.4;  transform: scale(1.05); }
+  50%      { opacity: 0.85; transform: scale(1.4); }
+}
+
+.ch-badge-glow {
+  animation: ch-badge-glow 2.6s ease-in-out infinite;
+}
+
 /* Giant outlined numerals for editorial rows (ink on sand, white on dark). */
 .numeral-outline-ink {
   color: transparent;

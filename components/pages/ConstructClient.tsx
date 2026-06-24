@@ -886,8 +886,11 @@ export default function ConstructClient() {
 
               </div>
 
-              {/* Bottom curves and stats */}
-              <div className="relative w-full h-auto mt-6 md:mt-10 pb-4 select-none overflow-visible">
+              {/* Bottom curves and stats — wrapped to the SAME centered max-w-[1500px] as the
+                  header above (it was a full-bleed w-full sibling, so its left edge started left
+                  of the "WHY PARTNER" column). Now the line + nodes + stats left-align with the
+                  content above. X-only shift; no Y change. */}
+              <div className="relative w-full max-w-[1500px] mx-auto h-auto mt-6 md:mt-10 pb-4 select-none overflow-visible">
 
                 {/* Horizontal Curved Graph on Desktop/Tablet (md and up) */}
                 <div className="hidden md:block absolute top-[20px] left-0 w-full h-[120px] pointer-events-none z-0 overflow-visible">
