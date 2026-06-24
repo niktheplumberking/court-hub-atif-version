@@ -64,7 +64,7 @@ export default function SwipeLayout({ children }: { children: React.ReactNode })
           initial="enter"
           animate="center"
           exit="exit"
-          className="min-h-screen w-full bg-ink will-change-transform"
+          className="min-h-screen w-full bg-ink will-change-transform md:pl-24"
         >
           <FrozenRouter>{children}</FrozenRouter>
         </motion.div>

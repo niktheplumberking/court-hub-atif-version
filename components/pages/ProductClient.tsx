@@ -28,6 +28,30 @@ import { PRODUCTS } from '@/components/shop/placeholder-products';
 import { useCart } from '@/lib/cart-context';
 import Footer from '@/components/home/Footer';
 
+// Shared reveal vocabulary — matches the fade-up rhythm used across the other
+// pages so the product page no longer feels animation-starved next to them.
+const RISE_EASE = [0.25, 1, 0.5, 1] as const;
+const colLeft = {
+  hidden: { opacity: 0, x: -28 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: RISE_EASE } },
+};
+const colRight = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: RISE_EASE, delay: 0.08 } },
+};
+const gridParent = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+};
+const cardItem = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: RISE_EASE } },
+};
+const sectionReveal = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: RISE_EASE } },
+};
+
 export default function ProductClient() {
   const { slug } = useParams<{ slug: string }>();
   const { add } = useCart();
@@ -196,7 +220,12 @@ export default function ProductClient() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-14 py-6 items-start">
 
             {/* COLUMN 1: LEFT SIDE (Large card + variants thumbnails) */}
-            <div className="lg:col-span-6 space-y-6">
+            <motion.div
+              variants={colLeft}
+              initial="hidden"
+              animate="show"
+              className="lg:col-span-6 space-y-6"
+            >
 
               {/* Product Showpiece Container with warm-sand background and rounded-3xl corners */}
               <div className="relative w-full aspect-[4/5] sm:aspect-square md:aspect-[4/5] bg-white rounded-[32px] overflow-hidden border border-ink/10 shadow-xs flex items-center justify-center p-8 lg:p-12">
@@ -279,10 +308,15 @@ export default function ProductClient() {
 
               </div>
 
-            </div>
+            </motion.div>
 
             {/* COLUMN 2: RIGHT SIDE (The comprehensive specs, variants, pricing & details) */}
-            <div className="lg:col-span-6 space-y-6 lg:pl-4 text-left">
+            <motion.div
+              variants={colRight}
+              initial="hidden"
+              animate="show"
+              className="lg:col-span-6 space-y-6 lg:pl-4 text-left"
+            >
 
               {/* Category */}
               <span className="text-xs font-sans font-extrabold tracking-[0.2em] text-ink/60 uppercase block">
@@ -439,12 +473,19 @@ export default function ProductClient() {
 
               </div>
 
-            </div>
+            </motion.div>
 
           </div>
 
           {/* RELATED PRODUCTS */}
-          <div id="related-specs" className="border-t border-ink/10 pt-16 pb-8 text-left space-y-8 mt-12 scroll-mt-6">
+          <motion.div
+            id="related-specs"
+            variants={sectionReveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="border-t border-ink/10 pt-16 pb-8 text-left space-y-8 mt-12 scroll-mt-6"
+          >
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <span className="text-[9px] font-mono uppercase tracking-[0.25em] text-stone-400 block">EXPERIENCE MORE GRID</span>
@@ -461,11 +502,19 @@ export default function ProductClient() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div
+              variants={gridParent}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            >
               {relatedProducts.map((rel) => (
-                <div
+                <motion.div
                   key={rel.id}
-                  className="group bg-white rounded-[20px] p-5 border border-ink/10 hover:border-court-blue/20 transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
+                  variants={cardItem}
+                  whileHover={{ y: -6 }}
+                  className="group bg-white rounded-[20px] p-5 border border-ink/10 hover:border-court-blue/20 transition-colors flex flex-col justify-between shadow-xs hover:shadow-md"
                 >
                   <div className="space-y-4">
                     <Link href={`/shop/${rel.id}`} className="block relative aspect-square rounded-[12px] bg-sand overflow-hidden">
@@ -497,10 +546,10 @@ export default function ProductClient() {
                       SPECS →
                     </Link>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
         </div>
       </div>

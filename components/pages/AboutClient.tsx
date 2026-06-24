@@ -300,7 +300,7 @@ export default function AboutClient() {
               {/* Left Floating Swipe Chevron - Confined inside white borders */}
               <MotionLink
                 href="/contact"
-                whileHover={{ scale: 1.15, backgroundColor: "#D4FF3F", color: "#0A0D18" }}
+                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0A0D18" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 md:w-11 md:h-11 rounded-full border border-white/25 bg-black/50 text-white flex items-center justify-center backdrop-blur-md transition-shadow shadow-[0_4px_24px_rgba(0,0,0,0.6)] group shrink-0"
@@ -312,7 +312,7 @@ export default function AboutClient() {
               {/* Right Floating Swipe Chevron - Confined inside white borders */}
               <MotionLink
                 href="/construct-your-court"
-                whileHover={{ scale: 1.15, backgroundColor: "#D4FF3F", color: "#0A0D18" }}
+                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0A0D18" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 md:w-11 md:h-11 rounded-full border border-white/25 bg-black/50 text-white flex items-center justify-center backdrop-blur-md transition-shadow shadow-[0_4px_24px_rgba(0,0,0,0.6)] group shrink-0"
@@ -383,7 +383,7 @@ export default function AboutClient() {
                           repeat: Infinity,
                           ease: "easeInOut"
                         }}
-                        className="absolute inset-0 bg-[#D4FF3F] rounded-full blur-md -z-10"
+                        className="absolute inset-0 bg-[#C8FF3D] rounded-full blur-md -z-10"
                       />
                       <motion.div
                         animate={{
@@ -399,7 +399,7 @@ export default function AboutClient() {
                       >
                         <Link
                           href="/contact"
-                          className="px-6 py-3 bg-[#D4FF3F] hover:bg-white text-ink font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full transition-all shadow-md block relative z-10"
+                          className="px-6 py-3 bg-[#C8FF3D] hover:bg-white text-ink font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full transition-all shadow-md block relative z-10"
                         >
                           Become a Member
                         </Link>
@@ -481,7 +481,7 @@ export default function AboutClient() {
               className="text-left space-y-6"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#D4FF3F] font-mono text-xs flex items-center justify-center font-black">
+                <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
                   1
                 </div>
                 <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-ink/10 px-4 py-1.5 rounded-full bg-[#0A0D18]/5 text-[#0A0D18] shadow-sm">
@@ -503,7 +503,7 @@ export default function AboutClient() {
                       ease: "easeInOut"
                     }}
                     style={{ originX: 0 }}
-                    className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#D4FF3F] w-full -z-10 -rotate-1 rounded-full opacity-80"
+                    className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 -rotate-1 rounded-full opacity-80"
                   />
                 </span>.
               </h2>
@@ -529,7 +529,7 @@ export default function AboutClient() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D18]/95 via-transparent to-transparent p-6 sm:p-8 flex flex-col justify-end" />
                   <div className="absolute bottom-6 left-6 text-white text-left mr-6 space-y-2">
-                    <span className="font-mono text-[9px] uppercase tracking-wider bg-[#D4FF3F] text-ink px-2.5 py-1 rounded font-black inline-block">DEVELOPMENT LAB</span>
+                    <span className="font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-ink px-2.5 py-1 rounded font-black inline-block">DEVELOPMENT LAB</span>
                     <p className="font-display text-sm sm:text-base md:text-lg font-bold italic uppercase text-white leading-tight">Synthesizing high-density composites for extreme athletic output.</p>
                   </div>
                 </div>
@@ -552,7 +552,7 @@ export default function AboutClient() {
                 <div className="grid grid-cols-3 gap-4 pt-6 border-t border-ink/10 text-left">
                   <div className="group/stat cursor-pointer">
                     <motion.p
-                      whileHover={{ scale: 1.15, color: '#D4FF3F', textShadow: '0 4px 12px rgba(10,13,24,0.12)' }}
+                      whileHover={{ scale: 1.15, color: '#C8FF3D', textShadow: '0 4px 12px rgba(10,13,24,0.12)' }}
                       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                       className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-court-blue tracking-tighter origin-left inline-block"
                     >
@@ -562,7 +562,7 @@ export default function AboutClient() {
                   </div>
                   <div className="group/stat cursor-pointer">
                     <motion.p
-                      whileHover={{ scale: 1.15, color: '#D4FF3F', textShadow: '0 4px 12px rgba(10,13,24,0.12)' }}
+                      whileHover={{ scale: 1.15, color: '#C8FF3D', textShadow: '0 4px 12px rgba(10,13,24,0.12)' }}
                       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                       className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-ink tracking-tighter origin-left inline-block"
                     >
@@ -572,7 +572,7 @@ export default function AboutClient() {
                   </div>
                   <div className="group/stat cursor-pointer">
                     <motion.p
-                      whileHover={{ scale: 1.15, color: '#D4FF3F', textShadow: '0 4px 12px rgba(10,13,24,0.12)' }}
+                      whileHover={{ scale: 1.15, color: '#C8FF3D', textShadow: '0 4px 12px rgba(10,13,24,0.12)' }}
                       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                       className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-court-blue tracking-tighter origin-left inline-block"
                     >
@@ -685,13 +685,13 @@ export default function AboutClient() {
                           <div className="absolute inset-0 bg-gradient-to-t from-[black]/95 via-[black]/20 to-transparent p-8 flex flex-col justify-end text-left" />
 
                           {/* Floating Indicator */}
-                          <div className="absolute top-6 right-6 font-mono text-[9px] uppercase tracking-wider bg-[#D4FF3F] text-[#0A0D18] px-3.5 py-1.5 rounded-full font-bold shadow-lg">
+                          <div className="absolute top-6 right-6 font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-[#0A0D18] px-3.5 py-1.5 rounded-full font-bold shadow-lg">
                             {topic.badge}
                           </div>
 
                           {/* Summary details on image */}
                           <div className="absolute bottom-6 left-6 right-6 text-white space-y-1 z-10 text-left">
-                            <span className="font-mono text-[10px] uppercase text-[#D4FF3F] tracking-widest font-semibold block">/// Active Layer Analysis</span>
+                            <span className="font-mono text-[10px] uppercase text-[#C8FF3D] tracking-widest font-semibold block">/// Active Layer Analysis</span>
                             <h4 className="font-display text-lg font-bold italic uppercase tracking-tight text-white leading-tight">
                               {topic.title}
                             </h4>
@@ -708,7 +708,7 @@ export default function AboutClient() {
 
                   {/* Simulated Badge matching the reference screenshot exactly with color contrast calibration */}
                   <div id="dna-strategy-trigger" className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#D4FF3F] font-mono text-xs flex items-center justify-center font-black">
+                    <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
                       2
                     </div>
                     <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-white/10 px-4 py-1.5 rounded-full bg-white/10 text-white shadow-sm">
@@ -719,7 +719,7 @@ export default function AboutClient() {
                   {/* Subtitle / Main heading matching screenshot layout with vivid lime highlighted focus */}
                   <h2 className="text-4xl md:text-5xl font-display font-black uppercase italic tracking-tight text-white leading-[0.95] mt-4">
                     Pioneering the Future of <br />
-                    <span className="text-[#D4FF3F]">Court Design</span>
+                    <span className="text-[#C8FF3D]">Court Design</span>
                   </h2>
 
                   {/* Categories container */}
@@ -735,7 +735,7 @@ export default function AboutClient() {
                         >
                           <div className="flex gap-6 items-start">
                             {/* Number index */}
-                            <span className={`font-mono text-xs font-bold transition-all duration-300 ${isActive ? 'text-[#D4FF3F]' : 'text-white/40'}`}>
+                            <span className={`font-mono text-xs font-bold transition-all duration-300 ${isActive ? 'text-[#C8FF3D]' : 'text-white/40'}`}>
                               {topic.id}
                             </span>
 
@@ -760,7 +760,7 @@ export default function AboutClient() {
                                 </p>
 
                                 {/* SEO text */}
-                                <p className="text-[11px] md:text-xs text-white/70 leading-relaxed font-mono mt-2 mb-1 border-l-2 border-[#D4FF3F] pl-3 italic bg-black/15 p-2.5 rounded-r-xl">
+                                <p className="text-[11px] md:text-xs text-white/70 leading-relaxed font-mono mt-2 mb-1 border-l-2 border-[#C8FF3D] pl-3 italic bg-black/15 p-2.5 rounded-r-xl">
                                   {topic.seoText}
                                 </p>
 
@@ -773,7 +773,7 @@ export default function AboutClient() {
                                     referrerPolicy="no-referrer"
                                   />
                                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3">
-                                    <span className="font-mono text-[9px] uppercase tracking-wider bg-[#D4FF3F] text-[#0A0D18] px-2 py-0.5 rounded font-bold">
+                                    <span className="font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-[#0A0D18] px-2 py-0.5 rounded font-bold">
                                       {topic.badge}
                                     </span>
                                   </div>
@@ -813,7 +813,7 @@ export default function AboutClient() {
                   </span>
 
                   {/* Highlight box matching reference screenshot layout exactly */}
-                  <div className="w-full max-w-[220px] aspect-[2.1/1] bg-[#D4FF3F] text-[#0A0D18] flex items-center justify-center rounded-[24px] shadow-[0_12px_36px_rgba(212,255,62,0.18)] select-none border border-[#D4FF3F] hover:scale-[1.12] hover:-rotate-3 hover:shadow-[0_20px_48px_rgba(212,255,62,0.35)] transition-all duration-300 ease-out">
+                  <div className="w-full max-w-[220px] aspect-[2.1/1] bg-[#C8FF3D] text-[#0A0D18] flex items-center justify-center rounded-[24px] shadow-[0_12px_36px_rgba(212,255,62,0.18)] select-none border border-[#C8FF3D] hover:scale-[1.12] hover:-rotate-3 hover:shadow-[0_20px_48px_rgba(212,255,62,0.35)] transition-all duration-300 ease-out">
                     <span className="font-sans text-5xl md:text-6xl font-black italic tracking-tighter leading-none select-none">
                       2024
                     </span>
@@ -830,7 +830,7 @@ export default function AboutClient() {
                     className="space-y-4"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#D4FF3F] font-mono text-xs flex items-center justify-center font-black">
+                      <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
                         3
                       </div>
                       <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-ink/10 px-4 py-1.5 rounded-full bg-white text-ink shadow-sm">
@@ -853,7 +853,7 @@ export default function AboutClient() {
                             ease: "easeInOut"
                           }}
                           style={{ originX: 0 }}
-                          className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#D4FF3F] w-full -z-10 -rotate-1 rounded-full opacity-80"
+                          className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 -rotate-1 rounded-full opacity-80"
                         />
                       </span>.
                     </h2>
@@ -908,7 +908,7 @@ export default function AboutClient() {
                         </motion.div>
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D18]/85 via-transparent to-transparent p-4 flex flex-col justify-end pointer-events-none" />
                         <div className="absolute bottom-4 left-4 text-white text-left space-y-1 z-10 font-sans pointer-events-none">
-                          <span className="font-mono text-[9px] uppercase tracking-[0.15em] bg-[#D4FF3F] text-ink px-2.5 py-1 rounded font-black font-semibold inline-block">SYNTHETIC SCIENCE</span>
+                          <span className="font-mono text-[9px] uppercase tracking-[0.15em] bg-[#C8FF3D] text-ink px-2.5 py-1 rounded font-black font-semibold inline-block">SYNTHETIC SCIENCE</span>
                           <p className="font-display text-xs sm:text-sm font-bold italic uppercase tracking-wider text-white">Maximized traction coefficient.</p>
                         </div>
                       </div>

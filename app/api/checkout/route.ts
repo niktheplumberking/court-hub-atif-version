@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     line_items,
     currency: AED,
     success_url: `${site}/order/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${site}/cart`,
+    cancel_url: `${site}/shop`,
     shipping_address_collection: { allowed_countries: ['AE'] },
     phone_number_collection: { enabled: true },
     metadata: { cart: JSON.stringify(items.map((i) => ({ id: i.id, qty: i.qty }))) },

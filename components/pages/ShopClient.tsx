@@ -263,7 +263,7 @@ export default function ShopClient() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end pb-8 border-b border-ink/10">
               <div className="md:col-span-7 text-left space-y-3">
                 <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-ink/65 font-bold block">
-                  COLECTION
+                  COLLECTION
                 </span>
                 <h2 className="text-4.5xl sm:text-5xl lg:text-6xl font-display font-black leading-[0.9] tracking-tighter uppercase text-ink">
                   DOMINATE THE GAME WITH <br className="hidden sm:inline" />

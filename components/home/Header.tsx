@@ -5,14 +5,18 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight, Menu, X, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
+import { PAGE_ORDER } from '@/components/swipe/pageOrder';
 
 const MotionLink = motion.create(Link);
 
-// Site navigation — real routes (the navbar navigates the site, it does not scroll the homepage)
+// Site navigation — ONE navbar, real routes. Home is included now that the 4
+// swipe pages render the navbar (the swipe group can't reach home by swiping).
 const NAV_LINKS = [
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Shop', href: '/shop' },
   { label: 'Construction', href: '/construct-your-court' },
+  { label: 'Shop', href: '/shop' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 // Bible #1 underline reveal: scaleX 0→1 from the left on enter, collapses toward the right on exit.
@@ -26,12 +30,19 @@ const UNDERLINE_REVEAL_VERTICAL =
 export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === '/';
+  // Swipe pages (and product detail) get the left-vertical rail HARDCODED — same
+  // navbar as home's post-scroll state, but always-on. Home keeps its scroll
+  // transition; other utility pages keep the horizontal bar.
+  const isSwipePage =
+    (PAGE_ORDER as readonly string[]).includes(pathname) || pathname.startsWith('/shop');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolledPastHero, setHasScrolledPastHero] = useState(false);
   const [scrolled, setScrolled] = useState(false); // glass bg on subpages
   const [activeSection, setActiveSection] = useState('');
   const progressRef = useRef<HTMLDivElement>(null);
-  const { count } = useCart();
+  const { count, openDrawer } = useCart();
+  // Show the vertical rail whenever it's a swipe page, or on home once past hero.
+  const railActive = isSwipePage || hasScrolledPastHero;
 
   // Scroll lock when mobile menu is open
   useEffect(() => {
@@ -105,7 +116,7 @@ export default function Header() {
       {/* 1. DESKTOP NAV WRAPPERS (Transitions with AnimatePresence) */}
       <div className="hidden md:block">
         <AnimatePresence mode="wait">
-          {!hasScrolledPastHero ? (
+          {!railActive ? (
             <motion.header
               key="desktop-horizontal"
               initial={{ y: -100, opacity: 0 }}
@@ -116,9 +127,9 @@ export default function Header() {
             >
               <nav className="mx-auto flex items-center justify-between">
                 {/* Links */}
-                <div className="flex items-center gap-10">
+                <div className="flex items-center gap-7 lg:gap-9">
                   {NAV_LINKS.map((item) => {
-                    const isActive = false;
+                    const isActive = pathname === item.href;
                     return (
                       <Link
                         key={item.label}
@@ -133,13 +144,6 @@ export default function Header() {
                       </Link>
                     );
                   })}
-                  {/* Real-page link alongside the section anchors */}
-                  <Link
-                    href="/contact"
-                    className={`text-[15px] transition-all duration-300 tracking-tight relative py-1.5 text-white/80 hover:text-white ${UNDERLINE_REVEAL}`}
-                  >
-                    Contact
-                  </Link>
                 </div>
 
                 {/* Center Logo */}
@@ -152,15 +156,19 @@ export default function Header() {
 
                 {/* Right Actions */}
                 <div className="flex items-center gap-6">
-                  {/* Shopping Cart Icon */}
-                  <Link href="/cart" className="text-white/80 hover:text-lime transition-all duration-300 relative mr-2 hover:scale-110">
+                  {/* Shopping Cart Icon — opens the global live drawer */}
+                  <button
+                    onClick={openDrawer}
+                    aria-label={`Open cart${count > 0 ? ` (${count} item${count === 1 ? '' : 's'})` : ''}`}
+                    className="text-white/80 hover:text-lime transition-all duration-300 relative mr-2 hover:scale-110 cursor-pointer"
+                  >
                     <ShoppingCart className="w-5 h-5" />
                     {count > 0 && (
                       <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
                         {count}
                       </span>
                     )}
-                  </Link>
+                  </button>
 
                   {/* Primary CTA — court construction is the conversion path (no bookings) */}
                   <MotionLink
@@ -191,12 +199,12 @@ export default function Header() {
               </Link>
 
               {/* Vertical Links (Rotated via CSS writing-mode) */}
-              <div className="flex flex-col gap-10 items-center">
+              <div className="flex flex-col gap-8 items-center">
                 {NAV_LINKS.map((item) => {
-                  const isActive = false;
+                  const isActive = pathname === item.href;
                   return (
                     <Link
-                      key={item.label} 
+                      key={item.label}
                       href={item.href}
                       className={`text-[13px] font-bold tracking-widest uppercase transition-all duration-300 [writing-mode:vertical-lr] rotate-180 relative py-1.5 ${
                         isActive
@@ -209,33 +217,30 @@ export default function Header() {
                         <motion.span
                           initial={{ opacity: 0, scale: 0.4 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          transition={{ duration: 0.25, ease: 'easeOut' }}
                           className="absolute -right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-lime shadow-[0_0_8px_#C8FF3D]"
                         />
                       )}
                     </Link>
                   );
                 })}
-                {/* Real-page link — keeps nav parity with the horizontal variant */}
-                <Link
-                  href="/contact"
-                  className={`text-[13px] font-bold tracking-widest uppercase transition-all duration-300 [writing-mode:vertical-lr] rotate-180 relative py-1.5 text-white/60 hover:text-white ${UNDERLINE_REVEAL_VERTICAL}`}
-                >
-                  Contact
-                </Link>
               </div>
 
               {/* Bottom Actions */}
               <div className="flex flex-col gap-8 items-center">
-                {/* Shopping Cart Icon (No search bar here) */}
-                <Link href="/cart" className="text-white/60 hover:text-lime transition-all duration-300 relative hover:scale-110">
+                {/* Shopping Cart Icon — opens the global live drawer */}
+                <button
+                  onClick={openDrawer}
+                  aria-label={`Open cart${count > 0 ? ` (${count} item${count === 1 ? '' : 's'})` : ''}`}
+                  className="text-white/60 hover:text-lime transition-all duration-300 relative hover:scale-110 cursor-pointer"
+                >
                   <ShoppingCart className="w-5 h-5" />
                   {count > 0 && (
                     <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
                       {count}
                     </span>
                   )}
-                </Link>
+                </button>
 
                 {/* Compact CTA — court construction */}
                 <MotionLink
@@ -277,16 +282,20 @@ export default function Header() {
               <span className="font-light uppercase ml-1 opacity-80 tracking-tight">HUB</span>
             </Link>
 
-            {/* Cart Icon (Aligned to the right, book button deleted) */}
+            {/* Cart Icon — opens the global live drawer */}
             <div className="flex items-center p-2">
-              <Link href="/cart" className="text-white/80 hover:text-lime transition-colors relative hover:scale-110 block">
+              <button
+                onClick={openDrawer}
+                aria-label={`Open cart${count > 0 ? ` (${count} item${count === 1 ? '' : 's'})` : ''}`}
+                className="text-white/80 hover:text-lime transition-colors relative hover:scale-110 block cursor-pointer"
+              >
                 <ShoppingCart className="w-5 h-5" />
                 {count > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
                     {count}
                   </span>
                 )}
-              </Link>
+              </button>
             </div>
           </nav>
         </header>
@@ -302,51 +311,35 @@ export default function Header() {
             >
               <div className="flex flex-col gap-6">
                 {NAV_LINKS.map((item) => {
-                  const isActive = false;
+                  const isActive = pathname === item.href;
                   return (
                     <Link
-                      key={item.label} 
+                      key={item.label}
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
                       className={`text-2xl font-display font-medium transition-colors ${
-                        isActive ? 'text-lime font-bold' : 'text-white/80'
+                        isActive ? 'text-lime font-bold' : 'text-white/80 hover:text-lime'
                       }`}
                     >
                       {item.label}
                     </Link>
                   );
                 })}
-                <Link
-                  href="/contact"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-2xl font-display font-medium transition-colors text-white/80 hover:text-lime"
-                >
-                  Contact
-                </Link>
 
-                {/* Compact secondary row: real pages */}
-                <div className="mt-2 flex items-center gap-3 text-[12px] font-mono uppercase tracking-[0.2em] text-white/50">
-                  <Link href="/shop" onClick={() => setIsMenuOpen(false)} className="hover:text-lime transition-colors">
-                    Shop
-                  </Link>
-                  <span className="text-white/20">·</span>
-                  <Link href="/about" onClick={() => setIsMenuOpen(false)} className="hover:text-lime transition-colors">
-                    About
-                  </Link>
-                  <span className="text-white/20">·</span>
-                  <Link href="/contact" onClick={() => setIsMenuOpen(false)} className="hover:text-lime transition-colors">
-                    Contact
-                  </Link>
-                </div>
-
-                {/* Cart Icon inside Mobile Menu */}
+                {/* Cart Icon inside Mobile Menu — opens the global live drawer */}
                 <div className="mt-4 pt-6 border-t border-white/10 flex flex-col gap-4">
-                  <Link href="/cart" onClick={() => setIsMenuOpen(false)} className="text-white/80 hover:text-lime flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      openDrawer();
+                    }}
+                    className="text-white/80 hover:text-lime flex items-center gap-2 cursor-pointer"
+                  >
                     <ShoppingCart className="w-6 h-6" />
                     <span className="text-white text-base font-semibold">
                       Your Cart{count > 0 ? ` (${count} ${count === 1 ? 'item' : 'items'})` : ''}
                     </span>
-                  </Link>
+                  </button>
 
                   {/* Construction CTA inside Mobile Menu */}
                   <div className="mt-4">

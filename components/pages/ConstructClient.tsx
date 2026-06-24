@@ -387,7 +387,7 @@ export default function ConstructClient() {
               {/* Left Floating Swipe Chevron - Confined inside white borders */}
               <MotionLink
                 href="/about"
-                whileHover={{ scale: 1.15, backgroundColor: "#D4FF3F", color: "#0A0D18" }}
+                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0A0D18" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 md:w-11 md:h-11 rounded-full border border-white/25 bg-black/50 text-white flex items-center justify-center backdrop-blur-md transition-shadow shadow-[0_4px_24px_rgba(0,0,0,0.6)] group shrink-0"
@@ -399,7 +399,7 @@ export default function ConstructClient() {
               {/* Right Floating Swipe Chevron - Confined inside white borders */}
               <MotionLink
                 href="/shop"
-                whileHover={{ scale: 1.15, backgroundColor: "#D4FF3F", color: "#0A0D18" }}
+                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0A0D18" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 md:w-11 md:h-11 rounded-full border border-white/25 bg-black/50 text-white flex items-center justify-center backdrop-blur-md transition-shadow shadow-[0_4px_24px_rgba(0,0,0,0.6)] group shrink-0"
@@ -470,7 +470,7 @@ export default function ConstructClient() {
                           repeat: Infinity,
                           ease: "easeInOut"
                         }}
-                        className="absolute inset-0 bg-[#D4FF3F] rounded-full blur-md -z-10"
+                        className="absolute inset-0 bg-[#C8FF3D] rounded-full blur-md -z-10"
                       />
                       <motion.div
                         animate={{
@@ -486,7 +486,7 @@ export default function ConstructClient() {
                       >
                         <a
                           href="#configurator"
-                          className="px-6 py-3 bg-[#D4FF3F] hover:bg-white text-ink font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full transition-all shadow-md cursor-pointer block relative z-10"
+                          className="px-6 py-3 bg-[#C8FF3D] hover:bg-white text-ink font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full transition-all shadow-md cursor-pointer block relative z-10"
                         >
                           Bespoke Designer
                         </a>
@@ -546,7 +546,7 @@ export default function ConstructClient() {
                 style={{ opacity: badgeOpacity, y: badgeY }}
                 className="flex items-center gap-3 w-fit"
               >
-                <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#D4FF3F] font-mono text-xs flex items-center justify-center font-black">
+                <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
                   1
                 </div>
                 <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-ink/10 px-4 py-1.5 rounded-full bg-[#0A0D18]/5 text-[#0A0D18] shadow-sm">
@@ -574,7 +574,7 @@ export default function ConstructClient() {
                       ease: "easeInOut"
                     }}
                     style={{ originX: 0 }}
-                    className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#D4FF3F] w-full -z-10 -rotate-1 rounded-full opacity-80"
+                    className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 -rotate-1 rounded-full opacity-80"
                   />
                 </span>.
               </motion.h2>
@@ -1490,7 +1490,7 @@ export default function ConstructClient() {
                     {activeStep < 5 ? (
                       <button
                         onClick={() => setActiveStep(prev => Math.min(5, prev + 1))}
-                        className="w-full sm:w-auto px-7 py-3.5 lg:px-5 lg:py-2.5 bg-lime hover:bg-[#D4FF3F] text-ink font-mono text-xs lg:text-[11px] uppercase font-black tracking-widest rounded-xl lg:rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-lime/10 transition-all cursor-pointer active:scale-95"
+                        className="w-full sm:w-auto px-7 py-3.5 lg:px-5 lg:py-2.5 bg-lime hover:bg-[#C8FF3D] text-ink font-mono text-xs lg:text-[11px] uppercase font-black tracking-widest rounded-xl lg:rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-lime/10 transition-all cursor-pointer active:scale-95"
                       >
                         <span>Next Step</span>
                         <ChevronRight className="w-4 h-4 lg:w-3.5 lg:h-3.5 stroke-[3]" />
@@ -1502,7 +1502,7 @@ export default function ConstructClient() {
                         rel="noreferrer"
                         whileHover={{ scale: 1.02, backgroundColor: "#E6FF66" }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full sm:w-auto px-8 py-4 lg:px-6 lg:py-3 bg-lime hover:bg-[#D4FF3F] text-ink transition-all font-mono font-black text-xs sm:text-[13px] lg:text-[11px] tracking-widest rounded-xl lg:rounded-lg flex items-center justify-center gap-2 shadow-2xl shadow-lime/10 cursor-pointer select-none"
+                        className="w-full sm:w-auto px-8 py-4 lg:px-6 lg:py-3 bg-lime hover:bg-[#C8FF3D] text-ink transition-all font-mono font-black text-xs sm:text-[13px] lg:text-[11px] tracking-widest rounded-xl lg:rounded-lg flex items-center justify-center gap-2 shadow-2xl shadow-lime/10 cursor-pointer select-none"
                       >
                         <MessageSquare className="w-4 h-4 lg:w-3.5 lg:h-3.5 text-ink" />
                         <span>LAUNCH ESTIMATE VIA WHATSAPP</span>
