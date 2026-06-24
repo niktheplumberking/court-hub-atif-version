@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 import { ShoppingBag, X, Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
@@ -14,7 +15,8 @@ const SLIDE_TRANSITION = 'transform 420ms cubic-bezier(0.32,0.72,0,1)';
  * Global live cart — a floating bag button (bottom-right, everywhere) plus a
  * slide-in side drawer. Replaces the old /cart page entirely. Mounted once in
  * the root layout, so it's reachable from the home page and every swipe page.
- * `add()` auto-opens the drawer (see cart-context) for instant feedback.
+ * Callers open the drawer explicitly via `openDrawer()`; `add()` only mutates
+ * items (see cart-context) so adding never force-opens the drawer.
  *
  * Open/close is driven by plain CSS transitions on a permanently-mounted
  * element (translate-x toggled by `drawerOpen`) rather than Framer
@@ -80,15 +82,21 @@ export default function CartDrawer() {
         }`}
       >
         <button
+          id="cart-fab"
           onClick={openDrawer}
           aria-label={`Open cart${count > 0 ? ` (${count} item${count === 1 ? '' : 's'})` : ''}`}
           className="relative p-4 bg-lime hover:bg-white text-ink rounded-full shadow-2xl flex items-center justify-center cursor-pointer group border border-white/10 transition-colors"
         >
           <ShoppingBag className="w-5 h-5 text-ink group-hover:scale-110 transition-transform" />
           {count > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 bg-court-blue text-white text-[10px] font-mono font-bold min-w-5 h-5 px-1 rounded-full flex items-center justify-center shadow-lg border border-white/10">
+            <motion.span
+              key={count}
+              animate={{ scale: [1.4, 0.9, 1] }}
+              transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+              className="absolute -top-1.5 -right-1.5 bg-court-blue text-white text-[10px] font-mono font-bold min-w-5 h-5 px-1 rounded-full flex items-center justify-center shadow-lg border border-white/10"
+            >
               {count}
-            </span>
+            </motion.span>
           )}
         </button>
       </div>

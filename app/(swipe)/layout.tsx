@@ -8,6 +8,7 @@ import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { LayoutRouterContext } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { swipeDirection } from '@/components/swipe/pageOrder';
 import Header from '@/components/home/Header';
+import SmoothScroll from '@/components/shared/SmoothScroll';
 
 function FrozenRouter({ children }: { children: React.ReactNode }) {
   const context = useContext(LayoutRouterContext ?? ({} as never));
@@ -31,6 +32,12 @@ const variants: Variants = {
   }),
 };
 
+const fadeVariants: Variants = {
+  enter: { opacity: 0 },
+  center: { opacity: 1, transition: { duration: 0.35 } },
+  exit: { opacity: 0, transition: { duration: 0 } },
+};
+
 /**
  * Shared layout for the swipe group (About / Construct / Shop / Contact +
  * product). On client-side navigation between these routes the page slides
@@ -44,13 +51,22 @@ export default function SwipeLayout({ children }: { children: React.ReactNode })
   // page already has the right direction.
   const prevPath = useRef(pathname);
   const dir = useRef(1);
+  // Product detail (/shop/<slug>) navigations fade instead of sliding so the
+  // frozen shop page's fixed hero can't flash during the scroll-to-top. Note
+  // '/shop' does NOT match '/shop/', so the shop listing keeps the slide.
+  const isProductDrill = pathname.startsWith('/shop/') || prevPath.current.startsWith('/shop/');
   if (pathname !== prevPath.current) {
     dir.current = swipeDirection(prevPath.current, pathname);
     prevPath.current = pathname;
   }
 
   return (
-    <>
+    // Lenis smooth-scroll for the whole swipe group — one instance, persists
+    // across in-group navigations. Uses real (smoothed) scroll, NOT a transform
+    // wrapper, so it's safe for the fixed-hero blanket; honors reduced-motion.
+    // Framer useScroll (the Construct cross-slide) tracks this smoothed scroll,
+    // so the signature transition reads even silkier site-wide.
+    <SmoothScroll>
       {/* Single shared navbar — OUTSIDE the transforming wrapper so it stays
           viewport-fixed during the slide (a fixed element inside a transform
           breaks). Navigating between swipe pages via the navbar also triggers
@@ -60,15 +76,20 @@ export default function SwipeLayout({ children }: { children: React.ReactNode })
         <motion.div
           key={pathname}
           custom={dir.current}
-          variants={variants}
+          variants={isProductDrill ? fadeVariants : variants}
           initial="enter"
           animate="center"
           exit="exit"
-          className="min-h-screen w-full bg-ink will-change-transform md:pl-24"
+          transformTemplate={(_, generated) =>
+            generated === 'none' || generated === 'translateX(0px)' || generated === 'translateX(0%)'
+              ? 'none'
+              : generated
+          }
+          className="min-h-screen w-full bg-ink"
         >
           <FrozenRouter>{children}</FrozenRouter>
         </motion.div>
       </AnimatePresence>
-    </>
+    </SmoothScroll>
   );
 }

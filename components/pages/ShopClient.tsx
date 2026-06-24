@@ -21,12 +21,13 @@ const MotionLink = motion.create(Link);
 
 export default function ShopClient() {
   const { x: parallaxX, y: parallaxY } = useMouseParallax(26);
-  const { add } = useCart();
+  const { add, count, openDrawer } = useCart();
   const [activeBrand, setActiveBrand] = useState<'ALL' | 'STEALTH' | 'HEAD' | 'Wilson'>('ALL');
   const [activeCategory, setActiveCategory] = useState<'ALL' | 'rackets' | 'used' | 'accessories'>('ALL');
 
   const [favorites, setFavorites] = useState<string[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [flyers, setFlyers] = useState<{ id: number; x: number; y: number; p: Product }[]>([]);
 
   const blanketRef = useRef<HTMLDivElement>(null);
 
@@ -59,9 +60,19 @@ export default function ShopClient() {
     }, 2500);
   };
 
-  const addToCart = (p: Product) => {
-    add({ id: p.id, slug: p.id, title: p.name, price_aed: p.price, image: p.image, max_qty: 99 }, 1);
+  const handleAdd = (p: Product, e: React.MouseEvent) => {
+    const id = Date.now() + Math.random();
+    setFlyers(prev => [...prev, { id, x: e.clientX, y: e.clientY, p }]);
     showToast(`Added ${p.name} to your bag!`);
+    // Drive the cart from a deterministic timer — NOT the flyer's onAnimationComplete,
+    // which Framer can pre-empt when an intervening re-render restarts the opacity
+    // keyframe (the callback then never fires). After the ~0.7s flight: add the item
+    // (FAB count ticks up), remove the flyer, then slide the drawer in.
+    window.setTimeout(() => {
+      add({ id: p.id, slug: p.id, title: p.name, price_aed: p.price, image: p.image, max_qty: 99 }, 1);
+      setFlyers(prev => prev.filter(f => f.id !== id));
+      window.setTimeout(() => openDrawer(), 260);
+    }, 700);
   };
 
   const filteredProducts = PRODUCTS.filter(prod => {
@@ -87,6 +98,27 @@ export default function ShopClient() {
         )}
       </AnimatePresence>
 
+      {/* Flying-number add-to-cart layer */}
+      <div className="fixed inset-0 pointer-events-none z-[90]">
+        {flyers.map((flyer) => {
+          const fab = document.getElementById('cart-fab')?.getBoundingClientRect();
+          const targetX = fab ? fab.left + fab.width / 2 : window.innerWidth - 44;
+          const targetY = fab ? fab.top + fab.height / 2 : window.innerHeight - 44;
+          return (
+            <motion.div
+              key={flyer.id}
+              style={{ position: 'fixed', left: flyer.x, top: flyer.y, zIndex: 90 }}
+              initial={{ x: 0, y: 0, scale: 1, opacity: 1 }}
+              animate={{ x: targetX - flyer.x, y: targetY - flyer.y, scale: 0.4, opacity: [1, 1, 0] }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="w-9 h-9 -ml-4 -mt-4 rounded-full bg-lime text-ink font-mono font-bold flex items-center justify-center shadow-lg pointer-events-none"
+            >
+              {count + 1}
+            </motion.div>
+          );
+        })}
+      </div>
+
       <main className="">
 
         {/* ================= SECTION 1: RECREATED "COURT HUB" MOCK-UP HERO ================= */}
@@ -98,16 +130,13 @@ export default function ShopClient() {
             style={{ x: parallaxX, y: parallaxY }}
             className="absolute inset-[-4%] z-0 select-none pointer-events-none overflow-hidden scale-105 origin-center"
           >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="/assets/images/court_action_landscape_1779705580138.png"
+            <img
+              src="/assets/images/court_action_landscape_1779705580138.png"
+              alt=""
+              aria-hidden
               className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.15] saturate-[1.15]"
-            >
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-tennis-player-hitting-a-ball-with-racket-40484-large.mp4" type="video/mp4" />
-            </video>
+              referrerPolicy="no-referrer"
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-transparent to-ink/90" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,90,232,0.2)_0%,transparent_80%)]" />
           </motion.div>
@@ -252,7 +281,7 @@ export default function ShopClient() {
         <div className="relative w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] pointer-events-none z-0" />
 
         {/* ================= BLANKET OVERLAY CONTENT ================= */}
-        <div ref={blanketRef} className="relative z-10 bg-sand text-ink shadow-[0_-24px_50px_rgba(0,0,0,0.15)] border-t border-sand-2">
+        <div ref={blanketRef} className="relative z-10 md:pl-24 bg-sand text-ink shadow-[0_-24px_50px_rgba(0,0,0,0.15)] border-t border-sand-2">
           {/* Fine spacing grid pattern for balanced quadrants and elegant reduced opacity (0.04) */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,13,24,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,13,24,0.035)_1px,transparent_1px)] bg-[size:5.0rem_5.0rem] pointer-events-none" />
 
@@ -342,18 +371,20 @@ export default function ShopClient() {
             </div>
 
             {/* Products Grid - Expanded up to 4 columns on large screens for space */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-              <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${activeBrand}-${activeCategory}`}
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.06 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8"
+              >
                 {filteredProducts.map((prod) => {
                   const isFav = favorites.includes(prod.id);
                   return (
                     <motion.div
-                      layout
                       key={prod.id}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.5 }}
                       className="group bg-white rounded-[20px] p-5 border border-ink/5 hover:border-ink/15 hover:shadow-[0_16px_48px_rgba(10,13,24,0.06)] flex flex-col justify-between transition-all duration-500 relative overflow-hidden text-left"
                     >
                       <div className="relative z-10 space-y-4">
@@ -363,7 +394,7 @@ export default function ShopClient() {
                             <img
                               src={prod.image}
                               alt={prod.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
+                              className="w-full h-full object-contain p-3 sm:p-4 group-hover:scale-105 transition-transform duration-700 select-none"
                               referrerPolicy="no-referrer"
                             />
                           </Link>
@@ -428,7 +459,7 @@ export default function ShopClient() {
                         </div>
 
                         <button
-                          onClick={() => addToCart(prod)}
+                          onClick={(e) => handleAdd(prod, e)}
                           className="px-4.5 py-2.5 bg-ink text-white hover:bg-lime hover:text-ink rounded-full font-bold uppercase text-[9px] tracking-widest transition-all cursor-pointer flex items-center gap-1.5 hover:-translate-y-0.5 shadow-md shadow-black/5"
                         >
                           <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
@@ -438,8 +469,8 @@ export default function ShopClient() {
                     </motion.div>
                   );
                 })}
-              </AnimatePresence>
-            </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Footer inside its own distinct contrast block */}

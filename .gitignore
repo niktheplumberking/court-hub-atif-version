@@ -9,8 +9,8 @@ coverage/
 
 .vercel
 
-# Large raw assets
-assets/
+# Large raw assets (root-level only — must NOT match public/assets, which ships to prod)
+/assets/
 convert-mobile-webp.mjs
 
 

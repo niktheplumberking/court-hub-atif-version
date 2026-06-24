@@ -15,9 +15,10 @@ const COMMUNITY = {
 };
 // ─── END PLACEHOLDER COPY ───
 
-export default function Footer() {
+export default function Footer({ hideTopBorder = false }: { hideTopBorder?: boolean }) {
+  const footerClassName = `bg-ink text-white py-16 md:py-24 px-6 md:px-8 overflow-hidden${hideTopBorder ? '' : ' border-t border-white/5'}`;
   return (
-    <footer id="footer" className="bg-ink text-white py-16 md:py-24 px-6 md:px-8 border-t border-white/5 overflow-hidden">
+    <footer id="footer" className={footerClassName}>
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-12 md:gap-16">
         
         {/* Brand & Mission */}

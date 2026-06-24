@@ -45,8 +45,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         );
       return [...prev, { ...item, qty: Math.min(qty, item.max_qty) }];
     });
-    // Slide the live drawer open so adding is unmistakable everywhere on the site.
-    setDrawerOpen(true);
   };
 
   const remove = (id: string) => setItems((p) => p.filter((i) => i.id !== id));

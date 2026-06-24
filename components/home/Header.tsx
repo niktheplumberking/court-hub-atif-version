@@ -42,7 +42,7 @@ export default function Header() {
   const progressRef = useRef<HTMLDivElement>(null);
   const { count, openDrawer } = useCart();
   // Show the vertical rail whenever it's a swipe page, or on home once past hero.
-  const railActive = isSwipePage || hasScrolledPastHero;
+  const railActive = hasScrolledPastHero;
 
   // Scroll lock when mobile menu is open
   useEffect(() => {
@@ -59,8 +59,8 @@ export default function Header() {
   // 1. Scroll check for layout switch (Hero -> Sidebar)
   useEffect(() => {
     const handleScroll = () => {
-      const heroThreshold = window.innerHeight * 3 - 60;
-      setHasScrolledPastHero(isHome && window.scrollY >= heroThreshold);
+      const heroThreshold = isHome ? window.innerHeight * 3 - 60 : window.innerHeight - 60;
+      setHasScrolledPastHero((isHome || isSwipePage) && window.scrollY >= heroThreshold);
       setScrolled(window.scrollY > 24);
       // top scroll-progress rail (transform-only, cheap)
       if (progressRef.current) {
@@ -73,7 +73,7 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isHome]);
+  }, [isHome, isSwipePage]);
 
   // 2. Scroll Spy for active section highlighting
   useEffect(() => {
@@ -190,7 +190,7 @@ export default function Header() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -100, opacity: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="fixed top-0 left-0 bottom-0 w-24 bg-black/90 backdrop-blur-xl border-r border-white/10 flex flex-col justify-between py-12 items-center z-50 shadow-[5px_0_30px_rgba(0,0,0,0.5)]"
+              className="fixed top-0 left-0 bottom-0 w-24 bg-[#0E0E0C] backdrop-blur-xl border-r border-white/10 flex flex-col justify-between py-12 items-center z-50 shadow-[5px_0_30px_rgba(0,0,0,0.5)]"
             >
               {/* Vertical Logo Badge */}
               <Link href="/" className="font-display text-lg tracking-wider text-white flex flex-col items-center select-none hover:text-lime transition-colors">

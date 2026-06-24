@@ -363,16 +363,13 @@ export default function ConstructClient() {
             style={{ x: parallaxX, y: parallaxY }}
             className="absolute inset-[-4%] z-0 select-none pointer-events-none overflow-hidden scale-105 origin-center"
           >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="/assets/images/dubai_court_night_construction_1779706759259.png"
+            <img
+              src="/assets/images/dubai_court_night_construction_1779706759259.png"
+              alt=""
+              aria-hidden
               className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.15] saturate-[1.15]"
-            >
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-playing-paddle-tennis-in-a-glass-court-41315-large.mp4" type="video/mp4" />
-            </video>
+              referrerPolicy="no-referrer"
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-transparent to-ink/90" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,90,232,0.2)_0%,transparent_80%)]" />
           </motion.div>
@@ -524,7 +521,7 @@ export default function ConstructClient() {
         <div className="relative w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] pointer-events-none z-0" />
 
         {/* ================= BLANKET OVERLAY CONTENT ================= */}
-        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)]">
+        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)] md:pl-24">
 
 
 
@@ -1029,29 +1026,34 @@ export default function ConstructClient() {
         {/* Dynamic Process Sliding Strap */}
         <div className="w-full overflow-hidden bg-[#D2FE37] py-4 sm:py-5 border-b border-ink/10 relative z-10 select-none flex">
           <motion.div
-            className="flex shrink-0 items-center gap-12 sm:gap-20 font-display font-black uppercase italic tracking-widest text-black text-xl sm:text-2xl md:text-3xl pr-12 sm:pr-20"
+            className="flex shrink-0 items-center font-display font-black uppercase italic tracking-widest text-black text-xl sm:text-2xl md:text-3xl"
             animate={{ x: ["0%", "-50%"] }}
             transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+            style={{ willChange: 'transform' }}
           >
-            {/* Set 1 */}
-            <span>SITE SURVEY</span>
-            <span className="text-black/25">•</span>
-            <span>DESIGN</span>
-            <span className="text-black/25">•</span>
-            <span>BUILD</span>
-            <span className="text-black/25">•</span>
-            <span>HANDOVER</span>
-            <span className="text-black/25">•</span>
+            {/* Track 1 */}
+            <div className="flex shrink-0 items-center gap-12 sm:gap-20 pr-12 sm:pr-20">
+              <span>SITE SURVEY</span>
+              <span className="text-black/25">•</span>
+              <span>DESIGN</span>
+              <span className="text-black/25">•</span>
+              <span>BUILD</span>
+              <span className="text-black/25">•</span>
+              <span>HANDOVER</span>
+              <span className="text-black/25">•</span>
+            </div>
 
-            {/* Set 2 (Identical Copy for seamless infinite scroll) */}
-            <span>SITE SURVEY</span>
-            <span className="text-black/25">•</span>
-            <span>DESIGN</span>
-            <span className="text-black/25">•</span>
-            <span>BUILD</span>
-            <span className="text-black/25">•</span>
-            <span>HANDOVER</span>
-            <span className="text-black/25">•</span>
+            {/* Track 2 (Identical Copy for seamless infinite scroll) */}
+            <div className="flex shrink-0 items-center gap-12 sm:gap-20 pr-12 sm:pr-20">
+              <span>SITE SURVEY</span>
+              <span className="text-black/25">•</span>
+              <span>DESIGN</span>
+              <span className="text-black/25">•</span>
+              <span>BUILD</span>
+              <span className="text-black/25">•</span>
+              <span>HANDOVER</span>
+              <span className="text-black/25">•</span>
+            </div>
           </motion.div>
         </div>
 
@@ -1519,7 +1521,7 @@ export default function ConstructClient() {
           </div>
         </section>
 
-        <Footer />
+        <Footer hideTopBorder />
 
         </div>
       </main>

@@ -18,7 +18,9 @@ import {
 import Footer from '@/components/home/Footer';
 import { useMouseParallax } from '@/components/shared/useMouseParallax';
 
-const dubaiMapImg = '/assets/images/dubai_map.png';
+// Crisp vector Dubai map placeholder (the old dubai_map.png was a corrupt, non-decodable
+// file). Swap for a real satellite/street map later; the location pins sit over it.
+const dubaiMapImg = '/assets/images/dubai-map.svg';
 
 const MotionLink = motion.create(Link);
 
@@ -200,16 +202,13 @@ export default function ContactClient() {
             style={{ x: parallaxX, y: parallaxY }}
             className="absolute inset-[-4%] z-0 select-none pointer-events-none overflow-hidden scale-105 origin-center"
           >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="/assets/images/hero_court_background_1779705118750.png"
+            <img
+              src="/assets/images/hero_court_background_1779705118750.png"
+              alt=""
+              aria-hidden
               className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.15] saturate-[1.15]"
-            >
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-tennis-ball-hitting-the-net-40485-large.mp4" type="video/mp4" />
-            </video>
+              referrerPolicy="no-referrer"
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-transparent to-ink/90" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,90,232,0.2)_0%,transparent_80%)]" />
           </motion.div>
@@ -354,7 +353,7 @@ export default function ContactClient() {
         <div className="relative w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] pointer-events-none z-0" />
 
         {/* ================= BLANKET OVERLAY CONTENT ================= */}
-        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)]">
+        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)] md:pl-24">
 
         {/* ================= SECTION 2: DYNAMIC ROUTING & WHATSAPP INTEGRATION (Court Blue Backdrop) ================= */}
         <section id="selection" className="py-20 bg-court-blue text-white px-6 md:px-8 relative overflow-hidden">
@@ -814,7 +813,7 @@ export default function ContactClient() {
               <img
                 src={dubaiMapImg}
                 alt="Dubai Map"
-                className="absolute inset-0 w-full h-full object-cover z-0 opacity-90 pointer-events-none"
+                className="absolute inset-0 w-full h-full object-cover z-0 opacity-100 pointer-events-none"
                 referrerPolicy="no-referrer"
               />
 

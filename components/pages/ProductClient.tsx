@@ -21,7 +21,6 @@ import {
   ChevronUp,
   MessageCircle,
   Star,
-  Play,
   Zap
 } from 'lucide-react';
 import { PRODUCTS } from '@/components/shop/placeholder-products';
@@ -54,7 +53,7 @@ const sectionReveal = {
 
 export default function ProductClient() {
   const { slug } = useParams<{ slug: string }>();
-  const { add } = useCart();
+  const { add, openDrawer } = useCart();
 
   // Find product by id
   const product = PRODUCTS.find(p => p.id === slug);
@@ -92,7 +91,7 @@ export default function ProductClient() {
     setQuantity(1);
     setSelectedSize('Standard');
     if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   }, [slug]);
 
@@ -153,6 +152,7 @@ export default function ProductClient() {
       },
       quantity
     );
+    setTimeout(() => openDrawer(), 200);
     showToast(`Added ${quantity}x ${product.name} to your bag!`);
   };
 
@@ -231,9 +231,9 @@ export default function ProductClient() {
               <div className="relative w-full aspect-[4/5] sm:aspect-square md:aspect-[4/5] bg-white rounded-[32px] overflow-hidden border border-ink/10 shadow-xs flex items-center justify-center p-8 lg:p-12">
 
                 {/* 1/1 Style Circular SALE Badge */}
-                <div className="absolute top-6 left-6 w-[76px] h-[76px] bg-white rounded-full flex items-center justify-center shadow-xs select-none z-10 animate-pulse">
-                  <span className="text-[11px] font-sans font-extrabold tracking-[0.25em] text-ink uppercase ml-0.5">SALE</span>
-                </div>
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 14, repeat: Infinity, ease: 'linear' }} className="absolute top-6 left-6 w-[76px] h-[76px] bg-[#1E5AE8] rounded-full flex items-center justify-center select-none z-10 shadow-[0_8px_20px_rgba(20,20,18,0.25)] ring-1 ring-white/15">
+                  <span className="text-[11px] font-sans font-extrabold tracking-[0.25em] text-white uppercase ml-0.5">SALE</span>
+                </motion.div>
 
                 {/* Floating Racket Render - Clean full-size floating effect without background */}
                 <div className="absolute inset-x-8 inset-y-12 flex items-center justify-center select-none pointer-events-none">
@@ -246,15 +246,6 @@ export default function ProductClient() {
                     referrerPolicy="no-referrer"
                   />
                 </div>
-
-                {/* watch video! absolute bottom-left capsule button */}
-                <button
-                  onClick={() => showToast("Loading spec presentation video...")}
-                  className="absolute bottom-6 left-6 bg-white hover:bg-ink hover:text-white text-ink transition-all duration-300 px-5.5 py-3 rounded-full flex items-center gap-2 text-xs font-bold leading-none shadow-sm cursor-pointer border border-black/5 hover:scale-105 active:scale-95"
-                >
-                  <Play className="w-3.5 h-3.5 fill-current shrink-0 text-ink hover:text-white" />
-                  <span>watch video!</span>
-                </button>
 
               </div>
 

@@ -6,137 +6,15 @@ import Link from 'next/link';
 import {
   ArrowUpRight,
   ChevronLeft,
-  ChevronRight,
-  ShoppingBag,
-  Wifi,
-  Battery,
-  Plus,
-  Package
+  ChevronRight
 } from 'lucide-react';
 import Footer from '@/components/home/Footer';
 import { AnimatedCounter } from '@/components/shared/AnimatedCounter';
 import { useMouseParallax } from '@/components/shared/useMouseParallax';
+import { PRODUCTS } from '@/components/shop/placeholder-products';
+import { useCart } from '@/lib/cart-context';
 
 const MotionLink = motion.create(Link);
-
-export interface ProductSlotConfig {
-  id: string;
-  slotNumber: string;
-  defaultTitle: string;
-  isEmpty: boolean; // Keep true as requested to show premium empty layouts
-  title?: string;
-  price?: string;
-  badge?: string;
-  stockStatus?: string;
-  description?: string;
-  accentColor?: string;
-}
-
-export const FEATURED_PRODUCTS_SLOTS: ProductSlotConfig[] = [
-  {
-    id: "slot-1",
-    slotNumber: "01",
-    defaultTitle: "AERO-PROPEL PADEL RACKET",
-    isEmpty: true,
-    title: "Aero-Propel Padel Racket",
-    price: "AED 1,200",
-    badge: "BEST SELLER",
-    stockStatus: "84 IN STOCK",
-    description: "Laser-balanced aerospace carbon framework",
-    accentColor: "from-[#E84525] to-[#0A0D18]"
-  },
-  {
-    id: "slot-2",
-    slotNumber: "02",
-    defaultTitle: "COURT-SPEED TURF PROS",
-    isEmpty: true,
-    title: "Court-Speed Turf Pros",
-    price: "AED 640",
-    badge: "BEST SELLER",
-    stockStatus: "120 IN STOCK",
-    description: "Sub-millimeter response traction thread",
-    accentColor: "from-[#1E5AE8] to-[#0A0D18]"
-  },
-  {
-    id: "slot-3",
-    slotNumber: "03",
-    defaultTitle: "HYPER-FLAT DUBAI SPECIAL BALLS",
-    isEmpty: true,
-    title: "Dubai Special 3-Pack Balls",
-    price: "AED 95",
-    badge: "BEST SELLER",
-    stockStatus: "500+ IN STOCK",
-    description: "Consistent pressurized bounce core for hot desert play",
-    accentColor: "from-[#C8FF3D] to-[#0A0D18]"
-  },
-  {
-    id: "slot-4",
-    slotNumber: "04",
-    defaultTitle: "STEALTH SPORTS BAG XL",
-    isEmpty: true,
-    title: "Stealth Sports Bag XL",
-    price: "AED 450",
-    badge: "BEST SELLER",
-    stockStatus: "65 IN STOCK",
-    description: "Insulated dust-protected padel gear chamber",
-    accentColor: "from-[#E84525] to-[#0A0D18]"
-  },
-  {
-    id: "slot-5",
-    slotNumber: "05",
-    defaultTitle: "SUPER-GRIP OVERGRIP 10X",
-    isEmpty: true,
-    title: "Super-Grip Overgrip 10x",
-    price: "AED 110",
-    badge: "BEST SELLER",
-    stockStatus: "200 IN STOCK",
-    description: "Ultra-absorbent high tack polyurethane wrap",
-    accentColor: "from-[#C8FF3D] to-[#0A0D18]"
-  }
-];
-
-interface PhoneMockupProps {
-  children: React.ReactNode;
-  className?: string;
-  style?: any;
-  title: string;
-  statusTheme?: 'light' | 'dark';
-  key?: any;
-}
-
-function PhoneMockup({ children, className = "", style = {}, title, statusTheme = 'dark' }: PhoneMockupProps) {
-  const isDarkStatusBar = statusTheme === 'dark';
-  return (
-    <motion.div
-      style={style}
-      whileHover={{ scale: 1.12, rotate: 0, y: -15, zIndex: 100 }}
-      transition={{ type: "spring", stiffness: 100, damping: 15 }}
-      className={`relative flex-shrink-0 w-[185px] sm:w-[245px] md:w-[305px] lg:w-[335px] xl:w-[365px] aspect-[1.5/1] rounded-[18px] sm:rounded-[24px] md:rounded-[28px] bg-white border border-ink/8 p-[3px] sm:p-[4px] md:p-[5px] shadow-[0_15px_40px_-10px_rgba(14,14,12,0.1)] overflow-hidden flex flex-col select-none ${className}`}
-    >
-      {/* Outer elegant glass rim */}
-      <div className="absolute inset-0 rounded-[17px] sm:rounded-[23px] md:rounded-[27px] border-2 border-white/30 pointer-events-none z-30" />
-
-      {/* Screen Content Wrapper */}
-      <div className="flex-1 overflow-hidden relative flex flex-col bg-[#FCFAF6] rounded-[14px] sm:rounded-[20px] border border-ink/5 text-left h-full">
-        {/* Screen Status Bar */}
-        <div className={`absolute top-0 left-0 right-0 flex justify-between items-center px-3 pt-1.5 pb-1 text-[5px] sm:text-[7.5px] font-mono z-30 pointer-events-none select-none ${
-          isDarkStatusBar ? 'text-white/80' : 'text-ink/65'
-        }`}>
-          <span className="font-semibold tracking-tight">9:41</span>
-          <div className="flex gap-0.5 sm:gap-1 items-center">
-            <Wifi className="w-[5px] h-[5px] sm:w-[8px] sm:h-[8px]" />
-            <Battery className="w-[7px] h-[4px] sm:w-[11px] sm:h-[6px]" />
-          </div>
-        </div>
-
-        {/* Screen Content */}
-        <div className="flex-1 flex flex-col justify-between text-ink relative z-10 h-full pt-4 sm:pt-5">
-          {children}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
 
 const TOPICS = [
   {
@@ -174,6 +52,9 @@ const TOPICS = [
 ];
 
 export default function AboutClient() {
+  const { add, openDrawer } = useCart();
+  const racketBestSellers = PRODUCTS.filter(p => p.category === 'rackets').slice(0, 5);
+  const bestSellers = racketBestSellers.length >= 5 ? racketBestSellers : PRODUCTS.slice(0, 5);
   const [activeSection, setActiveSection] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -276,16 +157,13 @@ export default function AboutClient() {
             style={{ x: parallaxX, y: parallaxY }}
             className="absolute inset-[-4%] z-0 select-none pointer-events-none overflow-hidden scale-105 origin-center"
           >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="/assets/images/hero_padel_night_view_1779713624496.png"
+            <img
+              src="/assets/images/hero_padel_night_view_1779713624496.png"
+              alt=""
+              aria-hidden
               className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.15] saturate-[1.15]"
-            >
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-stadium-at-night-42211-large.mp4" type="video/mp4" />
-            </video>
+              referrerPolicy="no-referrer"
+            />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-transparent to-ink/90" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,90,232,0.2)_0%,transparent_80%)]" />
           </motion.div>
@@ -455,7 +333,7 @@ export default function AboutClient() {
         <div className="relative w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] pointer-events-none z-0" />
 
         {/* ================= BLANKET OVERLAY CONTENT ================= */}
-        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)]">
+        <div className="relative z-10 bg-ink shadow-[0_-24px_50px_rgba(0,0,0,0.6)] md:pl-24">
 
         {/* ================= SECTION 2: COMPANY STORY (Premium Sand/#EDE8E1 Theme / Editorial Feel) ================= */}
         <section className="min-h-screen flex flex-col justify-center py-20 sm:py-28 md:py-36 px-6 md:px-12 lg:px-16 xl:px-20 bg-sand text-ink relative overflow-hidden">
@@ -993,110 +871,31 @@ export default function AboutClient() {
           <div className="relative w-full max-w-6xl mx-auto mt-12 sm:mt-16 overflow-visible flex flex-col items-center justify-center scale-[0.85] sm:scale-[0.95] md:scale-100 origin-center pb-12">
 
             {/* Ambient lime shadow glow beneath the cards */}
-            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-4/5 h-[80px] sm:h-[130px] bg-lime/10 blur-3xl rounded-full pointer-events-none z-0" />            {/* Perfect symmetrical fanned-out list of aspect-[1.5/1] cards with overlapping negative spacing */}
-            <div className="flex flex-nowrap justify-center items-center -space-x-16 sm:-space-x-24 md:-space-x-32 lg:-space-x-40 xl:-space-x-[155px] w-full overflow-visible py-8 relative z-10 select-none pb-12">
-
-              {FEATURED_PRODUCTS_SLOTS.map((slot, index) => {
-                const styleConfig = [
-                  { rotate: -12, y: 35, zIndex: 10, opacity: 0.65, statusTheme: 'light' as const },
-                  { rotate: -6, y: 12, zIndex: 20, opacity: 0.85, statusTheme: 'dark' as const },
-                  { rotate: 0, y: 0, zIndex: 30, opacity: 1, statusTheme: 'dark' as const, isCenter: true },
-                  { rotate: 6, y: 12, zIndex: 25, opacity: 0.85, statusTheme: 'dark' as const },
-                  { rotate: 12, y: 35, zIndex: 10, opacity: 0.65, statusTheme: 'light' as const }
-                ][index];
-
-                return (
-                  <PhoneMockup
-                    key={slot.id}
-                    title={`${slot.slotNumber} / ${slot.isEmpty ? 'SLOT RESERVED' : (slot.title?.toUpperCase() || slot.defaultTitle)}`}
-                    statusTheme={styleConfig.statusTheme}
-                    style={{ rotate: styleConfig.rotate, y: styleConfig.y, zIndex: styleConfig.zIndex, opacity: styleConfig.opacity }}
-                    className={`cursor-pointer ${styleConfig.isCenter ? 'border border-[#E84525]/20 shadow-[0_22px_55px_-12px_rgba(232,69,37,0.18)]' : ''}`}
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-4/5 h-[80px] sm:h-[130px] bg-lime/10 blur-3xl rounded-full pointer-events-none z-0" />            {/* Real best-seller product cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5 mt-12 max-w-6xl mx-auto relative z-10">
+              {bestSellers.map((p) => (
+                <div key={p.id} className="bg-white/5 border border-white/10 rounded-[20px] p-4 flex flex-col gap-3">
+                  <div className="bg-white/5 rounded-[14px] aspect-square flex items-center justify-center p-3">
+                    <img src={p.image} alt={p.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                  </div>
+                  <span className="text-[9px] bg-lime/20 text-lime px-2 py-0.5 rounded font-bold uppercase tracking-wider w-fit">★ Best Seller</span>
+                  <span className="text-[10px] font-mono text-white/40 uppercase">{p.brand}</span>
+                  <h4 className="font-display font-black uppercase text-white text-sm leading-tight line-clamp-1">{p.name}</h4>
+                  <span className="text-lime font-display font-black">AED {p.price}</span>
+                  <button
+                    onClick={() => { add({ id: p.id, slug: p.id, title: p.name, price_aed: p.price, image: p.image, max_qty: 99 }, 1); openDrawer(); }}
+                    className="w-full py-2 rounded-full bg-lime text-ink text-[11px] font-bold uppercase tracking-wider hover:brightness-110 transition"
                   >
-                    {slot.isEmpty ? (
-                      /* Minimalist highly elegant empty/placeholder card requested by user */
-                      <div className="flex-1 flex flex-col justify-between h-full bg-[#FCFAF6] p-2 sm:p-3 text-left">
-                        <div className="flex-1 flex flex-col justify-between border-2 border-dashed border-ink/10 rounded-[12px] sm:rounded-[16px] p-2.5 sm:p-3 bg-sand/15 hover:bg-lime/5 transition-all duration-300 relative overflow-hidden group">
-                          {/* Symmetrical wireframe vector details */}
-                          <div className="absolute top-0 right-0 w-6 h-6 bg-lime/10 rounded-bl-full pointer-events-none" />
-
-                          <div className="flex justify-between items-start">
-                            <span className="text-[4px] sm:text-[6px] font-mono font-bold text-ink/35 tracking-widest uppercase">
-                              SLOT {slot.slotNumber}
-                            </span>
-                            <div className="flex items-center gap-0.5">
-                              <span className="w-1 h-1 rounded-full bg-lime/40" />
-                              <span className="text-[3.5px] sm:text-[5px] font-mono text-ink/30 uppercase font-black">Ready to Sync</span>
-                            </div>
-                          </div>
-
-                          <div className="my-auto flex flex-col items-center text-center justify-center py-1 sm:py-2">
-                            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-ink/5 border border-ink/5 flex items-center justify-center text-ink/25 mb-1 sm:mb-1.5 group-hover:bg-lime/15 group-hover:text-lime group-hover:border-lime/30 transition-all duration-300">
-                              <Package className="w-3 sm:w-4 h-3 sm:h-4" />
-                            </div>
-                            <h5 className="font-display font-black text-[5.5px] sm:text-[8px] md:text-[9.5px] text-ink/45 uppercase tracking-tight leading-tight max-w-[120px] sm:max-w-none">
-                              {slot.defaultTitle}
-                            </h5>
-                            <p className="text-[4px] sm:text-[6px] text-ink/30 leading-snug mt-0.5 max-w-[100px] sm:max-w-[130px] font-sans">
-                              Empty slot. Custom live product connects instantly inside <code className="font-mono bg-ink/5 px-0.5 rounded font-black text-ink/50">AboutPage.tsx</code>.
-                            </p>
-                          </div>
-
-                          <div className="flex justify-between items-center text-[4px] sm:text-[6px] font-mono border-t border-ink/5 pt-1 sm:pt-1.5 mt-0.5 sm:mt-1">
-                            <span className="text-ink/25 font-bold tracking-tighter">AED ----</span>
-                            <span className="text-ink/45 font-black uppercase flex items-center gap-0.5 group-hover:text-lime transition-colors">
-                              <Plus className="w-1.5 h-1.5 text-lime" /> Connect Item
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      /* Connected active best selling product state */
-                      <div className="flex-1 flex flex-col justify-between h-full bg-[#FCFAF6] p-2.5 sm:p-4 text-left">
-                        <div className="space-y-1.5 sm:space-y-2.5 flex-1 flex flex-col justify-between">
-                          <div className="flex justify-between items-center text-ink/40">
-                            <span className="text-[4px] sm:text-[6px] uppercase tracking-wider font-bold text-ink/55 bg-lime/20 px-1.5 py-0.5 rounded leading-none">
-                              ★ {slot.badge || "BEST SELLER"}
-                            </span>
-                            <span className="text-[4px] sm:text-[6.5px] font-mono text-emerald-600 font-black flex items-center gap-0.5">
-                              <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" /> {slot.stockStatus || "IN STOCK"}
-                            </span>
-                          </div>
-
-                          <div className={`p-2 sm:p-3 rounded-xl bg-gradient-to-br ${slot.accentColor || 'from-[#E84525] to-[#0A0D18]' } text-white relative overflow-hidden flex-1 flex flex-col justify-between min-h-[50px] sm:min-h-[70px] shadow-sm`}>
-                            <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
-                            <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-white/10 rounded-full blur-xl pointer-events-none" />
-
-                            <div className="relative z-10 flex justify-between items-start">
-                              <ShoppingBag className="w-3 sm:w-4.5 h-3 sm:h-4.5 text-lime" />
-                              <span className="text-[4px] sm:text-[5.5px] font-mono font-bold bg-white/20 px-1 py-0.5 rounded tracking-widest">
-                                ACTIVE
-                              </span>
-                            </div>
-
-                            <div className="relative z-10 select-none">
-                              <p className="text-[4px] sm:text-[5.5px] font-mono font-bold text-white/75 leading-none uppercase">Apex Gear</p>
-                              <h4 className="font-display font-black text-[7px] sm:text-[11px] text-white leading-tight uppercase mt-0.5 tracking-tight">
-                                {slot.title}
-                              </h4>
-                            </div>
-                          </div>
-
-                          <span className="text-[4.5px] sm:text-[6.5px] text-ink/65 font-sans leading-tight block">
-                            {slot.description}
-                          </span>
-                        </div>
-
-                        <div className="pt-2 border-t border-ink/5 flex justify-between items-center text-[4.5px] sm:text-[6.5px] leading-none">
-                          <span className="font-mono text-ink/30 font-bold uppercase tracking-tight">VIP SERVICE</span>
-                          <span className="font-display font-black text-[#E84525] uppercase text-xs sm:text-sm">{slot.price}</span>
-                        </div>
-                      </div>
-                    )}
-                  </PhoneMockup>
-                );
-              })}
-
+                    Add to Bag
+                  </button>
+                  <Link
+                    href={`/shop/${p.id}`}
+                    className="w-full py-2 rounded-full border border-white/15 text-white/80 text-[11px] font-bold uppercase tracking-wider text-center hover:bg-white/10 transition"
+                  >
+                    View product
+                  </Link>
+                </div>
+              ))}
             </div>
 
             {/* Seamless Bottom Gradient Fade into Footers */}

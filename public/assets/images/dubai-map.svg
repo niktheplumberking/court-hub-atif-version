@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-label="Stylized map of Dubai, UAE">
+  <defs>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c1c26"/>
+      <stop offset="0.55" stop-color="#0a2230"/>
+      <stop offset="1" stop-color="#071620"/>
+    </linearGradient>
+    <linearGradient id="land" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#16201d"/>
+      <stop offset="1" stop-color="#0f1714"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b241f"/>
+      <stop offset="1" stop-color="#131a16"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.7" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="#1e5ae8" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#1e5ae8" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="46" height="46" patternUnits="userSpaceOnUse">
+      <path d="M46 0H0V46" fill="none" stroke="#ffffff" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Gulf water base -->
+  <rect width="1200" height="560" fill="url(#water)"/>
+  <rect width="1200" height="560" fill="url(#glow)"/>
+
+  <!-- Dubai mainland (coastline runs diagonally from lower-left to upper-right) -->
+  <path d="M0,560 L0,300 C220,330 430,300 600,250 C780,198 980,150 1200,70 L1200,560 Z" fill="url(#land)"/>
+  <path d="M0,300 C220,330 430,300 600,250 C780,198 980,150 1200,70"
+        fill="none" stroke="#1e5ae8" stroke-opacity="0.35" stroke-width="2"/>
+
+  <!-- subtle district grid over land -->
+  <path d="M0,560 L0,300 C220,330 430,300 600,250 C780,198 980,150 1200,70 L1200,560 Z" fill="url(#grid)"/>
+
+  <!-- Sheikh Zayed Road — main highway arc (brand lime accent) -->
+  <path d="M40,540 C300,470 520,420 760,330 C920,270 1060,220 1180,150"
+        fill="none" stroke="#c8ff3d" stroke-opacity="0.5" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round"/>
+  <!-- secondary roads -->
+  <path d="M120,540 C300,460 470,440 690,360" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2"/>
+  <path d="M400,560 C470,470 560,420 700,400" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="2"/>
+  <path d="M820,560 C860,470 900,420 980,360" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="2"/>
+
+  <!-- Palm Jumeirah (iconic) -->
+  <g transform="translate(300,250)" stroke="#1f2e2a" stroke-width="2" fill="url(#sand)">
+    <path d="M0,40 L0,150" stroke="#26352f" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <g stroke="#22302b" stroke-width="5" fill="none" stroke-linecap="round">
+      <path d="M-3,120 L-46,150 M3,120 L46,150 M-3,96 L-52,116 M3,96 L52,116 M-3,72 L-50,84 M3,72 L50,84 M-3,52 L-42,56 M3,52 L42,56"/>
+    </g>
+    <!-- crescent breakwater -->
+    <path d="M-70,150 A78,78 0 1 1 70,150" fill="none" stroke="#1e5ae8" stroke-opacity="0.4" stroke-width="6"/>
+  </g>
+
+  <!-- World Islands cluster -->
+  <g fill="#1c2a25" stroke="#27362f" stroke-width="1">
+    <circle cx="470" cy="150" r="6"/><circle cx="492" cy="138" r="5"/><circle cx="512" cy="152" r="6"/>
+    <circle cx="486" cy="162" r="4"/><circle cx="468" cy="132" r="4"/><circle cx="508" cy="134" r="4"/>
+    <circle cx="528" cy="146" r="5"/><circle cx="450" cy="146" r="4"/>
+  </g>
+
+  <!-- coastline towns / marina dots -->
+  <g fill="#c8ff3d" fill-opacity="0.0"/>
+
+  <!-- Labels -->
+  <text x="60" y="470" font-family="Inter, Arial, sans-serif" font-size="58" font-weight="800" fill="#ffffff" fill-opacity="0.9" letter-spacing="-1">DUBAI</text>
+  <text x="64" y="498" font-family="ui-monospace, monospace" font-size="15" letter-spacing="6" fill="#c8ff3d" fill-opacity="0.85">UNITED ARAB EMIRATES</text>
+
+  <g font-family="ui-monospace, monospace" font-size="13" letter-spacing="2" fill="#ffffff" fill-opacity="0.45">
+    <text x="690" y="320">DOWNTOWN</text>
+    <text x="250" y="430">AL QUOZ</text>
+    <text x="430" y="360">BUSINESS BAY</text>
+    <text x="930" y="250">DEIRA</text>
+    <text x="250" y="240">MARINA</text>
+  </g>
+
+  <!-- corner framing -->
+  <g stroke="#ffffff" stroke-opacity="0.18" stroke-width="2" fill="none">
+    <path d="M24,24 h34 M24,24 v34"/>
+    <path d="M1176,536 h-34 M1176,536 v-34"/>
+  </g>
+  <text x="1176" y="40" text-anchor="end" font-family="ui-monospace, monospace" font-size="12" letter-spacing="3" fill="#ffffff" fill-opacity="0.4">25.20°N · 55.27°E</text>
+</svg>

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -27,6 +27,29 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
   const [viewportHeight, setViewportHeight] = useState('100vh');
   const imagesRef = useRef<HTMLImageElement[]>([]);
 
+  // Hoisted draw helper so BOTH the preload effect and the canvas-setup effect
+  // can paint a frame. Critical for client-side BACK navigation: there the
+  // preloader is skipped (isLoaded is already true at mount), so the canvas
+  // effect's single drawFrame(0) no-ops because frame 0 isn't .complete yet.
+  // The preload effect repaints frame 0 the moment it decodes (see below).
+  const drawFrame = useCallback((index: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    // Ensure backing-store dimensions match the optimized WebPs (idempotent).
+    if (canvas.width !== 1924 || canvas.height !== 1076) {
+      canvas.width = 1924;
+      canvas.height = 1076;
+    }
+    const roundedIndex = Math.round(index);
+    const img = imagesRef.current[roundedIndex];
+    if (img && img.complete && img.naturalWidth !== 0) {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    }
+  }, []);
+
   // Lock viewport height on mobile to prevent layout shifts on address bar collapse
   useEffect(() => {
     let initialWidth = window.innerWidth;
@@ -50,6 +73,10 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
 
     let loadedCount = 0;
     const images: HTMLImageElement[] = [];
+    // Publish the array reference up front so the synchronous cache-hit draw of
+    // frame 0 (below) sees the pushed image immediately; subsequent pushes
+    // mutate this same array. (Reassigned again after the loop is harmless.)
+    imagesRef.current = images;
     // Desktop: warm decodes SEQUENTIALLY in the background (a chained queue) so
     // frames are ready ahead of the scroll without a concurrent decode storm.
     let decodeChain: Promise<unknown> = Promise.resolve();
@@ -66,6 +93,8 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
         onProgress(progress);
       };
 
+      const isFirstFrame = i === 1;
+
       img.onload = () => {
         // Gate the loader on DOWNLOAD, not decode. Blocking the preloader on 120
         // frame-decodes kept it on screen several times longer than the actual
@@ -73,6 +102,10 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
         // background (desktop only, sequential — see decodeChain). Mobile skips
         // decode entirely (lazy on first draw) to avoid an iOS-Safari OOM spike.
         handleLoad();
+        // On client-side BACK navigation the preloader/intro is skipped, so the
+        // canvas-setup effect's single drawFrame(0) ran before frame 0 was
+        // .complete and no-opped. Repaint frame 0 the instant it's decodable.
+        if (isFirstFrame && active) drawFrame(0);
         if (!isMobile && 'decode' in img) {
           decodeChain = decodeChain.then(() => (active ? img.decode().catch(() => {}) : undefined));
         }
@@ -86,6 +119,10 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
 
       img.src = `${folderPath}/ezgif-frame-${frameNum}.webp`;
       images.push(img);
+      // Cover the HTTP-cache-hit case (common on back-nav): onload may not fire
+      // for an already-cached image, so paint frame 0 immediately if it's ready.
+      // (Pushed above first so drawFrame's imagesRef.current[0] lookup resolves.)
+      if (isFirstFrame && active && img.complete) drawFrame(0);
     }
     imagesRef.current = images;
 
@@ -107,17 +144,8 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
     canvas.width = 1924;
     canvas.height = 1076;
 
-    // Function to draw a specific frame
-    const drawFrame = (index: number) => {
-      const roundedIndex = Math.round(index);
-      const img = imagesRef.current[roundedIndex];
-      if (img && img.complete && img.naturalWidth !== 0) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-      }
-    };
-
-    // Draw first frame initially
+    // Draw first frame initially (uses hoisted drawFrame; on back-nav frame 0
+    // may not be .complete yet — the preload effect repaints it once decodable)
     drawFrame(0);
 
     // Create a GSAP Context for clean react scoped cleanup
@@ -206,7 +234,9 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [isLoaded]);
+    // drawFrame is memoized (stable identity), so this effect still only re-runs
+    // on isLoaded changes — no second ScrollTrigger registration is introduced.
+  }, [isLoaded, drawFrame]);
 
   return (
     <div className="relative">
@@ -216,8 +246,9 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: isLoaded ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.5 }}
-        ref={containerRef} 
-        className="relative w-full h-[400vh] bg-black"
+        ref={containerRef}
+        className="relative w-full h-[400vh] bg-black bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/hero_padel_night_view_1779713624496.png')" }}
       >
         {/* Pinned Viewport Frame Wrapper */}
         <div 
