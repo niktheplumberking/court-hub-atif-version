@@ -1,5 +1,7 @@
-# Ignore raw heavy video frames and assets from Vercel deployment
-assets/
+# Ignore raw heavy video frames and assets from Vercel deployment.
+# Anchored to ROOT only (/assets/) — must NOT match public/assets, which holds
+# every hero/section/product image and MUST ship to production.
+/assets/
 node_modules/
 dist/
 .git/
