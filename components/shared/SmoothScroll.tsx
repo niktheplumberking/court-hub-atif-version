@@ -1,5 +1,6 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -8,8 +9,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Subpage counterpart of HomeClient's Lenis setup — same luxurious deceleration,
 // wired to ScrollTrigger so scrubbed/pinned animations track the smoothed scroll.
-// Honors prefers-reduced-motion by leaving native scrolling untouched.
+// Smooth scroll runs for everyone (the owner wants the buttery feel site-wide).
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
+
   useEffect(() => {
     // Smooth scroll runs for everyone (the owner wants the buttery Lenis feel
     // site-wide, matching the Construct cross-slide); we intentionally do NOT
@@ -22,6 +26,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       touchMultiplier: 1.5,
       syncTouch: false,
     });
+    lenisRef.current = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
     const updateRaf = (time: number) => lenis.raf(time * 1000);
@@ -47,8 +52,24 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       document.documentElement.removeEventListener('click', handleAnchorClick);
       gsap.ticker.remove(updateRaf);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  // Every in-group navigation must land at the TOP of the target page. Next's App
+  // Router resets the document scrollTop, but Lenis keeps its OWN virtual offset —
+  // so without this the visitor lands wherever they were on the previous page
+  // (the "I clicked About from the middle of Shop and arrived mid-About" bug).
+  // Force Lenis (and the raw window, as a belt-and-suspenders) back to 0 instantly
+  // on each pathname change. `force` overrides any in-flight/stopped state.
+  useEffect(() => {
+    const lenis = lenisRef.current;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true, force: true });
+    }
+    // Raw reset too, in case the route swapped before Lenis re-measured.
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return <>{children}</>;
 }

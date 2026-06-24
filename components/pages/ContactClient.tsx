@@ -19,9 +19,10 @@ import Footer from '@/components/home/Footer';
 import HeroFrameNav from '@/components/swipe/HeroFrameNav';
 import { useMouseParallax } from '@/components/shared/useMouseParallax';
 
-// Crisp vector Dubai map placeholder (the old dubai_map.png was a corrupt, non-decodable
-// file). Swap for a real satellite/street map later; the location pins sit over it.
-const dubaiMapImg = '/assets/images/dubai-map.svg';
+// Real satellite/aerial image of Dubai (Palm Jumeirah, the Marina, World Islands,
+// the coastline + desert) sourced from ESRI World Imagery as a placeholder; the
+// location pins sit over it. Source: Esri, Maxar, Earthstar Geographics.
+const dubaiMapImg = '/assets/images/dubai-map.jpg';
 
 const MotionLink = motion.create(Link);
 

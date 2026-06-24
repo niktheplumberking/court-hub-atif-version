@@ -391,13 +391,18 @@ export default function ShopClient() {
                       className="group bg-white rounded-[20px] p-5 border border-ink/5 hover:border-ink/15 hover:shadow-[0_16px_48px_rgba(10,13,24,0.06)] flex flex-col justify-between transition-all duration-500 relative overflow-hidden text-left"
                     >
                       <div className="relative z-10 space-y-4">
-                        {/* Soft premium grey-beige backplate for product photo */}
-                        <div className="relative w-full aspect-[4/3] rounded-[12px] bg-[#F5F4F0] overflow-hidden border border-ink/5">
+                        {/* Soft premium grey-beige backplate for product photo. `isolate`
+                            scopes the image's multiply blend so it composites only against
+                            this box's cream — the product photos' white studio backgrounds
+                            multiply to EXACTLY #F5F4F0 (white × box = box), so no white/black
+                            rectangle ever shows. (racket-19/20 had their black bgs flood-filled
+                            to white so they behave the same.) */}
+                        <div className="relative w-full aspect-[4/3] rounded-[12px] bg-[#F5F4F0] overflow-hidden border border-ink/5 isolate">
                           <Link href={`/shop/${prod.id}`} className="block w-full h-full cursor-pointer">
                             <img
                               src={prod.image}
                               alt={prod.name}
-                              className="w-full h-full object-contain p-3 sm:p-4 group-hover:scale-105 transition-transform duration-700 select-none"
+                              className="w-full h-full object-contain p-3 sm:p-4 mix-blend-multiply group-hover:scale-105 transition-transform duration-700 select-none"
                               referrerPolicy="no-referrer"
                             />
                           </Link>

@@ -174,6 +174,29 @@ html.lenis body {
   background-size: 160px 160px;
 }
 
+/* Heading highlight underline — the lime "drawn" slash under SPORT SCIENCE /
+   FUTURE OF PLAY / MOVE EARTH. Draws in from the left, holds, retracts, loops.
+   Ported from Framer (scaleX [0,1,1,0,0] over 9.5s, times [0,1/9.5,6.5/9.5,7.5/9.5,1])
+   to PURE CSS on purpose: Framer snaps keyframe loops to their final value (0 →
+   invisible) under OS "reduce motion", which froze this underline. A raw CSS
+   animation always runs because it is intentionally NOT placed in the
+   prefers-reduced-motion query below. transform-origin:left so it grows L→R and
+   collapses back toward the left, matching originX:0. The constant rotate(-1deg)
+   reproduces the playful -rotate-1 tilt. */
+@keyframes ch-underline-draw {
+  0%     { transform: rotate(-1deg) scaleX(0); }
+  10.53% { transform: rotate(-1deg) scaleX(1); }
+  68.42% { transform: rotate(-1deg) scaleX(1); }
+  78.95% { transform: rotate(-1deg) scaleX(0); }
+  100%   { transform: rotate(-1deg) scaleX(0); }
+}
+
+.ch-underline-draw {
+  transform-origin: left center;
+  animation: ch-underline-draw 9.5s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* Giant outlined numerals for editorial rows (ink on sand, white on dark). */
 .numeral-outline-ink {
   color: transparent;

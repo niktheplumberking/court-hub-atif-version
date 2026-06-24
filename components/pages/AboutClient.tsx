@@ -373,18 +373,11 @@ export default function AboutClient() {
                 METALLURGY <span className="text-court-blue">MEETS</span> <br className="hidden sm:inline" />
                 <span className="relative inline-block text-ink">
                   SPORT SCIENCE
-                  {/* Decorative playful vector underline slash with left-to-right drawing animation loop */}
-                  <motion.span
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: [0, 1, 1, 0, 0] }}
-                    transition={{
-                      duration: 9.5,
-                      times: [0, 1 / 9.5, 6.5 / 9.5, 7.5 / 9.5, 1],
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    style={{ originX: 0 }}
-                    className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 -rotate-1 rounded-full opacity-80"
+                  {/* Lime drawn underline — pure-CSS loop (.ch-underline-draw in globals.css);
+                      runs regardless of OS reduce-motion, unlike the old Framer keyframe loop. */}
+                  <span
+                    aria-hidden
+                    className="ch-underline-draw absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 rounded-full opacity-80"
                   />
                 </span>.
               </h2>
@@ -723,18 +716,11 @@ export default function AboutClient() {
                       ENGINEERING <span className="text-court-blue">THE</span> <br className="hidden sm:inline" />
                       <span className="relative inline-block text-ink">
                         FUTURE OF PLAY
-                        {/* Decorative playful vector underline slash with left-to-right drawing animation loop */}
-                        <motion.span
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: [0, 1, 1, 0, 0] }}
-                          transition={{
-                            duration: 9.5,
-                            times: [0, 1 / 9.5, 6.5 / 9.5, 7.5 / 9.5, 1],
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                          style={{ originX: 0 }}
-                          className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 -rotate-1 rounded-full opacity-80"
+                        {/* Lime drawn underline — pure-CSS loop (.ch-underline-draw in globals.css);
+                            runs regardless of OS reduce-motion, unlike the old Framer keyframe loop. */}
+                        <span
+                          aria-hidden
+                          className="ch-underline-draw absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 rounded-full opacity-80"
                         />
                       </span>.
                     </h2>

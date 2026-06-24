@@ -563,18 +563,11 @@ export default function ConstructClient() {
                 WE <br />
                 <span className="relative inline-block text-court-blue">
                   MOVE EARTH
-                  {/* Decorative horizontal underline highlight drawing loop */}
-                  <motion.span
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: [0, 1, 1, 0, 0] }}
-                    transition={{
-                      duration: 9.5,
-                      times: [0, 1 / 9.5, 6.5 / 9.5, 7.5 / 9.5, 1],
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                    style={{ originX: 0 }}
-                    className="absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 -rotate-1 rounded-full opacity-80"
+                  {/* Lime drawn underline — pure-CSS loop (.ch-underline-draw in globals.css);
+                      runs regardless of OS reduce-motion, unlike the old Framer keyframe loop. */}
+                  <span
+                    aria-hidden
+                    className="ch-underline-draw absolute left-0 bottom-1 sm:bottom-2 h-2 sm:h-3 bg-[#C8FF3D] w-full -z-10 rounded-full opacity-80"
                   />
                 </span>.
               </motion.h2>
@@ -762,8 +755,10 @@ export default function ConstructClient() {
                 </motion.div>
               </div>
 
-              {/* Bottom Pagination & Instructions Bar */}
-              <div className="px-6 md:px-12 lg:px-16 xl:px-24 flex justify-between items-center text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-white/40 pt-4 border-t border-white/5">
+              {/* Bottom Pagination & Instructions Bar — left padding clears the fixed
+                  rail (matches the "RECENT BUILDS" header block), so "01 / 06 BUILDS"
+                  no longer tucks under the navbar. */}
+              <div className="pl-6 pr-6 md:pl-32 md:pr-12 lg:pr-16 xl:pr-24 flex justify-between items-center text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-white/40 pt-4 border-t border-white/5">
                 <div className="flex items-center gap-2">
                   <span className="text-white font-black">{String(activeIndex + 1).padStart(2, '0')}</span>
                   <span>/</span>
