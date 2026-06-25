@@ -151,7 +151,7 @@ export default function AboutClient() {
 
         {/* ================= SECTION 1: RECREATED "COURT HUB" MOCK-UP HERO ================= */}
         <div className="fixed top-0 left-0 w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] z-0 pointer-events-auto">
-          <section className="relative h-full w-full p-3 sm:p-5 md:p-6 lg:p-8 bg-ink overflow-hidden text-center flex items-center justify-center">
+          <section className="relative h-full w-full p-2 sm:p-5 md:p-6 lg:p-8 bg-ink overflow-hidden text-center flex items-center justify-center">
 
           {/* Edge-to-Edge full screen background cinematic video / image fallback */}
           <motion.div
@@ -172,7 +172,7 @@ export default function AboutClient() {
           <div className="w-full h-full max-w-[1720px] mx-auto relative z-10 flex flex-col">
             {/* The Outer Frame simulating the premium mockup panel - thin polished rounded border exactly like reference */}
             <div
-              className="w-full h-full border-2 md:border-[3px] border-white/60 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden relative shadow-[0_32px_120px_rgba(0,0,0,0.7)] bg-black/15 backdrop-blur-[1.5px] flex flex-col justify-between p-4 sm:p-8 md:p-10 lg:p-12"
+              className="w-full h-full border-2 md:border-[3px] border-white/60 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden relative shadow-[0_32px_120px_rgba(0,0,0,0.7)] bg-black/15 backdrop-blur-[1.5px] flex flex-col justify-between p-3 sm:p-8 md:p-10 lg:p-12"
             >
 
               {/* Left Floating Swipe Chevron - Confined inside white borders */}
@@ -203,7 +203,7 @@ export default function AboutClient() {
               <HeroFrameNav active="about" />
 
               {/* 3. Centered Title Blocks: "EXPERIENCE PADEL", "ELEVATED" with organic, breath-like floating motions */}
-              <div className="relative my-auto py-6 md:py-10 flex flex-col items-center justify-center min-h-[240px] md:min-h-[300px] z-10 select-none">
+              <div className="relative my-auto py-3 md:py-10 flex flex-col items-center justify-center min-h-[140px] md:min-h-[300px] z-10 select-none">
                 {/* Text Row 1 */}
                 <motion.div
                   animate={{ y: [0, -6, 0], x: [0, 1.5, 0] }}
@@ -214,7 +214,7 @@ export default function AboutClient() {
                     initial={{ y: -35, opacity: 0, scale: 0.98 }}
                     animate={{ y: 0, opacity: 1, scale: 1 }}
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-display font-black text-white text-center text-4xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                    className="font-display font-black text-white text-center text-[32px] sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
                   >
                     EXPERIENCE PADEL
                   </motion.h1>
@@ -230,7 +230,7 @@ export default function AboutClient() {
                     initial={{ y: 35, opacity: 0, scale: 0.98 }}
                     animate={{ y: 0, opacity: 1, scale: 1 }}
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
-                    className="font-display font-black text-white text-center text-4xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
+                    className="font-display font-black text-white text-center text-[32px] sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
                   >
                     ELEVATED
                   </motion.h1>
@@ -639,7 +639,7 @@ export default function AboutClient() {
                                 </p>
 
                                 {/* Mobile inline graphic fallback */}
-                                <div className="lg:hidden mt-3 aspect-[16/10] rounded-[20px] overflow-hidden border border-white/10 relative shadow-md">
+                                <div className="lg:hidden mt-2 h-[120px] rounded-[20px] overflow-hidden border border-white/10 relative shadow-md">
                                   <img
                                     src={topic.image}
                                     alt={topic.title}
@@ -668,13 +668,13 @@ export default function AboutClient() {
           {/* The sliding Brand Positioning panel */}
           <motion.div
             style={{ x: `${percentX}%` }}
-            className="absolute inset-0 bg-[#EDE8E1] text-[#0A0D18] z-30 flex items-center overflow-y-auto lg:overflow-y-auto px-6 md:px-8 py-6 sm:py-8 lg:py-10 border-l border-white/5 shadow-[-20px_0_50px_rgba(0,0,0,0.5)]"
+            className="absolute inset-0 bg-[#EDE8E1] text-[#0A0D18] z-30 flex items-start sm:items-center overflow-y-auto lg:overflow-y-auto px-6 md:px-8 pt-[76px] pb-3 sm:py-8 lg:py-10 border-l border-white/5 shadow-[-20px_0_50px_rgba(0,0,0,0.5)]"
           >
             {/* Grid Background with fine spacing for balanced quadrants and elegant reduced opacity (0.04) */}
             <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(10,13,24,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,13,24,0.04)_1px,transparent_1px)] bg-[size:5.0rem_5.0rem] pointer-events-none" />
 
-            <div className="max-w-[85rem] xl:max-w-[90rem] 2xl:max-w-[96rem] mx-auto w-full px-6 md:px-12 lg:px-16 xl:px-20 relative z-10 lg:my-auto py-8">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-start text-left">
+            <div className="max-w-[85rem] xl:max-w-[90rem] 2xl:max-w-[96rem] mx-auto w-full px-6 md:px-12 lg:px-16 xl:px-20 relative z-10 lg:my-auto py-3 sm:py-8">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-12 xl:gap-16 items-start text-left">
 
                 {/* Left Column: Foundation Year Anchor - STEP 1 */}
                 <motion.div
@@ -695,7 +695,7 @@ export default function AboutClient() {
                 </motion.div>
 
                 {/* Right Column: Hero copy and multi-aspect imagery */}
-                <div className="lg:col-span-9 space-y-6 lg:space-y-8">
+                <div className="lg:col-span-9 space-y-4 lg:space-y-8">
 
                   {/* Indicator Badge + Header - STEP 2 with high-end typography hierarchy */}
                   <motion.div
@@ -712,7 +712,7 @@ export default function AboutClient() {
                       </div>
                     </div>
 
-                    <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-display font-black uppercase italic leading-[0.85] tracking-tighter text-[#0A0D18]">
+                    <h2 className="text-2xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-display font-black uppercase italic leading-[0.85] tracking-tighter text-[#0A0D18]">
                       ENGINEERING <span className="text-court-blue">THE</span> <br className="hidden sm:inline" />
                       <span className="relative inline-block text-ink">
                         FUTURE OF PLAY
@@ -734,11 +734,11 @@ export default function AboutClient() {
                   <motion.div
                     animate={{ opacity: opacityStep3, y: yStep3 }}
                     transition={{ type: "spring", stiffness: 45, damping: 22, mass: 1.2 }}
-                    className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-center pt-1"
+                    className="grid grid-cols-1 md:grid-cols-12 gap-3 lg:gap-8 items-center pt-1"
                   >
 
                     {/* Left portrait image column with safe capped height constraint and mouse parallax */}
-                    <div className="md:col-span-6 relative h-[200px] sm:h-[240px] md:h-[280px] lg:h-[320px] xl:h-[350px] w-full rounded-[32px] overflow-hidden border border-ink/10 shadow-xl group cursor-pointer bg-black animate-none">
+                    <div className="md:col-span-6 relative h-[120px] sm:h-[240px] md:h-[280px] lg:h-[320px] xl:h-[350px] w-full rounded-[32px] overflow-hidden border border-ink/10 shadow-xl group cursor-pointer bg-black animate-none">
                       <motion.div
                         style={{ x: imgParallaxX, y: imgParallaxY }}
                         className="absolute inset-[-6%] w-[112%] h-[112%] origin-center"
@@ -780,7 +780,7 @@ export default function AboutClient() {
                         </div>
                       </div>
 
-                      <div className="space-y-4 flex-1 flex flex-col items-start bg-white/40 p-4 sm:p-5 rounded-3xl border border-ink/5 shadow-sm hover:bg-white/50 transition-colors duration-300">
+                      <div className="space-y-4 flex-1 flex flex-col items-start bg-white/40 p-3 sm:p-5 rounded-3xl border border-ink/5 shadow-sm hover:bg-white/50 transition-colors duration-300">
                         <p className="text-xs sm:text-sm lg:text-sm text-ink/85 leading-relaxed font-sans font-medium">
                           Starting from casual weekend exhibition matches, we have structured ourselves into a high-octane network of luxury athletic sanctuaries, where raw physical action and structural design elements operate in perfect equilibrium.
                         </p>

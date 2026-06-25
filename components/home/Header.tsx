@@ -275,20 +275,30 @@ export default function Header() {
               : 'bg-transparent'
           }`}
         >
-          <nav className="relative z-50 flex items-center gap-1.5">
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white p-2 hover:text-lime transition-colors cursor-pointer shrink-0"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+          <nav className="relative z-50 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5">
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white p-2 hover:text-lime transition-colors cursor-pointer shrink-0"
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
 
-            {/* Logo — green/white combo, sits right beside the hamburger. Cart removed
-                on mobile: the always-on bottom-right bag widget covers cart access. */}
-            <Link href="/" className="font-display text-[20px] tracking-tight flex items-center select-none">
-              <span className="font-bold uppercase tracking-tight text-white">COURT</span>
-              <span className="font-bold uppercase ml-1 tracking-tight text-lime">HUB</span>
+              {/* Logo — green/white combo, beside the hamburger. */}
+              <Link href="/" className="font-display text-[20px] tracking-tight flex items-center select-none">
+                <span className="font-bold uppercase tracking-tight text-white">COURT</span>
+                <span className="font-bold uppercase ml-1 tracking-tight text-lime">HUB</span>
+              </Link>
+            </div>
+
+            {/* Book a Court — restored, right-aligned (took the old cart slot; cart now lives
+                only in the always-on bottom-right bag widget). */}
+            <Link
+              href="/contact"
+              className="shrink-0 bg-lime hover:bg-white text-ink font-sans text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all shadow-md shadow-lime/10"
+            >
+              Book a Court
             </Link>
           </nav>
         </header>
