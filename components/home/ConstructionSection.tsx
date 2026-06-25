@@ -202,8 +202,8 @@ Configuration Details:
 
       // Form fade-in animation during the final reserve phase
       tl.fromTo(formRef.current,
-        { opacity: 0, x: 50, pointerEvents: 'none' },
-        { opacity: 1, x: 0, pointerEvents: 'auto', duration: 1.0, ease: 'power2.out' },
+        { opacity: 0, y: 60, pointerEvents: 'none' },
+        { opacity: 1, y: 0, pointerEvents: 'auto', duration: 1.0, ease: 'power2.out' },
         3.2
       );
 

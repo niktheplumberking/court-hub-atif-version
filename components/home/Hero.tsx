@@ -250,10 +250,14 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
         className="relative w-full h-[400vh] bg-black bg-cover bg-center"
         style={{ backgroundImage: "url('/images/hero_padel_night_view_1779713624496.png')" }}
       >
-        {/* Pinned Viewport Frame Wrapper */}
-        <div 
-          style={{ height: typeof window !== 'undefined' && window.innerWidth < 768 ? viewportHeight : '100vh' }}
-          className="fixed md:sticky top-0 left-0 w-full overflow-hidden flex flex-col justify-between"
+        {/* Pinned Viewport Frame Wrapper. Mobile uses h-[100dvh] (the DYNAMIC viewport)
+            so the fixed frame always fills the visible area and adapts as Safari's address
+            bar collapses — the old JS-locked window.innerHeight was captured while the bar
+            was still expanded on a FRESH load, leaving a gap at the bottom where the section's
+            static bg showed through (it only looked fine on client-nav because the bar was
+            already collapsed then). */}
+        <div
+          className="fixed md:sticky top-0 left-0 w-full h-[100dvh] md:h-screen overflow-hidden flex flex-col justify-between"
         >
           
           {/* Canvas Render Target */}
@@ -279,11 +283,13 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
                   Elite Padel Engineering
                 </span>
               </div>
-              <h1 className="text-white text-[10vw] md:text-[100px] font-display font-medium leading-[1] md:leading-[0.92] tracking-[-0.035em]">
-                Your Game, Your Style – <br />
-                Modern Padel Courts <br className="hidden md:block" />
-                for Every Level
-              </h1>
+              <div className="ch-levitate">
+                <h1 className="text-white text-[10vw] md:text-[100px] font-display font-medium leading-[1] md:leading-[0.92] tracking-[-0.035em]">
+                  Your Game, Your Style – <br />
+                  Modern Padel Courts <br className="hidden md:block" />
+                  for Every Level
+                </h1>
+              </div>
             </div>
           </div>
 

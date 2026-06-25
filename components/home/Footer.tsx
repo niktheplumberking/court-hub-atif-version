@@ -57,10 +57,10 @@ export default function Footer({ hideTopBorder = false }: { hideTopBorder?: bool
           <h4 className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/20 font-bold">Menu</h4>
           <nav className="flex flex-col gap-3 md:gap-4">
             {[
-              { label: 'Shop', href: '/shop' },
+              { label: 'About Us', href: '/about' },
               { label: 'Construct Your Court', href: '/construct-your-court' },
-              { label: 'About', href: '/about' },
-              { label: 'Contact', href: '/contact' },
+              { label: 'Shop', href: '/shop' },
+              { label: 'Contact Us', href: '/contact' },
             ].map((item) => (
               <MotionLink
                 key={item.label}
@@ -79,9 +79,6 @@ export default function Footer({ hideTopBorder = false }: { hideTopBorder?: bool
           <h4 className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-white/20 font-bold">Company</h4>
           <nav className="flex flex-col gap-3 md:gap-4">
             {[
-              { label: 'About Us', href: '/about' },
-              { label: 'Our Story', href: '/about' }, // '/#story' landed inside a GSAP-pinned stage (unreliable) — route to /about instead
-              // { label: 'Careers', href: '#' }, // removed dead link — re-add when the client provides a careers URL
               { label: 'Terms', href: '/terms' },
               { label: 'Privacy', href: '/privacy' },
             ].map((item) => (

@@ -160,7 +160,7 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
       // element still hit-tests, so pointer-events must be off until it actually
       // appears — otherwise the invisible form would silently intercept clicks
       // over the canvas during the dwell/travel/scrub phases.
-      gsap.set(desktopFormRef.current, { opacity: 0, x: 50, pointerEvents: 'none' });
+      gsap.set(desktopFormRef.current, { opacity: 0, y: 60, pointerEvents: 'none' });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -206,7 +206,7 @@ export default function StoryConstructionWrapper({ isLoaded, onProgress }: Story
       // Phase C — FORM: the configurator fades in, starting ONLY after the last
       // frame has played (frames 100% reproduced).
       tl.to(desktopFormRef.current,
-        { opacity: 1, x: 0, pointerEvents: 'auto', ease: 'power2.out', duration: PHASE_FORM },
+        { opacity: 1, y: 0, pointerEvents: 'auto', ease: 'power2.out', duration: PHASE_FORM },
         PHASE_DWELL + PHASE_TRAVEL + PHASE_SCRUB
       );
 

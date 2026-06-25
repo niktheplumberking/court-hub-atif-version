@@ -150,7 +150,7 @@ export default function AboutClient() {
       <main className="">
 
         {/* ================= SECTION 1: RECREATED "COURT HUB" MOCK-UP HERO ================= */}
-        <div className="fixed top-0 left-0 w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] z-0 pointer-events-auto">
+        <div className="fixed top-0 left-0 w-full h-[100dvh] md:h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] z-0 pointer-events-auto">
           <section className="relative h-full w-full p-2 sm:p-5 md:p-6 lg:p-8 bg-ink overflow-hidden text-center flex items-center justify-center">
 
           {/* Edge-to-Edge full screen background cinematic video / image fallback */}
@@ -172,7 +172,7 @@ export default function AboutClient() {
           <div className="w-full h-full max-w-[1720px] mx-auto relative z-10 flex flex-col">
             {/* The Outer Frame simulating the premium mockup panel - thin polished rounded border exactly like reference */}
             <div
-              className="w-full h-full border-2 md:border-[3px] border-white/60 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden relative shadow-[0_32px_120px_rgba(0,0,0,0.7)] bg-black/15 backdrop-blur-[1.5px] flex flex-col justify-between p-3 sm:p-8 md:p-10 lg:p-12"
+              className="w-full h-full border-2 md:border-[3px] border-white/60 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden relative shadow-[0_32px_120px_rgba(0,0,0,0.7)] bg-black/15 backdrop-blur-[1.5px] flex flex-col justify-between p-3 pb-10 sm:p-8 md:p-10 lg:p-12"
             >
 
               {/* Left Floating Swipe Chevron - Confined inside white borders */}
@@ -746,7 +746,7 @@ export default function AboutClient() {
                         <img
                           src="/assets/images/player_portrait_1779705596398.png"
                           alt="Player Execution Stroke Portrait"
-                          className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-112 group-hover:rotate-2 group-hover:brightness-[1.02] filter contrast-[1.05] brightness-[0.95]"
+                          className="w-full h-full object-cover object-[center_35%] sm:object-center transition-all duration-700 ease-out group-hover:scale-112 group-hover:rotate-2 group-hover:brightness-[1.02] filter contrast-[1.05] brightness-[0.95]"
                           referrerPolicy="no-referrer"
                         />
                       </motion.div>

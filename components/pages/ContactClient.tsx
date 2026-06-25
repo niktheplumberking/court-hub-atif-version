@@ -157,37 +157,42 @@ export default function ContactClient() {
 
               {/* 3. Centered Title Blocks: "LET'S CO-DESIGN", "GAME CHANNELS" with organic, breath-like floating motions */}
               <div className="relative my-auto py-6 md:py-10 flex flex-col items-center justify-center min-h-[240px] md:min-h-[300px] z-10 select-none">
-                {/* Text Row 1 */}
-                <motion.div
-                  animate={{ y: [0, -6, 0], x: [0, 1.5, 0] }}
-                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-full flex justify-center"
-                >
-                  <motion.h1
-                    initial={{ y: -35, opacity: 0, scale: 0.98 }}
-                    animate={{ y: 0, opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-display font-black text-white text-center text-4xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                {/* Mobile-only levitation wrapper (CSS .ch-levitate floats the whole title
+                    on <768px, static on desktop). Kept separate from the inner Framer
+                    transforms so the CSS float and Framer animations never conflict. */}
+                <div className="ch-levitate w-full flex flex-col items-center justify-center">
+                  {/* Text Row 1 */}
+                  <motion.div
+                    animate={{ y: [0, -6, 0], x: [0, 1.5, 0] }}
+                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-full flex justify-center"
                   >
-                    LET'S CO-DESIGN
-                  </motion.h1>
-                </motion.div>
+                    <motion.h1
+                      initial={{ y: -35, opacity: 0, scale: 0.98 }}
+                      animate={{ y: 0, opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                      className="font-display font-black text-white text-center text-4xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                    >
+                      LET'S CO-DESIGN
+                    </motion.h1>
+                  </motion.div>
 
-                {/* Text Row 2 */}
-                <motion.div
-                  animate={{ y: [0, 6, 0], x: [0, -1.5, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-                  className="w-full flex justify-center mt-1 sm:mt-2"
-                >
-                  <motion.h1
-                    initial={{ y: 35, opacity: 0, scale: 0.98 }}
-                    animate={{ y: 0, opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
-                    className="font-display font-black text-white text-center text-4xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
+                  {/* Text Row 2 */}
+                  <motion.div
+                    animate={{ y: [0, 6, 0], x: [0, -1.5, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+                    className="w-full flex justify-center mt-1 sm:mt-2"
                   >
-                    GAME CHANNELS
-                  </motion.h1>
-                </motion.div>
+                    <motion.h1
+                      initial={{ y: 35, opacity: 0, scale: 0.98 }}
+                      animate={{ y: 0, opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
+                      className="font-display font-black text-white text-center text-4xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
+                    >
+                      GAME CHANNELS
+                    </motion.h1>
+                  </motion.div>
+                </div>
               </div>
 
               {/* 4. Glass Framed Bottom Row: Actions + Communities rating badge */}
