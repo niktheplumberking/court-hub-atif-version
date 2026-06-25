@@ -257,7 +257,7 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
             static bg showed through (it only looked fine on client-nav because the bar was
             already collapsed then). */}
         <div
-          className="fixed md:sticky top-0 left-0 w-full h-[100dvh] md:h-screen overflow-hidden flex flex-col justify-between"
+          className="fixed md:sticky top-0 left-0 w-full h-[100lvh] md:h-screen overflow-hidden flex flex-col justify-between"
         >
           
           {/* Canvas Render Target */}

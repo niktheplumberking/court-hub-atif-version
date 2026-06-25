@@ -58,8 +58,8 @@ html.lenis body {
 /* Mobile-only gentle "levitation" float for hero titles. Applied to a WRAPPER
    div (not the h1) so it never collides with the Framer entrance/breath
    transforms on the inner motion.h1. Static on desktop (>=768px). */
-@keyframes ch-levitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-.ch-levitate { animation: ch-levitate 6s ease-in-out infinite; will-change: transform; }
+@keyframes ch-levitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+.ch-levitate { animation: ch-levitate 5.5s ease-in-out infinite; will-change: transform; }
 @media (min-width: 768px) { .ch-levitate { animation: none; } }
 
 @keyframes radar-pulse {

@@ -203,7 +203,7 @@ export default function AboutClient() {
               <HeroFrameNav active="about" />
 
               {/* 3. Centered Title Blocks: "EXPERIENCE PADEL", "ELEVATED" with organic, breath-like floating motions */}
-              <div className="relative my-auto py-3 md:py-10 flex flex-col items-center justify-center min-h-[140px] md:min-h-[300px] z-10 select-none">
+              <div className="ch-levitate relative my-auto py-3 md:py-10 flex flex-col items-center justify-center min-h-[140px] md:min-h-[300px] z-10 select-none">
                 {/* Text Row 1 */}
                 <motion.div
                   animate={{ y: [0, -6, 0], x: [0, 1.5, 0] }}

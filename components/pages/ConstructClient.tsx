@@ -356,7 +356,7 @@ export default function ConstructClient() {
       <main className="">
 
         {/* ================= SECTION 1: RECREATED "COURT HUB" MOCK-UP HERO ================= */}
-        <div className="fixed top-0 left-0 w-full h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] z-0 pointer-events-auto">
+        <div className="fixed top-0 left-0 w-full h-[100dvh] md:h-screen min-h-[620px] sm:min-h-[720px] md:min-h-[820px] z-0 pointer-events-auto">
           <section className="relative h-full w-full p-3 sm:p-5 md:p-6 lg:p-8 bg-ink overflow-hidden text-center flex items-center justify-center">
 
           {/* Edge-to-Edge full screen background cinematic video / image fallback */}
@@ -378,7 +378,7 @@ export default function ConstructClient() {
           <div className="w-full h-full max-w-[1720px] mx-auto relative z-10 flex flex-col">
             {/* The Outer Frame simulating the premium mockup panel - thin polished rounded border exactly like reference */}
             <div
-              className="w-full h-full border-2 md:border-[3px] border-white/60 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden relative shadow-[0_32px_120px_rgba(0,0,0,0.7)] bg-black/15 backdrop-blur-[1.5px] flex flex-col justify-between p-4 sm:p-8 md:p-10 lg:p-12"
+              className="w-full h-full border-2 md:border-[3px] border-white/60 rounded-[28px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden relative shadow-[0_32px_120px_rgba(0,0,0,0.7)] bg-black/15 backdrop-blur-[1.5px] flex flex-col justify-between p-4 pb-10 sm:p-8 md:p-10 lg:p-12"
             >
 
               {/* Left Floating Swipe Chevron - Confined inside white borders */}
@@ -424,7 +424,7 @@ export default function ConstructClient() {
                       initial={{ y: -35, opacity: 0, scale: 0.98 }}
                       animate={{ y: 0, opacity: 1, scale: 1 }}
                       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                      className="font-display font-black text-white text-center text-4xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                      className="font-display font-black text-white text-center text-5xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
                     >
                       ENGINEER THE
                     </motion.h1>
@@ -440,7 +440,7 @@ export default function ConstructClient() {
                       initial={{ y: 35, opacity: 0, scale: 0.98 }}
                       animate={{ y: 0, opacity: 1, scale: 1 }}
                       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
-                      className="font-display font-black text-white text-center text-4xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
+                      className="font-display font-black text-white text-center text-5xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
                     >
                       BESPOKE ARENA
                     </motion.h1>
