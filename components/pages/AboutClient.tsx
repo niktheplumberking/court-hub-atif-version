@@ -203,7 +203,8 @@ export default function AboutClient() {
               <HeroFrameNav active="about" />
 
               {/* 3. Centered Title Blocks: "EXPERIENCE PADEL", "ELEVATED" with organic, breath-like floating motions */}
-              <div className="ch-levitate relative my-auto py-3 md:py-10 flex flex-col items-center justify-center min-h-[140px] md:min-h-[300px] z-10 select-none">
+              <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 z-10 select-none pointer-events-none">
+                <div className="ch-levitate w-full flex flex-col items-center justify-center">
                 {/* Text Row 1 */}
                 <motion.div
                   animate={{ y: [0, -6, 0], x: [0, 1.5, 0] }}
@@ -214,7 +215,7 @@ export default function AboutClient() {
                     initial={{ y: -35, opacity: 0, scale: 0.98 }}
                     animate={{ y: 0, opacity: 1, scale: 1 }}
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                    className="font-display font-black text-white text-center text-[32px] sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                    className="font-display font-black text-white text-center text-[42px] sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
                   >
                     EXPERIENCE PADEL
                   </motion.h1>
@@ -230,11 +231,12 @@ export default function AboutClient() {
                     initial={{ y: 35, opacity: 0, scale: 0.98 }}
                     animate={{ y: 0, opacity: 1, scale: 1 }}
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
-                    className="font-display font-black text-white text-center text-[32px] sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
+                    className="font-display font-black text-white text-center text-[42px] sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
                   >
                     ELEVATED
                   </motion.h1>
                 </motion.div>
+                </div>
               </div>
 
               {/* 4. Glass Framed Bottom Row: Actions + Communities rating badge */}
@@ -242,7 +244,7 @@ export default function AboutClient() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                className="relative z-30 w-full flex flex-col lg:flex-row justify-between items-end gap-6 border-t border-white/10 pt-4 mt-4"
+                className="relative z-30 w-full flex flex-col lg:flex-row justify-between items-end gap-6 border-t border-white/10 pt-4 mt-auto"
               >
 
                 {/* Left Bottom Block - Piles */}
@@ -466,7 +468,9 @@ export default function AboutClient() {
           <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(212,255,63,0.08)_0%,transparent_70%)] pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto w-full px-6 md:px-8">
+            {/* pt-16 on mobile reserves space for the fixed header so the vertically
+                centered content never tucks underneath it on a short (bars-open) viewport. */}
+            <div className="max-w-7xl mx-auto w-full px-6 md:px-8 pt-16 lg:pt-0">
 
               {/* Split layout: left sticky card (Pics), right list content (text) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative">
@@ -578,7 +582,7 @@ export default function AboutClient() {
                 </div>
 
                 {/* Right Column: Topics / Scroll anchors (SWAPPED to Right) */}
-                <div className="lg:col-span-6 space-y-4 lg:space-y-8 text-left">
+                <div className="lg:col-span-6 space-y-3 lg:space-y-8 text-left">
 
                   {/* Simulated Badge matching the reference screenshot exactly with color contrast calibration */}
                   <div id="dna-strategy-trigger" className="flex items-center gap-3">
@@ -591,13 +595,13 @@ export default function AboutClient() {
                   </div>
 
                   {/* Subtitle / Main heading matching screenshot layout with vivid lime highlighted focus */}
-                  <h2 className="text-2xl md:text-5xl font-display font-black uppercase italic tracking-tight text-white leading-[0.95] mt-4">
+                  <h2 className="text-xl md:text-5xl font-display font-black uppercase italic tracking-tight text-white leading-[1.05] md:leading-[0.95] mt-1 lg:mt-4">
                     Pioneering the Future of <br />
                     <span className="text-[#C8FF3D]">Court Design</span>
                   </h2>
 
                   {/* Categories container */}
-                  <div className="mt-4 lg:mt-8 space-y-0 text-left">
+                  <div className="mt-2 lg:mt-8 space-y-0 text-left">
                     {TOPICS.map((topic, index) => {
                       const isActive = activeSection === index;
                       return (
@@ -605,17 +609,18 @@ export default function AboutClient() {
                           key={topic.id}
                           id={`dna-topic-${index}`}
                           onClick={() => scrollToSection(index)}
-                          className="group pt-3 pb-3 lg:pt-6 lg:pb-6 flex flex-col cursor-pointer select-none border-t border-white/15 transition-colors"
+                          className="group pt-2 pb-2 lg:pt-6 lg:pb-6 flex flex-col cursor-pointer select-none border-t border-white/15 transition-colors"
                         >
-                          <div className="flex gap-6 items-start">
+                          <div className="flex gap-3 lg:gap-6 items-start">
                             {/* Number index */}
                             <span className={`font-mono text-xs font-bold transition-all duration-300 ${isActive ? 'text-[#C8FF3D]' : 'text-white/40'}`}>
                               {topic.id}
                             </span>
 
-                            {/* Text elements */}
+                            {/* Text elements. Inactive titles shrink on mobile (smaller font) to
+                                free vertical space for the active topic's full, un-clamped copy. */}
                             <div className="space-y-2 flex-1 text-left">
-                              <h3 className={`text-lg md:text-xl font-display font-black uppercase italic tracking-tight transition-all duration-300 ${isActive ? 'text-white scale-102 origin-left' : 'text-white/40 scale-100 group-hover:text-white/70'}`}>
+                              <h3 className={`font-display font-black uppercase italic tracking-tight transition-all duration-300 md:text-xl ${isActive ? 'text-base md:text-xl text-white scale-102 origin-left' : 'text-[13px] text-white/40 scale-100 group-hover:text-white/70'}`}>
                                 {topic.title}
                               </h3>
 
@@ -633,13 +638,14 @@ export default function AboutClient() {
                                   {topic.desc}
                                 </p>
 
-                                {/* SEO text */}
-                                <p className="text-[10px] md:text-xs text-white/70 leading-snug md:leading-relaxed font-mono mt-1.5 mb-1 border-l-2 border-[#C8FF3D] pl-2.5 md:pl-3 italic bg-black/15 p-2 md:p-2.5 rounded-r-xl line-clamp-3 md:line-clamp-none">
+                                {/* SEO text — full copy on every breakpoint (no clamp); the
+                                    shrunk inactive titles above buy back the space it needs. */}
+                                <p className="text-[10px] md:text-xs text-white/70 leading-snug md:leading-relaxed font-mono mt-1.5 mb-1 border-l-2 border-[#C8FF3D] pl-2.5 md:pl-3 italic bg-black/15 p-2 md:p-2.5 rounded-r-xl">
                                   {topic.seoText}
                                 </p>
 
                                 {/* Mobile inline graphic fallback */}
-                                <div className="lg:hidden mt-2 h-[110px] sm:h-[120px] rounded-[20px] overflow-hidden border border-white/10 relative shadow-md">
+                                <div className="lg:hidden mt-2 h-[92px] sm:h-[120px] rounded-[20px] overflow-hidden border border-white/10 relative shadow-md">
                                   <img
                                     src={topic.image}
                                     alt={topic.title}
@@ -738,7 +744,7 @@ export default function AboutClient() {
                   >
 
                     {/* Left portrait image column with safe capped height constraint and mouse parallax */}
-                    <div className="md:col-span-6 relative h-[120px] sm:h-[240px] md:h-[280px] lg:h-[320px] xl:h-[350px] w-full rounded-[32px] overflow-hidden border border-ink/10 shadow-xl group cursor-pointer bg-black animate-none">
+                    <div className="md:col-span-6 relative h-[230px] sm:h-[240px] md:h-[280px] lg:h-[320px] xl:h-[350px] w-full rounded-[32px] overflow-hidden border border-ink/10 shadow-xl group cursor-pointer bg-black animate-none">
                       <motion.div
                         style={{ x: imgParallaxX, y: imgParallaxY }}
                         className="absolute inset-[-6%] w-[112%] h-[112%] origin-center"

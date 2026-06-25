@@ -247,8 +247,7 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
         animate={{ opacity: isLoaded ? 1 : 0 }}
         transition={{ duration: 1, delay: 0.5 }}
         ref={containerRef}
-        className="relative w-full h-[400vh] bg-black bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/hero_padel_night_view_1779713624496.png')" }}
+        className="relative w-full h-[400vh] bg-black"
       >
         {/* Pinned Viewport Frame Wrapper. Mobile uses h-[100dvh] (the DYNAMIC viewport)
             so the fixed frame always fills the visible area and adapts as Safari's address
@@ -257,7 +256,7 @@ export default function Hero({ isLoaded, onProgress }: HeroProps) {
             static bg showed through (it only looked fine on client-nav because the bar was
             already collapsed then). */}
         <div
-          className="fixed md:sticky top-0 left-0 w-full h-[100lvh] md:h-screen overflow-hidden flex flex-col justify-between"
+          className="fixed md:sticky top-0 left-0 w-full h-[100lvh] md:h-screen overflow-hidden flex flex-col justify-between bg-black"
         >
           
           {/* Canvas Render Target */}

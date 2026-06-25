@@ -156,7 +156,7 @@ export default function ContactClient() {
               <HeroFrameNav active="contact" />
 
               {/* 3. Centered Title Blocks: "LET'S CO-DESIGN", "GAME CHANNELS" with organic, breath-like floating motions */}
-              <div className="relative my-auto py-6 md:py-10 flex flex-col items-center justify-center min-h-[240px] md:min-h-[300px] z-10 select-none">
+              <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 z-10 select-none pointer-events-none">
                 {/* Mobile-only levitation wrapper (CSS .ch-levitate floats the whole title
                     on <768px, static on desktop). Kept separate from the inner Framer
                     transforms so the CSS float and Framer animations never conflict. */}
@@ -171,7 +171,7 @@ export default function ContactClient() {
                       initial={{ y: -35, opacity: 0, scale: 0.98 }}
                       animate={{ y: 0, opacity: 1, scale: 1 }}
                       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                      className="font-display font-black text-white text-center text-5xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                      className="font-display font-black text-white text-center text-[42px] sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
                     >
                       LET'S CO-DESIGN
                     </motion.h1>
@@ -187,7 +187,7 @@ export default function ContactClient() {
                       initial={{ y: 35, opacity: 0, scale: 0.98 }}
                       animate={{ y: 0, opacity: 1, scale: 1 }}
                       transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
-                      className="font-display font-black text-white text-center text-5xl sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
+                      className="font-display font-black text-white text-center text-[42px] sm:text-[68px] md:text-[88px] lg:text-[108px] xl:text-[124px] leading-[0.85] tracking-tighter uppercase select-none drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
                     >
                       GAME CHANNELS
                     </motion.h1>
@@ -200,7 +200,7 @@ export default function ContactClient() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                className="relative z-30 w-full flex flex-col lg:flex-row justify-between items-end gap-6 border-t border-white/10 pt-4 mt-4"
+                className="relative z-30 w-full flex flex-col lg:flex-row justify-between items-end gap-6 border-t border-white/10 pt-4 mt-auto"
               >
 
                 {/* Left Bottom Block - Piles */}

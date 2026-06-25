@@ -409,7 +409,7 @@ export default function ConstructClient() {
               <HeroFrameNav active="construct" />
 
               {/* 3. Centered Title Blocks: "ENGINEER THE", "BESPOKE ARENA" with organic, breath-like floating motions */}
-              <div className="relative my-auto py-6 md:py-10 flex flex-col items-center justify-center min-h-[240px] md:min-h-[300px] z-10 select-none">
+              <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 z-10 select-none pointer-events-none">
                 {/* Mobile-only levitation wrapper (CSS .ch-levitate floats the whole title
                     on <768px, static on desktop). Kept separate from the inner Framer
                     transforms so the CSS float and Framer animations never conflict. */}
@@ -453,7 +453,7 @@ export default function ConstructClient() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                className="relative z-30 w-full flex flex-col lg:flex-row justify-between items-end gap-6 border-t border-white/10 pt-4 mt-4"
+                className="relative z-30 w-full flex flex-col lg:flex-row justify-between items-end gap-6 border-t border-white/10 pt-4 mt-auto"
               >
 
                 {/* Left Bottom Block - Piles */}
