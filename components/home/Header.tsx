@@ -275,36 +275,21 @@ export default function Header() {
               : 'bg-transparent'
           }`}
         >
-          <nav className="relative z-50 flex items-center justify-between">
+          <nav className="relative z-50 flex items-center gap-1.5">
             {/* Mobile Menu Button */}
-            <button 
+            <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white p-2 hover:text-lime transition-colors cursor-pointer"
+              className="text-white p-2 hover:text-lime transition-colors cursor-pointer shrink-0"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
 
-            {/* Logo (Centered absolutely) */}
-            <Link href="/" className="absolute left-1/2 -translate-x-1/2 font-display text-[20px] tracking-tight text-white flex items-center select-none">
-              <span className="font-bold uppercase tracking-tight">COURT</span>
-              <span className="font-light uppercase ml-1 opacity-80 tracking-tight">HUB</span>
+            {/* Logo — green/white combo, sits right beside the hamburger. Cart removed
+                on mobile: the always-on bottom-right bag widget covers cart access. */}
+            <Link href="/" className="font-display text-[20px] tracking-tight flex items-center select-none">
+              <span className="font-bold uppercase tracking-tight text-white">COURT</span>
+              <span className="font-bold uppercase ml-1 tracking-tight text-lime">HUB</span>
             </Link>
-
-            {/* Cart Icon — opens the global live drawer */}
-            <div className="flex items-center p-2">
-              <button
-                onClick={openDrawer}
-                aria-label={`Open cart${count > 0 ? ` (${count} item${count === 1 ? '' : 's'})` : ''}`}
-                className="text-white/80 hover:text-lime transition-colors relative hover:scale-110 block cursor-pointer"
-              >
-                <ShoppingCart className="w-5 h-5" />
-                {count > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-lime text-ink text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-[0_0_6px_rgba(200,255,61,0.4)]">
-                    {count}
-                  </span>
-                )}
-              </button>
-            </div>
           </nav>
         </header>
 

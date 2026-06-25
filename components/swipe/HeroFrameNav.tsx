@@ -25,7 +25,10 @@ export default function HeroFrameNav({ active }: { active: ActiveKey }) {
       // completing); guarantees the in-frame navbar always shows over the hero.
       initial={false}
       animate={{ y: 0, opacity: 1 }}
-      className="relative z-30 w-full flex items-center justify-between border-b border-white/15 pb-4 md:pb-6"
+      // Hidden on mobile — the global top bar (hamburger + logo) covers nav there, and
+      // the hero's own bottom CTAs cover "Book a Court"; this removes the duplicate logo
+      // and frees vertical space so the hero fits the phone viewport.
+      className="relative z-30 w-full hidden md:flex items-center justify-between border-b border-white/15 pb-4 md:pb-6"
     >
       {/* Logo */}
       <Link
