@@ -578,7 +578,7 @@ export default function AboutClient() {
                 </div>
 
                 {/* Right Column: Topics / Scroll anchors (SWAPPED to Right) */}
-                <div className="lg:col-span-6 space-y-8 text-left">
+                <div className="lg:col-span-6 space-y-4 lg:space-y-8 text-left">
 
                   {/* Simulated Badge matching the reference screenshot exactly with color contrast calibration */}
                   <div id="dna-strategy-trigger" className="flex items-center gap-3">
@@ -591,13 +591,13 @@ export default function AboutClient() {
                   </div>
 
                   {/* Subtitle / Main heading matching screenshot layout with vivid lime highlighted focus */}
-                  <h2 className="text-4xl md:text-5xl font-display font-black uppercase italic tracking-tight text-white leading-[0.95] mt-4">
+                  <h2 className="text-2xl md:text-5xl font-display font-black uppercase italic tracking-tight text-white leading-[0.95] mt-4">
                     Pioneering the Future of <br />
                     <span className="text-[#C8FF3D]">Court Design</span>
                   </h2>
 
                   {/* Categories container */}
-                  <div className="mt-8 space-y-0 text-left">
+                  <div className="mt-4 lg:mt-8 space-y-0 text-left">
                     {TOPICS.map((topic, index) => {
                       const isActive = activeSection === index;
                       return (
@@ -605,7 +605,7 @@ export default function AboutClient() {
                           key={topic.id}
                           id={`dna-topic-${index}`}
                           onClick={() => scrollToSection(index)}
-                          className="group pt-6 pb-6 flex flex-col cursor-pointer select-none border-t border-white/15 transition-colors"
+                          className="group pt-3 pb-3 lg:pt-6 lg:pb-6 flex flex-col cursor-pointer select-none border-t border-white/15 transition-colors"
                         >
                           <div className="flex gap-6 items-start">
                             {/* Number index */}
@@ -634,12 +634,12 @@ export default function AboutClient() {
                                 </p>
 
                                 {/* SEO text */}
-                                <p className="text-[11px] md:text-xs text-white/70 leading-relaxed font-mono mt-2 mb-1 border-l-2 border-[#C8FF3D] pl-3 italic bg-black/15 p-2.5 rounded-r-xl">
+                                <p className="text-[10px] md:text-xs text-white/70 leading-snug md:leading-relaxed font-mono mt-1.5 mb-1 border-l-2 border-[#C8FF3D] pl-2.5 md:pl-3 italic bg-black/15 p-2 md:p-2.5 rounded-r-xl line-clamp-3 md:line-clamp-none">
                                   {topic.seoText}
                                 </p>
 
                                 {/* Mobile inline graphic fallback */}
-                                <div className="lg:hidden mt-2 h-[120px] rounded-[20px] overflow-hidden border border-white/10 relative shadow-md">
+                                <div className="lg:hidden mt-2 h-[110px] sm:h-[120px] rounded-[20px] overflow-hidden border border-white/10 relative shadow-md">
                                   <img
                                     src={topic.image}
                                     alt={topic.title}
