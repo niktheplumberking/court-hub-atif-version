@@ -453,7 +453,7 @@ export default function ConstructClient() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                className="relative z-30 w-full flex flex-col lg:flex-row justify-between items-end gap-6 border-t border-white/10 pt-4 mt-auto"
+                className="relative z-30 w-full flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 border-t border-white/10 pt-4 mt-auto"
               >
 
                 {/* Left Bottom Block - Piles */}
@@ -655,7 +655,7 @@ export default function ConstructClient() {
                 opacity: galleryOpacity,
                 pointerEvents: showAuthority ? "none" : "auto"
               }}
-              className="absolute inset-0 w-full h-full flex flex-col justify-between py-10 md:py-14 z-10 animate-fade-in"
+              className="absolute inset-0 w-full h-full flex flex-col justify-between pt-24 pb-10 md:py-14 z-10 animate-fade-in"
             >
               {/* Header Block exactly like reference */}
               <div className="pl-6 pr-6 md:pl-32 md:pr-12 lg:pr-16 xl:pr-24">
