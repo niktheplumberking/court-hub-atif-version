@@ -337,12 +337,12 @@ export default function ProductClient() {
 
               {/* Rating stars */}
               <div className="flex items-center gap-1.5 text-xs font-sans font-bold pt-1">
-                <div className="flex items-center text-[#C8FF3D] gap-0.5">
-                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
-                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
-                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
-                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
-                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
+                <div className="flex items-center text-court-blue gap-0.5">
+                  <Star className="w-4 h-4 fill-current text-court-blue stroke-court-blue" />
+                  <Star className="w-4 h-4 fill-current text-court-blue stroke-court-blue" />
+                  <Star className="w-4 h-4 fill-current text-court-blue stroke-court-blue" />
+                  <Star className="w-4 h-4 fill-current text-court-blue stroke-court-blue" />
+                  <Star className="w-4 h-4 fill-current text-court-blue stroke-court-blue" />
                 </div>
                 <span className="text-ink ml-1">4.9</span>
                 <span className="text-stone-400">({product.id === 'stealth-blue' ? '45' : '36'} reviews)</span>
