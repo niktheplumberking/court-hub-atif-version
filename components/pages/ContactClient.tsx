@@ -116,7 +116,7 @@ export default function ContactClient() {
               alt=""
               aria-hidden
               className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.15] saturate-[1.15]"
-              referrerPolicy="no-referrer"
+              referrerPolicy="no-referrer" fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-transparent to-ink/90" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,90,232,0.2)_0%,transparent_80%)]" />
@@ -697,7 +697,7 @@ export default function ContactClient() {
                   src={dubaiMapImg}
                   alt="Map of Dubai"
                   className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
+                  referrerPolicy="no-referrer" loading="lazy" decoding="async"
                 />
               </motion.div>
 

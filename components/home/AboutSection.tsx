@@ -174,7 +174,7 @@ export default function AboutSection() {
                 src="/images/padel_ball_icon_1779705611997.webp"
                 alt="Padel Ball"
                 className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
+                referrerPolicy="no-referrer" loading="lazy" decoding="async"
               />
             </div>
             <p className="text-white/90 text-base md:text-lg font-medium leading-snug max-w-[280px]">
@@ -213,7 +213,7 @@ export default function AboutSection() {
                 src="/images/player_portrait_1779705596398.webp"
                 alt="Padel Player"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                referrerPolicy="no-referrer"
+                referrerPolicy="no-referrer" loading="lazy" decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           </motion.div>
@@ -233,7 +233,7 @@ export default function AboutSection() {
               src="/images/court_action_landscape_1779705580138.webp"
               alt="Padel Action"
               className="absolute left-0 top-[-10%] w-full h-[120%] object-cover"
-              referrerPolicy="no-referrer"
+              referrerPolicy="no-referrer" loading="lazy" decoding="async"
             />
           </div>
 

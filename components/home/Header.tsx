@@ -154,9 +154,9 @@ export default function Header() {
 
                 {/* Center Logo */}
                 <div className="absolute left-1/2 -translate-x-1/2">
-                  <Link href="/" className="font-display text-[22px] md:text-[26px] tracking-tight text-white flex items-center select-none hover:text-lime transition-colors">
-                    <span className="font-bold uppercase tracking-tight">COURT</span>
-                    <span className="font-light uppercase ml-2 opacity-80 tracking-tight">HUB</span>
+                  <Link href="/" className="font-sans text-[22px] md:text-[26px] tracking-wide text-white flex items-center select-none hover:text-lime transition-colors">
+                    <span className="font-bold uppercase tracking-wide">COURT</span>
+                    <span className="font-bold uppercase ml-2 tracking-wide text-lime">HUB</span>
                   </Link>
                 </div>
 
@@ -201,9 +201,9 @@ export default function Header() {
               className="fixed top-0 left-0 bottom-0 w-24 bg-[#0E0E0C] backdrop-blur-xl border-r border-white/10 flex flex-col justify-between py-12 items-center z-50 shadow-[5px_0_30px_rgba(0,0,0,0.5)]"
             >
               {/* Vertical Logo Badge */}
-              <Link href="/" className="font-display text-lg tracking-wider text-white flex flex-col items-center select-none hover:text-lime transition-colors">
+              <Link href="/" className="font-sans text-lg tracking-wider text-white flex flex-col items-center select-none hover:text-lime transition-colors">
                 <span className="font-bold">C</span>
-                <span className="font-light opacity-80">H</span>
+                <span className="font-bold text-lime">H</span>
               </Link>
 
               {/* Vertical Links (Rotated via CSS writing-mode) */}
@@ -286,9 +286,9 @@ export default function Header() {
               </button>
 
               {/* Logo — green/white combo, beside the hamburger. */}
-              <Link href="/" className="font-display text-[20px] tracking-tight flex items-center select-none">
-                <span className="font-bold uppercase tracking-tight text-white">COURT</span>
-                <span className="font-bold uppercase ml-1 tracking-tight text-lime">HUB</span>
+              <Link href="/" className="font-sans text-[20px] tracking-wide flex items-center select-none">
+                <span className="font-bold uppercase tracking-wide text-white">COURT</span>
+                <span className="font-bold uppercase ml-1 tracking-wide text-lime">HUB</span>
               </Link>
             </div>
 
@@ -361,9 +361,9 @@ export default function Header() {
 
               {/* Bottom Logo inside Hamburger Menu */}
               <div className="mt-12 pt-8 flex flex-col items-center justify-center select-none border-t border-white/5">
-                <div className="font-display text-[22px] tracking-tight flex items-center">
-                  <span className="font-bold uppercase tracking-tight text-lime">COURT</span>
-                  <span className="font-light uppercase ml-2 tracking-tight text-white">HUB</span>
+                <div className="font-sans text-[22px] tracking-wide flex items-center">
+                  <span className="font-bold uppercase tracking-wide text-white">COURT</span>
+                  <span className="font-bold uppercase ml-2 tracking-wide text-lime">HUB</span>
                 </div>
                 <span className="mt-2 text-[9px] font-mono tracking-[0.25em] text-white/20 uppercase">
                   Premium Padel Experience

@@ -163,7 +163,7 @@ export default function AboutClient() {
               alt=""
               aria-hidden
               className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.15] saturate-[1.15]"
-              referrerPolicy="no-referrer"
+              referrerPolicy="no-referrer" fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-transparent to-ink/90" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,90,232,0.2)_0%,transparent_80%)]" />
@@ -316,7 +316,7 @@ export default function AboutClient() {
                           className="w-8 h-8 rounded-full border-2 border-[#0E0E0C] object-cover relative cursor-pointer"
                           src={src}
                           alt="Member"
-                          referrerPolicy="no-referrer"
+                          referrerPolicy="no-referrer" loading="lazy" decoding="async"
                         />
                       ))}
                     </div>
@@ -401,7 +401,7 @@ export default function AboutClient() {
                     src="/assets/images/padel_racket_set_lifestyle_1779706056285.png"
                     alt="Aesthetic Padel Court Action Closeup"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-104 group-hover:rotate-0.5"
-                    referrerPolicy="no-referrer"
+                    referrerPolicy="no-referrer" loading="lazy" decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0C]/95 via-transparent to-transparent p-6 sm:p-8 flex flex-col justify-end" />
                   <div className="absolute bottom-6 left-6 text-white text-left mr-6 space-y-2">
@@ -557,7 +557,7 @@ export default function AboutClient() {
                             src={topic.image}
                             alt={topic.title}
                             className="w-full h-full object-cover filter brightness-[0.75] contrast-[1.1] saturate-[1.1]"
-                            referrerPolicy="no-referrer"
+                            referrerPolicy="no-referrer" loading="lazy" decoding="async"
                           />
                           {/* Gradient overlay */}
                           <div className="absolute inset-0 bg-gradient-to-t from-[black]/95 via-[black]/20 to-transparent p-8 flex flex-col justify-end text-left" />
@@ -650,7 +650,7 @@ export default function AboutClient() {
                                     src={topic.image}
                                     alt={topic.title}
                                     className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.1] saturate-[1.1]"
-                                    referrerPolicy="no-referrer"
+                                    referrerPolicy="no-referrer" loading="lazy" decoding="async"
                                   />
                                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3">
                                     <span className="font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-[#0E0E0C] px-2 py-0.5 rounded font-bold">
@@ -753,7 +753,7 @@ export default function AboutClient() {
                           src="/assets/images/player_portrait_1779705596398.png"
                           alt="Player Execution Stroke Portrait"
                           className="w-full h-full object-cover object-[center_35%] sm:object-center transition-all duration-700 ease-out group-hover:scale-112 group-hover:rotate-2 group-hover:brightness-[1.02] filter contrast-[1.05] brightness-[0.95]"
-                          referrerPolicy="no-referrer"
+                          referrerPolicy="no-referrer" loading="lazy" decoding="async"
                         />
                       </motion.div>
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0C]/85 via-transparent to-transparent p-6 flex flex-col justify-end pointer-events-none" />
@@ -776,7 +776,7 @@ export default function AboutClient() {
                             src="/assets/images/court_action_landscape_1779705580138.png"
                             alt="Play action on synthetic blue turf court"
                             className="w-full h-full object-cover object-[center_30%] transition-all duration-700 ease-out group-hover:scale-112 group-hover:-rotate-2 group-hover:brightness-[1.02] filter contrast-[1.05] brightness-[0.95]"
-                            referrerPolicy="no-referrer"
+                            referrerPolicy="no-referrer" loading="lazy" decoding="async"
                           />
                         </motion.div>
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0C]/85 via-transparent to-transparent p-4 flex flex-col justify-end pointer-events-none" />
@@ -895,7 +895,7 @@ export default function AboutClient() {
                         src={p.image}
                         alt={p.name}
                         className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                        referrerPolicy="no-referrer"
+                        referrerPolicy="no-referrer" loading="lazy" decoding="async"
                       />
                     </div>
                     <div className="px-1">

@@ -122,8 +122,8 @@ export default function OurStorySection() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            video.play().catch((err) => {
-              console.log("Autoplay play triggered via intersection observer:", err);
+            video.play().catch(() => {
+              /* autoplay can be rejected on throttled/mobile tabs — safe to ignore */
             });
           }
         });

@@ -240,7 +240,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
           >
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-              <img
+              <img loading="lazy" decoding="async"
                 src="/images/premium_background.jpg?v=6"
                 alt=""
                 className="w-full h-full object-cover opacity-70 transition-transform duration-700 group-hover:scale-105"
@@ -260,7 +260,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
             </div>
 
             <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none p-8">
-               <img
+               <img loading="lazy" decoding="async"
                 src="/images/racket_lime_nobg.webp?v=6"
                 alt="Lime Padel Racket"
                 className="w-full h-full max-h-[300px] object-contain drop-shadow-[0_0_50px_rgba(200,255,61,0.35)] transition-transform duration-700 scale-[0.68] group-hover:scale-[0.76] group-hover:rotate-6"
@@ -290,7 +290,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
             >
               {/* Background Image Layer */}
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                <img
+                <img loading="lazy" decoding="async"
                   src="/images/premium_background_blue.webp?v=6"
                   alt=""
                   className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105"
@@ -314,7 +314,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
               </div>
 
               <div className="absolute -right-8 top-1/2 -translate-y-1/2 z-10 w-[45%] h-[110%] flex items-center justify-center pointer-events-none overflow-visible">
-                <img
+                <img loading="lazy" decoding="async"
                   src="/images/racket_blue_nobg.webp?v=6"
                   alt="Blue Padel Racket"
                   className="w-[110%] h-[110%] object-contain drop-shadow-[0_0_40px_rgba(30,90,232,0.3)] transition-transform duration-700 rotate-[15deg] scale-[0.74] group-hover:scale-[0.82] group-hover:rotate-[20deg]"
@@ -333,7 +333,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
             >
               {/* Background Image Layer */}
               <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                <img
+                <img loading="lazy" decoding="async"
                   src="/images/premium_background_blue.webp?v=6"
                   alt=""
                   className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105"
@@ -354,7 +354,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
               </div>
 
               <div className="absolute right-0 bottom-0 z-10 h-full w-[55%] overflow-visible pointer-events-none flex items-end justify-end">
-                 <img
+                 <img loading="lazy" decoding="async"
                   src="/images/racket_blue_nobg.webp?v=6"
                   alt="Blue Padel Racket"
                   className="h-[110%] object-contain translate-x-2 translate-y-6 rotate-[15deg] drop-shadow-[0_0_40px_rgba(30,90,232,0.35)] scale-[0.76] group-hover:scale-[0.84] group-hover:rotate-[18deg] transition-all duration-700"
@@ -382,7 +382,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
             >
                {/* Background Image Layer */}
                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                 <img
+                 <img loading="lazy" decoding="async"
                    src="/images/premium_background.jpg?v=6"
                    alt=""
                    className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105"
@@ -396,7 +396,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
                </div>
 
                <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center overflow-visible">
-                 <img
+                 <img loading="lazy" decoding="async"
                    src="/images/racket_lime_nobg.webp?v=6"
                    alt="Lime Padel Racket"
                    className="w-[60%] h-[60%] object-contain drop-shadow-2xl transition-transform duration-700 rotate-[85deg] scale-[0.9] translate-x-8 translate-y-2 group-hover:scale-[1.0]"
@@ -450,7 +450,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
                 {/* Product image — hover scale 1 → 1.06 over 700ms (bible hover density) */}
                 <div className="relative aspect-square overflow-hidden bg-ink-2">
                   {card.image ? (
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={card.image}
                       alt={card.title}
                       className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.06]"

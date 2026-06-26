@@ -165,7 +165,7 @@ function MoveEarthRow({ item }: { item: MoveEarthItem; key?: any }) {
               src={item.image}
               alt={item.title}
               className="w-full h-full object-cover select-none pointer-events-none"
-              referrerPolicy="no-referrer"
+              referrerPolicy="no-referrer" loading="lazy" decoding="async"
             />
           </motion.div>
         </motion.div>
@@ -369,7 +369,7 @@ export default function ConstructClient() {
               alt=""
               aria-hidden
               className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.15] saturate-[1.15]"
-              referrerPolicy="no-referrer"
+              referrerPolicy="no-referrer" fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-transparent to-ink/90" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,90,232,0.2)_0%,transparent_80%)]" />
@@ -740,7 +740,7 @@ export default function ConstructClient() {
                           src={item.image}
                           alt={item.title}
                           className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-                          referrerPolicy="no-referrer"
+                          referrerPolicy="no-referrer" loading="lazy" decoding="async"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-6 flex flex-col justify-end pointer-events-none select-none z-10" />
                         <div className="absolute bottom-6 left-6 right-6 pointer-events-none select-none z-20">
@@ -814,19 +814,19 @@ export default function ConstructClient() {
                           src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=120&h=120"
                           alt="Team Portrait 1"
                           className="inline-block h-12 w-12 rounded-full ring-2 ring-sand object-cover"
-                          referrerPolicy="no-referrer"
+                          referrerPolicy="no-referrer" loading="lazy" decoding="async"
                         />
                         <img
                           src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120&h=120"
                           alt="Team Portrait 2"
                           className="inline-block h-12 w-12 rounded-full ring-2 ring-sand object-cover"
-                          referrerPolicy="no-referrer"
+                          referrerPolicy="no-referrer" loading="lazy" decoding="async"
                         />
                         <img
                           src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120&h=120"
                           alt="Team Portrait 3"
                           className="inline-block h-12 w-12 rounded-full ring-2 ring-sand object-cover"
-                          referrerPolicy="no-referrer"
+                          referrerPolicy="no-referrer" loading="lazy" decoding="async"
                         />
                         <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-court-blue text-white font-mono text-xs font-black ring-2 ring-sand pointer-events-none select-none">
                           15+

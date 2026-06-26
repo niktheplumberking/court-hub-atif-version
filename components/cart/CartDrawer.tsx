@@ -188,7 +188,7 @@ export default function CartDrawer() {
                         src={i.image}
                         alt={i.title}
                         className="w-full h-full object-contain"
-                        referrerPolicy="no-referrer"
+                        referrerPolicy="no-referrer" loading="lazy" decoding="async"
                       />
                     ) : null}
                   </Link>

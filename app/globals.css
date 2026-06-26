@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+/* Brand weights only (matches the Court Hub guide + actual usage): Outfit
+   300/500/700/800/900, Inter 400/500/600/700, JetBrains Mono 400/500/600/700.
+   The old import omitted Outfit 300/500/900, Inter 700 and mono 600/700, so every
+   font-black heading + the hero title rendered as faux (browser-synthesized)
+   weights. Loading the real weights fixes that. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;500;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {

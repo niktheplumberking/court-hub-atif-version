@@ -257,7 +257,7 @@ export default function ProductClient() {
                       animate={{ y: [0, -12, 0] }}
                       transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
                       className="h-full w-auto max-h-[420px] sm:max-h-[500px] object-contain mix-blend-multiply"
-                      referrerPolicy="no-referrer"
+                      referrerPolicy="no-referrer" fetchPriority="high" decoding="async"
                     />
                   </div>
 
@@ -279,7 +279,7 @@ export default function ProductClient() {
                     src="/assets/images/premium_padel_racket_black_lime_1779706021226.png"
                     alt="Lime setup variant"
                     className="w-full h-full object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.08)] group-hover:scale-105 transition-transform"
-                    referrerPolicy="no-referrer"
+                    referrerPolicy="no-referrer" loading="lazy" decoding="async"
                   />
                 </Link>
 
@@ -294,7 +294,7 @@ export default function ProductClient() {
                     src="/assets/images/premium_padel_racket_stealth_blue_1779706040552.png"
                     alt="Stealth Blue setup variant"
                     className="w-full h-full object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.08)] group-hover:scale-105 transition-transform"
-                    referrerPolicy="no-referrer"
+                    referrerPolicy="no-referrer" loading="lazy" decoding="async"
                   />
                 </Link>
 
@@ -309,7 +309,7 @@ export default function ProductClient() {
                     src="/assets/images/premium_padel_racket_black_lime_1779706021226.png"
                     alt="Propulsion variant"
                     className="w-full h-full object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.08)] group-hover:scale-105 transition-transform brightness-[0.96]"
-                    referrerPolicy="no-referrer"
+                    referrerPolicy="no-referrer" loading="lazy" decoding="async"
                   />
                 </Link>
 
@@ -331,18 +331,18 @@ export default function ProductClient() {
               </span>
 
               {/* Title */}
-              <h1 className="text-3xl sm:text-4.5xl font-sans font-black tracking-tight text-ink mt-1.5 leading-none">
+              <h1 className="text-3xl sm:text-4.5xl font-display font-black tracking-tight text-ink mt-1.5 leading-none">
                 {product.name}
               </h1>
 
               {/* Rating stars */}
               <div className="flex items-center gap-1.5 text-xs font-sans font-bold pt-1">
                 <div className="flex items-center text-[#C8FF3D] gap-0.5">
-                  <Star className="w-4 h-4 fill-current text-amber-400 stroke-amber-400" />
-                  <Star className="w-4 h-4 fill-current text-amber-400 stroke-amber-400" />
-                  <Star className="w-4 h-4 fill-current text-amber-400 stroke-amber-400" />
-                  <Star className="w-4 h-4 fill-current text-amber-400 stroke-amber-400" />
-                  <Star className="w-4 h-4 fill-current text-amber-400 stroke-amber-400" />
+                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
+                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
+                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
+                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
+                  <Star className="w-4 h-4 fill-current text-lime stroke-lime" />
                 </div>
                 <span className="text-ink ml-1">4.9</span>
                 <span className="text-stone-400">({product.id === 'stealth-blue' ? '45' : '36'} reviews)</span>
@@ -529,7 +529,7 @@ export default function ProductClient() {
                         src={rel.image}
                         alt={rel.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 select-none"
-                        referrerPolicy="no-referrer"
+                        referrerPolicy="no-referrer" loading="lazy" decoding="async"
                       />
                     </Link>
 

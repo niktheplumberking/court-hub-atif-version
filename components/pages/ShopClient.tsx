@@ -136,7 +136,7 @@ export default function ShopClient() {
               alt=""
               aria-hidden
               className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.15] saturate-[1.15]"
-              referrerPolicy="no-referrer"
+              referrerPolicy="no-referrer" fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-transparent to-ink/90" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,90,232,0.2)_0%,transparent_80%)]" />
@@ -408,7 +408,7 @@ export default function ShopClient() {
                               src={prod.image}
                               alt={prod.name}
                               className="w-full h-full object-contain p-3 sm:p-4 mix-blend-multiply group-hover:scale-105 transition-transform duration-700 select-none"
-                              referrerPolicy="no-referrer"
+                              referrerPolicy="no-referrer" loading="lazy" decoding="async"
                             />
                           </Link>
 
