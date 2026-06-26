@@ -178,7 +178,7 @@ export default function AboutClient() {
               {/* Left Floating Swipe Chevron - Confined inside white borders */}
               <MotionLink
                 href="/contact"
-                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0A0D18" }}
+                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0E0E0C" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 md:w-11 md:h-11 rounded-full border border-white/25 bg-black/50 text-white flex items-center justify-center backdrop-blur-md transition-shadow shadow-[0_4px_24px_rgba(0,0,0,0.6)] group shrink-0"
@@ -190,7 +190,7 @@ export default function AboutClient() {
               {/* Right Floating Swipe Chevron - Confined inside white borders */}
               <MotionLink
                 href="/construct-your-court"
-                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0A0D18" }}
+                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0E0E0C" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 md:w-11 md:h-11 rounded-full border border-white/25 bg-black/50 text-white flex items-center justify-center backdrop-blur-md transition-shadow shadow-[0_4px_24px_rgba(0,0,0,0.6)] group shrink-0"
@@ -313,7 +313,7 @@ export default function AboutClient() {
                           key={i}
                           whileHover={{ scale: 1.25, zIndex: 10 }}
                           transition={{ type: "spring", stiffness: 450, damping: 15 }}
-                          className="w-8 h-8 rounded-full border-2 border-[#0A0D18] object-cover relative cursor-pointer"
+                          className="w-8 h-8 rounded-full border-2 border-[#0E0E0C] object-cover relative cursor-pointer"
                           src={src}
                           alt="Member"
                           referrerPolicy="no-referrer"
@@ -364,14 +364,14 @@ export default function AboutClient() {
               className="text-left space-y-6"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
+                <div className="w-8 h-8 rounded-full bg-[#0E0E0C] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
                   1
                 </div>
-                <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-ink/10 px-4 py-1.5 rounded-full bg-[#0A0D18]/5 text-[#0A0D18] shadow-sm">
+                <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-ink/10 px-4 py-1.5 rounded-full bg-[#0E0E0C]/5 text-[#0E0E0C] shadow-sm">
                   Our Story
                 </div>
               </div>
-              <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black uppercase italic leading-[0.85] tracking-tighter text-[#0A0D18]">
+              <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black uppercase italic leading-[0.85] tracking-tighter text-[#0E0E0C]">
                 METALLURGY <span className="text-court-blue">MEETS</span> <br className="hidden sm:inline" />
                 <span className="relative inline-block text-ink">
                   SPORT SCIENCE
@@ -403,7 +403,7 @@ export default function AboutClient() {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-104 group-hover:rotate-0.5"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D18]/95 via-transparent to-transparent p-6 sm:p-8 flex flex-col justify-end" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0C]/95 via-transparent to-transparent p-6 sm:p-8 flex flex-col justify-end" />
                   <div className="absolute bottom-6 left-6 text-white text-left mr-6 space-y-2">
                     <span className="font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-ink px-2.5 py-1 rounded font-black inline-block">DEVELOPMENT LAB</span>
                     <p className="font-display text-sm sm:text-base md:text-lg font-bold italic uppercase text-white leading-tight">Synthesizing high-density composites for extreme athletic output.</p>
@@ -563,7 +563,7 @@ export default function AboutClient() {
                           <div className="absolute inset-0 bg-gradient-to-t from-[black]/95 via-[black]/20 to-transparent p-8 flex flex-col justify-end text-left" />
 
                           {/* Floating Indicator */}
-                          <div className="absolute top-6 right-6 font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-[#0A0D18] px-3.5 py-1.5 rounded-full font-bold shadow-lg">
+                          <div className="absolute top-6 right-6 font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-[#0E0E0C] px-3.5 py-1.5 rounded-full font-bold shadow-lg">
                             {topic.badge}
                           </div>
 
@@ -586,7 +586,7 @@ export default function AboutClient() {
 
                   {/* Simulated Badge matching the reference screenshot exactly with color contrast calibration */}
                   <div id="dna-strategy-trigger" className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
+                    <div className="w-8 h-8 rounded-full bg-[#0E0E0C] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
                       2
                     </div>
                     <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-white/10 px-4 py-1.5 rounded-full bg-white/10 text-white shadow-sm">
@@ -653,7 +653,7 @@ export default function AboutClient() {
                                     referrerPolicy="no-referrer"
                                   />
                                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3">
-                                    <span className="font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-[#0A0D18] px-2 py-0.5 rounded font-bold">
+                                    <span className="font-mono text-[9px] uppercase tracking-wider bg-[#C8FF3D] text-[#0E0E0C] px-2 py-0.5 rounded font-bold">
                                       {topic.badge}
                                     </span>
                                   </div>
@@ -674,7 +674,7 @@ export default function AboutClient() {
           {/* The sliding Brand Positioning panel */}
           <motion.div
             style={{ x: `${percentX}%` }}
-            className="absolute inset-0 bg-[#EDE8E1] text-[#0A0D18] z-30 flex items-start sm:items-center overflow-y-auto lg:overflow-y-auto px-6 md:px-8 pt-[76px] pb-3 sm:py-8 lg:py-10 border-l border-white/5 shadow-[-20px_0_50px_rgba(0,0,0,0.5)]"
+            className="absolute inset-0 bg-[#EDE8E1] text-[#0E0E0C] z-30 flex items-start sm:items-center overflow-y-auto lg:overflow-y-auto px-6 md:px-8 pt-[76px] pb-3 sm:py-8 lg:py-10 border-l border-white/5 shadow-[-20px_0_50px_rgba(0,0,0,0.5)]"
           >
             {/* Grid Background with fine spacing for balanced quadrants and elegant reduced opacity (0.04) */}
             <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,rgba(10,13,24,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,13,24,0.04)_1px,transparent_1px)] bg-[size:5.0rem_5.0rem] pointer-events-none" />
@@ -688,12 +688,12 @@ export default function AboutClient() {
                   transition={{ type: "spring", stiffness: 45, damping: 22, mass: 1.2 }}
                   className="lg:col-span-3 lg:sticky lg:top-24 space-y-3"
                 >
-                  <span className="font-mono text-xs uppercase tracking-widest text-[#0A0D18]/60 font-semibold block">
+                  <span className="font-mono text-xs uppercase tracking-widest text-[#0E0E0C]/60 font-semibold block">
                     Founded at:
                   </span>
 
                   {/* Highlight box matching reference screenshot layout exactly */}
-                  <div className="w-full max-w-[220px] aspect-[2.1/1] bg-[#C8FF3D] text-[#0A0D18] flex items-center justify-center rounded-[24px] shadow-[0_12px_36px_rgba(212,255,62,0.18)] select-none border border-[#C8FF3D] hover:scale-[1.12] hover:-rotate-3 hover:shadow-[0_20px_48px_rgba(212,255,62,0.35)] transition-all duration-300 ease-out">
+                  <div className="w-full max-w-[220px] aspect-[2.1/1] bg-[#C8FF3D] text-[#0E0E0C] flex items-center justify-center rounded-[24px] shadow-[0_12px_36px_rgba(212,255,62,0.18)] select-none border border-[#C8FF3D] hover:scale-[1.12] hover:-rotate-3 hover:shadow-[0_20px_48px_rgba(212,255,62,0.35)] transition-all duration-300 ease-out">
                     <span className="font-sans text-5xl md:text-6xl font-black italic tracking-tighter leading-none select-none">
                       2024
                     </span>
@@ -710,7 +710,7 @@ export default function AboutClient() {
                     className="space-y-4"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
+                      <div className="w-8 h-8 rounded-full bg-[#0E0E0C] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
                         3
                       </div>
                       <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-ink/10 px-4 py-1.5 rounded-full bg-white text-ink shadow-sm">
@@ -718,7 +718,7 @@ export default function AboutClient() {
                       </div>
                     </div>
 
-                    <h2 className="text-2xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-display font-black uppercase italic leading-[0.85] tracking-tighter text-[#0A0D18]">
+                    <h2 className="text-2xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-display font-black uppercase italic leading-[0.85] tracking-tighter text-[#0E0E0C]">
                       ENGINEERING <span className="text-court-blue">THE</span> <br className="hidden sm:inline" />
                       <span className="relative inline-block text-ink">
                         FUTURE OF PLAY
@@ -731,7 +731,7 @@ export default function AboutClient() {
                       </span>.
                     </h2>
 
-                    <p className="text-xs sm:text-sm md:text-base lg:text-base font-sans font-medium text-[#0A0D18]/80 leading-relaxed max-w-4xl pt-1">
+                    <p className="text-xs sm:text-sm md:text-base lg:text-base font-sans font-medium text-[#0E0E0C]/80 leading-relaxed max-w-4xl pt-1">
                       Court Hub was engineered from a deep-seated obsession with high-fidelity materials and the scientific belief that architecture can redefine elite sports communities.
                     </p>
                   </motion.div>
@@ -756,7 +756,7 @@ export default function AboutClient() {
                           referrerPolicy="no-referrer"
                         />
                       </motion.div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D18]/85 via-transparent to-transparent p-6 flex flex-col justify-end pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0C]/85 via-transparent to-transparent p-6 flex flex-col justify-end pointer-events-none" />
                       <div className="absolute bottom-6 left-6 text-white text-left space-y-1.5 z-10 font-sans pointer-events-none">
                         <span className="font-mono text-[9px] uppercase tracking-[0.15em] bg-court-blue text-white px-2.5 py-1 rounded font-bold inline-block">STRIKE GEOMETRY</span>
                         <p className="font-display text-xs sm:text-sm font-bold italic uppercase tracking-wider text-white">Refining accurate rebound angles.</p>
@@ -779,7 +779,7 @@ export default function AboutClient() {
                             referrerPolicy="no-referrer"
                           />
                         </motion.div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D18]/85 via-transparent to-transparent p-4 flex flex-col justify-end pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E0C]/85 via-transparent to-transparent p-4 flex flex-col justify-end pointer-events-none" />
                         <div className="absolute bottom-4 left-4 text-white text-left space-y-1 z-10 font-sans pointer-events-none">
                           <span className="font-mono text-[9px] uppercase tracking-[0.15em] bg-[#C8FF3D] text-ink px-2.5 py-1 rounded font-black font-semibold inline-block">SYNTHETIC SCIENCE</span>
                           <p className="font-display text-xs sm:text-sm font-bold italic uppercase tracking-wider text-white">Maximized traction coefficient.</p>
@@ -793,10 +793,10 @@ export default function AboutClient() {
 
                         <Link
                           href="/contact"
-                          className="inline-flex items-center gap-2 group text-xs font-mono font-bold uppercase tracking-widest text-[#0A0D18] hover:text-court-blue border border-ink/15 px-5 py-2.5 rounded-full bg-white hover:bg-white/80 transition-all shadow-md group shrink-0"
+                          className="inline-flex items-center gap-2 group text-xs font-mono font-bold uppercase tracking-widest text-[#0E0E0C] hover:text-court-blue border border-ink/15 px-5 py-2.5 rounded-full bg-white hover:bg-white/80 transition-all shadow-md group shrink-0"
                         >
                           <span>Learn more</span>
-                          <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-[#0A0D18]" />
+                          <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-[#0E0E0C]" />
                         </Link>
                       </div>
 

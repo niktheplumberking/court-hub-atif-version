@@ -450,7 +450,7 @@ export default function ContactClient() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start lg:items-stretch">
 
               {/* Left Column (7/12 cols): GET IN TOUCH Form card */}
-              <div className="lg:col-span-7 bg-[#FAFAFA] p-8 md:p-10 rounded-[28px] border border-slate-200/60 shadow-sm text-left">
+              <div className="lg:col-span-7 bg-[#FFFFFF] p-8 md:p-10 rounded-[28px] border border-slate-200/60 shadow-sm text-left">
                 <div className="pb-4 mb-8 border-b border-slate-200">
                   <h3 className="font-display font-bold text-lg text-ink uppercase tracking-wider">
                     GET IN TOUCH
@@ -586,7 +586,7 @@ export default function ContactClient() {
               <div className="lg:col-span-5 flex flex-col gap-8 lg:h-full justify-between text-left">
 
                 {/* Card 1: CONTACT INFORMATION */}
-                <div className="bg-[#FAFAFA] p-8 md:p-10 rounded-[28px] border border-slate-200/60 shadow-sm flex-1 flex flex-col justify-between">
+                <div className="bg-[#FFFFFF] p-8 md:p-10 rounded-[28px] border border-slate-200/60 shadow-sm flex-1 flex flex-col justify-between">
                   <div>
                     <div className="pb-4 mb-6 border-b border-slate-200">
                       <h3 className="font-display font-bold text-lg text-ink uppercase tracking-wider">
@@ -638,7 +638,7 @@ export default function ContactClient() {
                 </div>
 
                 {/* Card 2: BUSINESS HOURS */}
-                <div className="bg-[#FAFAFA] p-8 md:p-10 lg:p-12 rounded-[28px] border border-slate-200/60 shadow-sm flex-1 flex flex-col justify-between">
+                <div className="bg-[#FFFFFF] p-8 md:p-10 lg:p-12 rounded-[28px] border border-slate-200/60 shadow-sm flex-1 flex flex-col justify-between">
                   <div>
                     <div className="pb-4 mb-6 border-b border-slate-200">
                       <h3 className="font-display font-bold text-lg text-ink uppercase tracking-wider">
@@ -686,7 +686,7 @@ export default function ContactClient() {
 
             {/* Dubai street map — mouse-parallax background only (owner request: no pins,
                 no filters, no overlays — just the map drifting with the cursor like the heroes). */}
-            <div className="relative w-full aspect-[21/10] min-h-[380px] max-h-[580px] rounded-[32px] border border-slate-200/60 overflow-hidden shadow-sm bg-[#FAF9F6] select-none">
+            <div className="relative w-full aspect-[21/10] min-h-[380px] max-h-[580px] rounded-[32px] border border-slate-200/60 overflow-hidden shadow-sm bg-[#FFFFFF] select-none">
 
               {/* Oversized + offset so it can drift with the cursor without exposing the edges. */}
               <motion.div

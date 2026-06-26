@@ -7,10 +7,3 @@ dist/
 .git/
 .gemini/
 *.log
-
-# Ignore heavy raw frames in public directory that are not referenced
-public/Construction  25 frames ps/
-public/Construction Animation Desktop/
-public/Construction Frames Desktop/
-public/Hero Final Mobile/
-public/Hero Final Version Desktop/

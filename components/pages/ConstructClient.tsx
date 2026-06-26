@@ -384,7 +384,7 @@ export default function ConstructClient() {
               {/* Left Floating Swipe Chevron - Confined inside white borders */}
               <MotionLink
                 href="/about"
-                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0A0D18" }}
+                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0E0E0C" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 md:w-11 md:h-11 rounded-full border border-white/25 bg-black/50 text-white flex items-center justify-center backdrop-blur-md transition-shadow shadow-[0_4px_24px_rgba(0,0,0,0.6)] group shrink-0"
@@ -396,7 +396,7 @@ export default function ConstructClient() {
               {/* Right Floating Swipe Chevron - Confined inside white borders */}
               <MotionLink
                 href="/shop"
-                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0A0D18" }}
+                whileHover={{ scale: 1.15, backgroundColor: "#C8FF3D", color: "#0E0E0C" }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 z-40 w-8 h-8 md:w-11 md:h-11 rounded-full border border-white/25 bg-black/50 text-white flex items-center justify-center backdrop-blur-md transition-shadow shadow-[0_4px_24px_rgba(0,0,0,0.6)] group shrink-0"
@@ -551,10 +551,10 @@ export default function ConstructClient() {
                 style={{ opacity: badgeOpacity, y: badgeY }}
                 className="flex items-center gap-3 w-fit"
               >
-                <div className="w-8 h-8 rounded-full bg-[#0A0D18] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
+                <div className="w-8 h-8 rounded-full bg-[#0E0E0C] text-[#C8FF3D] font-mono text-xs flex items-center justify-center font-black">
                   1
                 </div>
-                <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-ink/10 px-4 py-1.5 rounded-full bg-[#0A0D18]/5 text-[#0A0D18] shadow-sm">
+                <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-ink/10 px-4 py-1.5 rounded-full bg-[#0E0E0C]/5 text-[#0E0E0C] shadow-sm">
                   WHAT WE BUILD
                 </div>
               </motion.div>
@@ -562,7 +562,7 @@ export default function ConstructClient() {
               {/* Step 2: Main Display Headline - Reverted to massive typographic hierarchy */}
               <motion.h2
                 style={{ opacity: titleOpacity, y: titleY }}
-                className="text-6xl sm:text-8xl md:text-9xl lg:text-10xl xl:text-[11rem] font-display font-black uppercase italic leading-[0.85] tracking-tighter text-[#0A0D18]"
+                className="text-6xl sm:text-8xl md:text-9xl lg:text-10xl xl:text-[11rem] font-display font-black uppercase italic leading-[0.85] tracking-tighter text-[#0E0E0C]"
               >
                 FOUR WAYS <br />
                 WE <br />
@@ -903,7 +903,7 @@ export default function ConstructClient() {
                     <defs>
                       <linearGradient id="line-pulse-grad" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#1E5AE8" stopOpacity="0.1" />
-                        <stop offset="50%" stopColor="#5E8DFF" stopOpacity="1.0" />
+                        <stop offset="50%" stopColor="#1E5AE8" stopOpacity="1.0" />
                         <stop offset="100%" stopColor="#1E5AE8" stopOpacity="0.1" />
                       </linearGradient>
                     </defs>
@@ -1030,7 +1030,7 @@ export default function ConstructClient() {
 
 
         {/* Dynamic Process Sliding Strap */}
-        <div className="w-full overflow-hidden bg-[#D2FE37] py-4 sm:py-5 border-b border-ink/10 relative z-10 select-none flex">
+        <div className="w-full overflow-hidden bg-[#C8FF3D] py-4 sm:py-5 border-b border-ink/10 relative z-10 select-none flex">
           <motion.div
             className="flex shrink-0 items-center font-display font-black uppercase italic tracking-widest text-black text-xl sm:text-2xl md:text-3xl"
             animate={{ x: ["0%", "-50%"] }}
@@ -1077,7 +1077,7 @@ export default function ConstructClient() {
             </div>
 
             {/* Dynamic Interactive Pipeline Progress Tracker */}
-            <div className="bg-[#121625]/80 border border-white/5 rounded-[24px] lg:rounded-[20px] p-6.5 lg:p-4 lg:py-3 max-w-4xl w-full mx-auto backdrop-blur-md relative overflow-hidden shadow-2xl">
+            <div className="bg-[#1A1A17]/80 border border-white/5 rounded-[24px] lg:rounded-[20px] p-6.5 lg:p-4 lg:py-3 max-w-4xl w-full mx-auto backdrop-blur-md relative overflow-hidden shadow-2xl">
               <div className="absolute top-0 left-0 w-32 h-32 bg-lime/10 blur-3xl rounded-full pointer-events-none" />
 
               {/* Desktop view: Horizontal Connected Pipeline nodes */}
@@ -1113,7 +1113,7 @@ export default function ConstructClient() {
                           ? 'bg-lime text-ink ring-4 ring-lime/10 shadow-[0_0_16px_rgba(200,255,61,0.35)]'
                           : isActive
                             ? 'bg-ink border-2 border-lime text-lime shadow-[0_0_24px_rgba(200,255,61,0.5)] ring-4 ring-lime/5'
-                            : 'bg-[#0b0e17] border border-white/10 text-white/30 group-hover:border-white/30 group-hover:text-white/60'
+                            : 'bg-[#1A1A17] border border-white/10 text-white/30 group-hover:border-white/30 group-hover:text-white/60'
                       }`}>
                         {isCompleted ? <Check className="w-5 h-5 lg:w-3.5 lg:h-3.5 stroke-[3.5] lg:stroke-[3]" /> : `0${step.id}`}
                       </div>
@@ -1164,7 +1164,7 @@ export default function ConstructClient() {
             <div className="pt-2">
 
               {/* Focused Specification View Card */}
-              <div className="max-w-4xl mx-auto w-full bg-gradient-to-br from-ink-2 to-[#121625]/80 p-8 sm:p-10 lg:p-6 rounded-[32px] lg:rounded-[24px] border border-white/5 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[580px] md:min-h-[620px] lg:min-h-[460px] gap-8 lg:gap-4">
+              <div className="max-w-4xl mx-auto w-full bg-gradient-to-br from-ink-2 to-[#1A1A17]/80 p-8 sm:p-10 lg:p-6 rounded-[32px] lg:rounded-[24px] border border-white/5 shadow-2xl relative overflow-hidden flex flex-col justify-between min-h-[580px] md:min-h-[620px] lg:min-h-[460px] gap-8 lg:gap-4">
                 <div className="absolute top-0 left-0 w-32 h-32 bg-court-blue/5 blur-3xl rounded-full pointer-events-none" />
 
                 <AnimatePresence mode="wait">
@@ -1394,7 +1394,7 @@ export default function ConstructClient() {
                                 value={clientName || ''}
                                 onChange={(e) => setClientName(e.target.value)}
                                 placeholder="e.g. Nicolas K."
-                                className="w-full bg-[#0a0d18] border border-white/10 rounded-xl lg:rounded-lg pl-10 pr-4 py-3 lg:py-2 text-xs sm:text-sm text-white placeholder:text-white/20 focus:border-lime/50 focus:ring-1 focus:ring-lime/30 outline-none transition-all duration-300 shadow-inner"
+                                className="w-full bg-[#0E0E0C] border border-white/10 rounded-xl lg:rounded-lg pl-10 pr-4 py-3 lg:py-2 text-xs sm:text-sm text-white placeholder:text-white/20 focus:border-lime/50 focus:ring-1 focus:ring-lime/30 outline-none transition-all duration-300 shadow-inner"
                               />
                             </div>
                           </div>
@@ -1408,7 +1408,7 @@ export default function ConstructClient() {
                               <select
                                 value={clientLocation}
                                 onChange={(e) => setClientLocation(e.target.value)}
-                                className="w-full bg-[#0a0d18] border border-white/10 rounded-xl lg:rounded-lg pl-10 pr-10 py-3 lg:py-2 text-xs sm:text-sm text-white focus:border-lime/50 focus:ring-1 focus:ring-lime/30 outline-none transition-all duration-300 cursor-pointer appearance-none shadow-inner"
+                                className="w-full bg-[#0E0E0C] border border-white/10 rounded-xl lg:rounded-lg pl-10 pr-10 py-3 lg:py-2 text-xs sm:text-sm text-white focus:border-lime/50 focus:ring-1 focus:ring-lime/30 outline-none transition-all duration-300 cursor-pointer appearance-none shadow-inner"
                               >
                                 <option>Dubai</option>
                                 <option>Abu Dhabi</option>
@@ -1433,7 +1433,7 @@ export default function ConstructClient() {
                               onChange={(e) => setComments(e.target.value)}
                               placeholder="Describe actual terrain, dimensions or any specific constraints..."
                               rows={2}
-                              className="w-full bg-[#0a0d18] border border-white/10 rounded-xl lg:rounded-lg pl-10 pr-4 py-3 lg:py-2 text-xs sm:text-sm text-white placeholder:text-white/20 focus:border-lime/50 focus:ring-1 focus:ring-lime/30 outline-none transition-all duration-300 resize-none h-[75px] lg:h-[50px] shadow-inner"
+                              className="w-full bg-[#0E0E0C] border border-white/10 rounded-xl lg:rounded-lg pl-10 pr-4 py-3 lg:py-2 text-xs sm:text-sm text-white placeholder:text-white/20 focus:border-lime/50 focus:ring-1 focus:ring-lime/30 outline-none transition-all duration-300 resize-none h-[75px] lg:h-[50px] shadow-inner"
                             />
                           </div>
                         </div>
@@ -1441,7 +1441,7 @@ export default function ConstructClient() {
                     )}
 
                     {/* Integrated Guidance Insight Desk */}
-                    <div className="bg-[#121625]/60 border border-white/5 rounded-2xl lg:rounded-xl p-5.5 lg:p-3.5 space-y-1.5 lg:space-y-1 select-none relative overflow-hidden group text-left mt-4 lg:mt-2.5 border-l-2 border-l-lime/30">
+                    <div className="bg-[#1A1A17]/60 border border-white/5 rounded-2xl lg:rounded-xl p-5.5 lg:p-3.5 space-y-1.5 lg:space-y-1 select-none relative overflow-hidden group text-left mt-4 lg:mt-2.5 border-l-2 border-l-lime/30">
                       <div className="absolute top-0 right-0 px-2 py-0.5 font-mono text-[8.5px] lg:text-[7.5px] text-lime/50 bg-lime/10 rounded-bl tracking-widest font-black uppercase">ADVISOR</div>
                       <div className="flex items-center gap-2 text-lime">
                         <Sparkles className="w-4 h-4 lg:w-3.5 lg:h-3.5 text-lime shrink-0" />
@@ -1503,7 +1503,7 @@ export default function ConstructClient() {
                         href={whatsappUrl}
                         target="_blank"
                         rel="noreferrer"
-                        whileHover={{ scale: 1.02, backgroundColor: "#E6FF66" }}
+                        whileHover={{ scale: 1.02, backgroundColor: "#FFFFFF" }}
                         whileTap={{ scale: 0.98 }}
                         className="w-full sm:w-auto px-8 py-4 lg:px-6 lg:py-3 bg-lime hover:bg-[#C8FF3D] text-ink transition-all font-mono font-black text-xs sm:text-[13px] lg:text-[11px] tracking-widest rounded-xl lg:rounded-lg flex items-center justify-center gap-2 shadow-2xl shadow-lime/10 cursor-pointer select-none"
                       >

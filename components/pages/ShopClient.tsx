@@ -414,7 +414,7 @@ export default function ShopClient() {
 
                           {/* Left Stacked badges like user screenshot */}
                           <div className="absolute top-4 left-4 flex flex-col gap-1 items-start pointer-events-none">
-                            <span className="bg-[#5D38A2] text-white text-[9px] font-mono font-black tracking-widest px-2.5 py-1 rounded-sm uppercase leading-none">
+                            <span className="bg-[#1E5AE8] text-white text-[9px] font-mono font-black tracking-widest px-2.5 py-1 rounded-sm uppercase leading-none">
                               BEST SELLER
                             </span>
                             {prod.brand === 'STEALTH' && (

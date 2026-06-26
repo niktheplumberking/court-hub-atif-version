@@ -445,7 +445,7 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
                 data-product-card
                 key={card.key}
                 href={card.href}
-                className="group relative block bg-[#121210] rounded-[20px] overflow-hidden border border-white/5 hover:border-lime/30 transition-colors duration-500"
+                className="group relative block bg-[#1A1A17] rounded-[20px] overflow-hidden border border-white/5 hover:border-lime/30 transition-colors duration-500"
               >
                 {/* Product image — hover scale 1 → 1.06 over 700ms (bible hover density) */}
                 <div className="relative aspect-square overflow-hidden bg-ink-2">

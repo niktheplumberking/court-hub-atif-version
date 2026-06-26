@@ -337,7 +337,7 @@ export default function ProductClient() {
 
               {/* Rating stars */}
               <div className="flex items-center gap-1.5 text-xs font-sans font-bold pt-1">
-                <div className="flex items-center text-[#EEDB9F] gap-0.5">
+                <div className="flex items-center text-[#C8FF3D] gap-0.5">
                   <Star className="w-4 h-4 fill-current text-amber-400 stroke-amber-400" />
                   <Star className="w-4 h-4 fill-current text-amber-400 stroke-amber-400" />
                   <Star className="w-4 h-4 fill-current text-amber-400 stroke-amber-400" />
