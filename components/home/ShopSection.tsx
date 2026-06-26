@@ -495,21 +495,17 @@ export default function ShopSection({ products = [] }: ShopSectionProps) {
             WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
           }}
         >
-          <motion.div
-            animate={{ x: ["-50%", "0%"] }}
-            transition={{
-              ease: "linear",
-              duration: 44,
-              repeat: Infinity
-            }}
-            className="flex items-center gap-12 md:gap-24 opacity-30 whitespace-nowrap w-max"
+          {/* Pure-CSS brand ticker (.ch-marquee-reverse) so it keeps scrolling even
+              with OS reduce-motion ON — Framer froze the old x:[-50%,0%] loop. */}
+          <div
+            className="ch-marquee-reverse flex items-center gap-12 md:gap-24 opacity-30 whitespace-nowrap w-max"
           >
              {duplicatedBrands.map((brand, idx) => (
                <span key={`${brand}-${idx}`} className="text-xl md:text-3xl font-display font-black tracking-tighter italic select-none">
                  {brand}
                </span>
              ))}
-          </motion.div>
+          </div>
         </div>
 
       </div>

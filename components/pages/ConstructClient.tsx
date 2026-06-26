@@ -1031,11 +1031,8 @@ export default function ConstructClient() {
 
         {/* Dynamic Process Sliding Strap */}
         <div className="w-full overflow-hidden bg-[#C8FF3D] py-4 sm:py-5 border-b border-ink/10 relative z-10 select-none flex">
-          <motion.div
-            className="flex shrink-0 items-center font-display font-black uppercase italic tracking-widest text-black text-xl sm:text-2xl md:text-3xl"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ ease: "linear", duration: 55, repeat: Infinity }}
-            style={{ willChange: 'transform' }}
+          <div
+            className="ch-marquee flex shrink-0 items-center font-display font-black uppercase italic tracking-widest text-black text-xl sm:text-2xl md:text-3xl"
           >
             {/* Two identical halves; each half repeats the phrase enough times to
                 overflow the widest viewport, so x: 0% -> -50% wraps with NO empty gap. */}
@@ -1055,7 +1052,7 @@ export default function ConstructClient() {
                 ))}
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* ================= SECTION 6: INQUIRY FLOW (Guided multi-step pipeline configurator) ================= */}

@@ -173,6 +173,26 @@ html.lenis body {
   }
 }
 
+/* Brand process/ticker straps — pure-CSS translate loop. Intentionally NOT in
+   the prefers-reduced-motion query above (unlike .marquee-track): these are
+   continuous BRAND loops the owner wants running even with OS reduce-motion ON
+   (Framer freezes its keyframe loops under reduce-motion — see the motion
+   bible). Content is pre-duplicated 2x so translateX 0->-50% wraps seamlessly.
+   .ch-marquee scrolls left; .ch-marquee-reverse scrolls right. Duration via
+   the --marquee-duration custom property. */
+@keyframes ch-marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ch-marquee {
+  animation: ch-marquee-x var(--marquee-duration, 50s) linear infinite;
+  will-change: transform;
+}
+.ch-marquee-reverse {
+  animation: ch-marquee-x var(--marquee-duration, 50s) linear infinite reverse;
+  will-change: transform;
+}
+
 /* Film grain — 4% noise on cinematic sections (parent needs position:relative).
    Pure CSS texture, no network request; sits above media, below content. */
 .grain::after {
