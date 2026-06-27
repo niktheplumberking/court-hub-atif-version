@@ -3,12 +3,16 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { supabaseServer } from '@/lib/supabase/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { isAdminEmail } from '@/lib/admin';
 import { slugify } from '@/lib/utils';
 
 async function requireAdmin() {
   const supabase = await supabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error('Unauthorized');
+  // Authorization, not just authentication: a valid session is not enough — the
+  // user must be on the admin allow-list (ADMIN_EMAILS). Mirrors the `admins`
+  // table check enforced by RLS in supabase/schema.sql.
+  if (!user || !isAdminEmail(user.email)) throw new Error('Unauthorized');
   return user;
 }
 

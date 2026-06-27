@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseServer } from '@/lib/supabase/server';
+import { isAdminEmail } from '@/lib/admin';
 
 const SYSTEM = `You extract structured product data from Instagram captions for a padel equipment shop in the UAE.
 Return ONLY a JSON object, no markdown, no preamble, with these keys (omit unknowns):
@@ -11,10 +12,12 @@ head_size, weight, grip_size, balance, year (strings).
 Rules: a used/pre-owned racket → category_slug "pre-owned-rackets". Brand-new sealed racket → "new-rackets". Grips/overgrips/handles → "racket-handles". Balls → "tennis-balls".`;
 
 export async function POST(req: Request) {
-  // Admin-only endpoint
+  // Admin-only endpoint — authorization, not just authentication. Must be an
+  // allow-listed admin (ADMIN_EMAILS); a valid session alone is not enough, so an
+  // arbitrary signed-up user cannot drive the (billable) Anthropic API.
   const supabase = await supabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!user || !isAdminEmail(user.email)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key || key === 'sk-ant-placeholder') {
