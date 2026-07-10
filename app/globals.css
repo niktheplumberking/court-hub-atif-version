@@ -19,6 +19,7 @@
   --color-green: #07C66A;
   --color-sand: #EDE8E1;
   --color-sand-2: #D8D2C8;
+  --color-sand-card: #F5F2EC;
   --color-fire: #E84525;
 }
 
@@ -345,5 +346,22 @@ html.lenis body {
   .ch-cue { display: none; }
   .ch-reveal { opacity: 1; transform: none; transition: none; }
   .ch-ribbon-track { --marquee-duration: 120s; } /* slowed, intentionally never stopped */
+}
+
+/* ================================================================== */
+/* Tournaments feature (components/tournaments, app/(swipe)/tournaments) */
+
+/* Live status-dot blink + tab-body enter fade. Both are disabled under OS
+   reduce-motion (unlike the brand marquees, these are incidental, not brand
+   loops). */
+@keyframes ch-blink { 50% { opacity: 0.35; } }
+.ch-blink { animation: ch-blink 1.2s infinite; }
+
+@keyframes ch-fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.ch-fadein { animation: ch-fadein 0.4s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ch-blink { animation: none; }
+  .ch-fadein { animation: none; }
 }
 

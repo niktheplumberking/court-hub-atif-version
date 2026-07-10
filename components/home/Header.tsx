@@ -16,8 +16,15 @@ const NAV_LINKS = [
   { label: 'About', href: '/about' },
   { label: 'Construction', href: '/construct-your-court' },
   { label: 'Shop', href: '/shop' },
+  { label: 'Tournaments', href: '/tournaments' },
   { label: 'Contact', href: '/contact' },
 ];
+
+// Home matches exactly; every other link is active on its route AND its
+// subroutes (so /tournaments/dubai-open/standings still highlights Tournaments,
+// and /shop/<slug> highlights Shop).
+const isLinkActive = (pathname: string, href: string) =>
+  href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
 
 // Bible #1 underline reveal: scaleX 0→1 from the left on enter, collapses toward the right on exit.
 const UNDERLINE_REVEAL =
@@ -35,6 +42,10 @@ export default function Header() {
   // transition; other utility pages keep the horizontal bar.
   const isSwipePage =
     (PAGE_ORDER as readonly string[]).includes(pathname) || pathname.startsWith('/shop');
+  // Tournaments pages are not part of the horizontal swipe group but still need
+  // the top navbar (with the sticky in-page tab bar sitting below it), so they
+  // keep the horizontal bar rather than the swipe rail.
+  const isTournamentsPage = pathname.startsWith('/tournaments');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolledPastHero, setHasScrolledPastHero] = useState(false);
   const [scrolled, setScrolled] = useState(false); // glass bg on subpages
@@ -122,20 +133,28 @@ export default function Header() {
       {/* 1. DESKTOP NAV WRAPPERS (Transitions with AnimatePresence) */}
       <div className="hidden md:block">
         <AnimatePresence mode="wait">
-          {(!railActive && isHome) ? (
+          {(!railActive && (isHome || isTournamentsPage)) ? (
             <motion.header
               key="desktop-horizontal"
-              initial={{ y: -100, opacity: 0 }}
+              // initial={false}: render settled (no slide-in). This branch only
+              // renders on tournaments pages, where AnimatePresence mode="wait"
+              // + React StrictMode could otherwise deadlock the enter animation
+              // and freeze the bar off-screen. Visibility beats the flourish.
+              initial={false}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -50, opacity: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className={`fixed top-0 left-0 right-0 z-50 px-12 md:px-16 pointer-events-auto transition-all duration-300 ${!isHome && scrolled ? 'py-4 md:py-5 bg-ink/85 backdrop-blur-md border-b border-white/10' : 'py-6 md:py-10'}`}
+              // NOTE: transition only colours here — a CSS `transition-all`
+              // would also transition transform/opacity and fight framer's
+              // enter animation (it froze the bar off-screen on tournaments
+              // pages, the only route that renders this horizontal branch).
+              className={`fixed top-0 left-0 right-0 z-50 px-12 md:px-16 pointer-events-auto transition-colors duration-300 ${!isHome && scrolled ? 'py-4 md:py-5 bg-ink/85 backdrop-blur-md border-b border-white/10' : 'py-6 md:py-10'}`}
             >
               <nav className="mx-auto flex items-center justify-between">
                 {/* Links */}
                 <div className="flex items-center gap-7 lg:gap-9">
                   {NAV_LINKS.map((item) => {
-                    const isActive = pathname === item.href;
+                    const isActive = isLinkActive(pathname, item.href);
                     return (
                       <Link
                         key={item.label}
@@ -152,8 +171,10 @@ export default function Header() {
                   })}
                 </div>
 
-                {/* Center Logo */}
-                <div className="absolute left-1/2 -translate-x-1/2">
+                {/* Center Logo — hidden until there's room beside the 6-link
+                    row (below 2xl the links + CTA read as a clean bar; the
+                    absolute-centred logo would otherwise overlap "Contact"). */}
+                <div className="absolute left-1/2 hidden -translate-x-1/2 2xl:block">
                   <Link href="/" className="font-sans text-[22px] md:text-[26px] tracking-wide text-white flex items-center select-none hover:text-lime transition-colors">
                     <span className="font-bold uppercase tracking-wide">COURT</span>
                     <span className="font-bold uppercase ml-2 tracking-wide text-lime">HUB</span>
